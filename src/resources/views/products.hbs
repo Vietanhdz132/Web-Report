@@ -1,0 +1,54 @@
+<div class="layout-account">
+    <div class="mt4">
+        <div class="row">
+            {{#each items}}
+            <div class="col-sm-6 col-lg-4">
+                <div class="card card-courses-item">
+                    <a href="/products/{{this.slug}}">
+                        <img src="{{this.image}}" class="card-img-top " alt="{{this.name}}">
+                    </a>
+
+                    <div class="card-body">
+                        <a href="/products/{{this.slug}}">
+                            <h5 class="card-title">{{this.name}}</h5>
+                        </a>
+                        <p class="card-text description">{{this.description}}</p>
+                        <p class="card-text price">Giá bán: <span class="price-format">{{this.cost}}</span> VNĐ</p>
+
+                        <div class="d-flex justify-content-between">
+                            <button class="btn btn-buy">🛒 Mua ngay</button>
+                            <button class="btn btn-add-cart">➕ Thêm vào giỏ</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".btn-buy").forEach(function (button) {
+        button.addEventListener("click", async function (event) { // Thêm từ khóa async
+            event.preventDefault(); // Chặn hành động mặc định
+
+            const productName = button.closest(".card-body").querySelector(".card-title").textContent.trim(); // Lấy tên sản phẩm
+            const productPrice = button.closest(".card-body").querySelector(".price-format").textContent.trim();
+
+
+
+            window.location.href = `/order?name=${encodeURIComponent(productName)}&price=${encodeURIComponent(productPrice)}`;
+
+        });
+    });
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".price-format").forEach(function (el) {
+            let price = parseInt(el.textContent, 10);
+            el.textContent = price.toLocaleString("vi-VN");
+        });
+    });
+</script>

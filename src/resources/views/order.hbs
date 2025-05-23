@@ -1,0 +1,88 @@
+<div class="order-center">
+    <div class="order-box">
+        <h2 class="order-box__title">Thông tin đơn hàng</h2>
+        <form id="orderForm">
+            <label class="order-box__label" for="productName">Sản phẩm:</label>
+            <input class="order-box__input" type="text" id="productName" readonly>
+
+            <label class="order-box__label" for="quantity">Số lượng:</label>
+            <input class="order-box__input" type="number" id="quantity" value="1" min="1">
+
+            <label class="order-box__label" for="price">Giá:</label>
+            <input class="order-box__input" type="text" id="price" readonly>
+
+            <h3 class="order-box__section-title">Thông tin khách hàng</h3>
+            <label class="order-box__label" for="customerName">Họ tên:</label>
+            <input class="order-box__input" type="text" id="customerName" required>
+
+            <label class="order-box__label" for="phone">Số điện thoại:</label>
+            <input class="order-box__input" type="text" id="phone" required>
+
+            <label class="order-box__label" for="address">Địa chỉ:</label>
+            <input class="order-box__input" type="text" id="address" required>
+
+            <label class="order-box__label" for="paymentMethod">Phương thức thanh toán:</label>
+            <select class="order-box__select" id="paymentMethod">
+                <option value="COD">Thanh toán khi nhận hàng</option>
+                <option value="Bank">Chuyển khoản ngân hàng</option>
+            </select>
+
+            <button class="order-box__button" type="submit">Đặt hàng</button>
+        </form>
+
+        <div id="order-status-message" class="order-box__message"></div>
+    </div>
+</div>
+
+<script>
+    // Hàm lấy tham số từ URL
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+            productName: params.get('name'),
+            price: params.get('price')
+        };
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy thông tin sản phẩm từ URL
+        const { productName, price } = getQueryParams();
+        console.log(getQueryParams())
+
+        // Điền vào các trường trong form
+        document.getElementById("productName").value = productName || "Chưa có tên sản phẩm";
+
+        // Định dạng giá tiền theo kiểu Việt Nam;
+        document.getElementById("price").value = price + " VNĐ" || "Chưa có giá sản phầm";
+
+        // Lắng nghe sự kiện submit form
+        document.getElementById("orderForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const orderData = {
+                productName: document.getElementById("productName").value,
+                quantity: document.getElementById("quantity").value,
+                price: document.getElementById("price").value.replace(/./g, ''),  // Loại bỏ dấu phẩy khi gửi giá
+                customerName: document.getElementById("customerName").value,
+                phone: document.getElementById("phone").value,
+                address: document.getElementById("address").value,
+                paymentMethod: document.getElementById("paymentMethod").value
+            };
+
+            try {
+
+                showAlert("Đặt hàng thành công!", "success", "✅Thông báo");
+
+                // Sau 3 giây, chuyển hướng về trang home
+                setTimeout(() => {
+                    window.location.href = "/";  // Chuyển hướng về trang chủ
+                }, 3000);  // Thời gian hiển thị thông báo (3 giây)
+
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById("order-status-message").innerText = "Có lỗi xảy ra, vui lòng thử lại!";
+            }
+        });
+    });
+
+</script>

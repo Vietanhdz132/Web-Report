@@ -1,0 +1,96 @@
+
+  <!-- Tab content -->
+  <div class="tab-content mt-3" id="mllTabContent">
+    <!-- Tab 1: MLL -->
+    <div class="tab-pane fade show active" id="mll" role="tabpanel">
+      
+      
+        <div style="color: white; background-color: #1e1e1e; padding: 20px;">
+        <h1>{{titleMLL}}</h1>
+
+        {{#if dataMLL.length}}
+        <div style="max-height: 500px; overflow-y: auto; border: 1px solid white;">
+            <!-- Bảng MLL -->
+            <table border="1" cellpadding="6" cellspacing="0" style="color: white; border-color: white; width: 100%; font-size: 13px; table-layout: fixed;">
+                <thead style="position: sticky; top: 0; background-color: #333;">
+                <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th style="width: 90px;">Ngày</th>
+                    <th style="width: 80px;">NOC</th>
+                    <th style="width: 80px;">Site SC Total</th>
+                    <th style="width: 60px;">2G SC</th>
+                    <th style="width: 60px;">3G SC</th>
+                    <th style="width: 60px;">4G SC</th>
+                    <th style="width: 80px;">SC Total Rate</th>
+                    <th style="width: 80px;">2G SC Rate</th>
+                    <th style="width: 80px;">3G SC Rate</th>
+                    <th style="width: 80px;">4G SC Rate</th>
+                    <th style="width: 90px;">MLL Duration</th>
+                    <th style="width: 110px;">MLL Duration Rate</th>
+                    <th style="width: 80px;">UCTT Total</th>
+                    <th style="width: 70px;">UCTT 2G</th>
+                    <th style="width: 70px;">UCTT 3G</th>
+                    <th style="width: 70px;">UCTT 4G</th>
+                    <th style="width: 80px;">Power Rate</th>
+                    <th style="width: 90px;">Hardware Rate</th>
+                    <th style="width: 70px;">Trans Rate</th>
+                    <th style="width: 70px;">MNK Rate</th>
+                    <th style="width: 50px;">Thứ tự</th>
+                    <th style="width: 90px;">NN CxD Rate</th>
+                    <th style="width: 110px;">NN Chưa Có Rate</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each dataMLL}}
+                    <tr>
+                    <td style="word-wrap: break-word;">{{this.id}}</td>
+                    <td style="word-wrap: break-word;">{{this.ngay}}</td>
+                    <td style="word-wrap: break-word;">{{this.noc}}</td>
+                    <td style="word-wrap: break-word;">{{this.siteScTotal}}</td>
+                    <td style="word-wrap: break-word;">{{this.site2gSc}}</td>
+                    <td style="word-wrap: break-word;">{{this.site3gSc}}</td>
+                    <td style="word-wrap: break-word;">{{this.site4gSc}}</td>
+                    <td style="word-wrap: break-word;">{{this.siteScTotalRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.site2gScRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.site3gScRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.site4gScRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.mllDuration}}</td>
+                    <td style="word-wrap: break-word;">{{this.mllDurationRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.ucttTotal}}</td>
+                    <td style="word-wrap: break-word;">{{this.uctt2g}}</td>
+                    <td style="word-wrap: break-word;">{{this.uctt3g}}</td>
+                    <td style="word-wrap: break-word;">{{this.uctt4g}}</td>
+                    <td style="word-wrap: break-word;">{{this.powerRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.hardwareRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.transRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.mnkRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.thutu}}</td>
+                    <td style="word-wrap: break-word;">{{this.nnCxdRate}}</td>
+                    <td style="word-wrap: break-word;">{{this.nnChuaCoRate}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; color: white;">
+            <div>
+            {{#if hasPrevMLL}}
+            <a href="?pageMLL={{prevPageMLL}}&pageSizeMLL={{pageSizeMLL}}" style="color: white;">&laquo; Prev</a>
+            {{/if}}
+            </div>
+            <div>Trang {{pageMLL}}</div>
+            <div>
+            {{#if hasNextMLL}}
+            <a href="?pageMLL={{nextPageMLL}}&pageSizeMLL={{pageSizeMLL}}" style="color: white;">Next &raquo;</a>
+            {{/if}}
+            </div>
+        </div>
+        {{else}}
+        <p>Không có dữ liệu MLL.</p>
+        {{/if}}
+        </div>
+      {{{mllTableHtml}}}
+    </div>
+
+   

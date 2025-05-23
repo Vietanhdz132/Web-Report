@@ -1,9 +1,11 @@
 {
-  "name": "backend",
+  "name": "web report",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon --inspect index.js",
+    "beautiful": "prettier --single-quote --trailing-comma all --write 'src/**/*.{js,json,scss}'",
+    "start": "nodemon --inspect src/index.js",
+    "watch": "sass --watch src/resources/scss:src/public/css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,11 +23,27 @@
     "url": "https://github.com/Vietanhdz132/nodejs_blog/issues"
   },
   "homepage": "https://github.com/Vietanhdz132/nodejs_blog#readme",
-  "description": "",
+  "lint-stage": {
+    "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write"
+  },
   "dependencies": {
-    "express": "^4.21.2"
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.2",
+    "oracledb": "^6.8.0",
+    "sass": "^1.89.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
-  }
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3"
+  },
+  "description": ""
 }
