@@ -7,7 +7,7 @@ class SiteController {
   index(req, res, next) {
   
       
-        res.render('home')
+        res.render('404')
       
    
   }

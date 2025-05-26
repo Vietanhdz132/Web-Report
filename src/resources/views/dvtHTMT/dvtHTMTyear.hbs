@@ -1,0 +1,71 @@
+
+  <!-- Tab content -->
+  <div class="tab-content mt-3" id="DVTHTMTYEARTabContent">
+    <!-- Tab 1: DVTHTMTYEAR -->
+    <div class="tab-pane fade show active" id="DVTHTMTYEAR" role="tabpanel">
+      
+      
+        <div style="color: white; background-color: #1e1e1e; padding: 20px;">
+        <h1>{{titleDVTHTMTYEAR}}</h1>
+
+        {{#if dataDVTHTMTYEAR.length}}
+        <div style="max-height: 500px; overflow-y: auto; border: 1px solid white;">
+            <!-- Bảng DVTHTMTYEAR -->
+            <table border="1" cellpadding="6" cellspacing="0" style="color: white; border-color: white; width: 100%; font-size: 13px; table-layout: fixed;">
+                <thead style="position: sticky; top: 0; background-color: #333;">
+                <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th style="width: 90px;">YEAR ID</th>
+                    <th style="width: 80px;">TTML</th>
+                    <th style="width: 80px;">ĐVT</th>
+                    <th style="width: 60px;">TVT</th>
+                    <th style="width: 60px;">TOTAL CELL</th>
+                    <th style="width: 80px;">COUNT PRB80</th>
+                    <th style="width: 80px;">COUNT BH10</th>
+                    <th style="width: 80px;">PRB80 PER</th>
+                    <th style="width: 80px;">BH10 PER</th>
+
+                    
+                </tr>
+                </thead>
+                <tbody>
+                {{#each dataDVTHTMTYEAR}}
+                    <tr>
+                    <td style="word-wrap: break-word;">{{this.id}}</td>
+                    <td style="word-wrap: break-word;">{{this.year_id}}</td>
+                    <td style="word-wrap: break-word;">{{this.ttml}}</td>
+                    <td style="word-wrap: break-word;">{{this.dvt}}</td>
+                    <td style="word-wrap: break-word;">{{this.tvt}}</td>
+                    <td style="word-wrap: break-word;">{{this.total_cell}}</td>
+                    <td style="word-wrap: break-word;">{{this.count_prb80}}</td>
+                    <td style="word-wrap: break-word;">{{this.count_bh10}}</td>
+                    <td style="word-wrap: break-word;">{{this.prb80_per}}</td>
+                    <td style="word-wrap: break-word;">{{this.bh10_per}}</td>
+                   
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; color: white;">
+            <div>
+            {{#if hasPrevDVTHTMTYEAR}}
+            <a href="?pageDVTHTMTYEAR={{prevPageDVTHTMTYEAR}}&pageSizeDVTHTMTYEAR={{pageSizeDVTHTMTYEAR}}" style="color: white;">&laquo; Prev</a>
+            {{/if}}
+            </div>
+            <div>Trang {{pageDVTHTMTYEAR}}</div>
+            <div>
+            {{#if hasNextDVTHTMTYEAR}}
+            <a href="?pageDVTHTMTYEAR={{nextPageDVTHTMTYEAR}}&pageSizeDVTHTMTYEAR={{pageSizeDVTHTMTYEAR}}" style="color: white;">Next &raquo;</a>
+            {{/if}}
+            </div>
+        </div>
+        {{else}}
+        <p>Không có dữ liệu DVTHTMTYEAR.</p>
+        {{/if}}
+        </div>
+      {{{DVTHTMTYEARTableHtml}}}
+    </div>
+
+   
