@@ -1,4 +1,4 @@
-const { getConnection } = require('../../config/db');
+const { getConnection } = require('../../../config/db');
 
 function formatDate(str) {
   if (!str) return null;
@@ -14,7 +14,7 @@ async function getAllStats(page = 1, pageSize = 50) {
     const query = `
       SELECT * FROM (
         SELECT a.*, ROWNUM rnum FROM (
-          SELECT * FROM WEB_HOME_TRAMMATLIENLAC_DVT
+          SELECT * FROM WEB_HOME_TRAMMATLIENLAC_PROVINCE
           WHERE NOC = 'Mien Bac'
           ORDER BY ID DESC
         ) a WHERE ROWNUM <= :maxRow
@@ -33,7 +33,7 @@ async function getAllStats(page = 1, pageSize = 50) {
       id: row[0],
       ngay: formatDate(row[1]),
       noc: row[2],
-      dvt:row[3],
+      province:row[3],
       siteScTotal: row[4],
       site2gSc: row[5],
       site3gSc: row[6],

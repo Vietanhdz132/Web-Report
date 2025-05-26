@@ -1,4 +1,4 @@
-const TramMLL = require('../../models/tramMLL');
+const TramMLL = require('../../models/tramMLL/tramMLL');
 
 
 

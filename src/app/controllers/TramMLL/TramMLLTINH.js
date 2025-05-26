@@ -1,5 +1,5 @@
 
-const TramMLLTINH = require('../../models/tramMLLTINH');
+const TramMLLTINH = require('../../models/tramMLL/tramMLLTINH');
 
 
 class TramMLLTINHController {

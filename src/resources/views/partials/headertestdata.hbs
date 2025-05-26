@@ -1,0 +1,92 @@
+<style>
+  .custom-tab {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+
+  .custom-tab .nav-link {
+    color: white !important;
+
+  }
+
+  .custom-tab .nav-link.active {
+    color: white !important;  /* ép màu trắng cho tab đang active */
+    background-color: #495057; /* màu nền cho tab active nếu muốn khác */
+  }
+
+  /* Khi hover vào .dropdown, dropdown-menu sẽ hiện ra */
+.nav-item.dropdown:hover > .dropdown-menu {
+  display: block;
+  margin-top: 0; /* bỏ khoảng cách mặc định nếu có */
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ẩn dropdown-menu mặc định */
+.dropdown-menu {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.dropdown-menu a {
+  color: black !important;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f8f9fa; /* màu nền khi hover, bạn có thể đổi nếu muốn */
+  color: rgb(255, 255, 255) !important;
+}
+
+
+
+</style>
+
+<nav>
+  <div class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">
+    <li class="nav-item dropdown">
+      <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Trạm mất liên lạc
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="/testdata/trammll/view">Trạm MLL</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammlldvt/view">Trạm MLL theo ĐVT</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammlltvt/view">Trạm MLL theo TVT</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammlltinh/view">Trạm MLL theo Tỉnh</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammllhuyen/view">Trạm MLL theo Huyện</a></li>
+      </ul>
+    </li>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Quận huyện HTMT 2025
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="/testdata/quanhuyenHTMTyear/view">Quận huyện HTMT theo năm</a></li>
+        <li><a class="dropdown-item" href="/testdata/quanhuyenHTMTquarter/view">Quận huyện HTMT theo quý</a></li>
+        <li><a class="dropdown-item" href="/testdata/quanhuyenHTMTmonth/view">Quận huyện HTMT theo tháng</a></li>
+        <li><a class="dropdown-item" href="/testdata/quanhuyenHTMTweek/view">Quận huyện HTMT theo tuần</a></li>
+        <li><a class="dropdown-item" href="/testdata/quanhuyenHTMTday/view">Quận huyện HTMT theo ngày</a></li>
+      </ul>
+    </li>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Đài viễn thông HTMT 2025
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <li><a class="dropdown-item" href="/testdata/trammlldvt/view">Đài viễn thông HTMT theo năm</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammlltvt/view">Đài viễn thông theo quý</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammlltinh/view">Đài viễn thông theo tháng</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammll/view">Đài viễn thông theo tuần</a></li>
+        <li><a class="dropdown-item" href="/testdata/trammllhuyen/view">Đài viễn thông theo ngày</a></li>
+      </ul>
+    </li>
+
+  </div>
+</nav>
+
+
+
+

@@ -1,0 +1,75 @@
+
+  <!-- Tab content -->
+  <div class="tab-content mt-3" id="QuanHuyenHTMTDAYTabContent">
+    <!-- Tab 1: QuanHuyenHTMTDAY -->
+    <div class="tab-pane fade show active" id="QuanHuyenHTMTDAY" role="tabpanel">
+      
+      
+        <div style="color: white; background-color: #1e1e1e; padding: 20px;">
+        <h1>{{titleQuanHuyenHTMTDAY}}</h1>
+
+        {{#if dataQuanHuyenHTMTDAY.length}}
+        <div style="max-height: 500px; overflow-y: auto; border: 1px solid white;">
+            <!-- Bảng QuanHuyenHTMTDAY -->
+            <table border="1" cellpadding="6" cellspacing="0" style="color: white; border-color: white; width: 100%; font-size: 13px; table-layout: fixed;">
+                <thead style="position: sticky; top: 0; background-color: #333;">
+                <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th style="width: 90px;">DATE ID</th>
+                    <th style="width: 90px;">DATE</th>
+                    <th style="width: 80px;">TTML</th>
+                    <th style="width: 80px;">CTKD</th>
+                    <th style="width: 60px;">PROVINCE</th>
+                    <th style="width: 60px;">DISTRICT</th>
+                    <th style="width: 60px;">TOTAL CELL</th>
+                    <th style="width: 80px;">COUNT PRB80</th>
+                    <th style="width: 80px;">COUNT BH10</th>
+                    <th style="width: 80px;">PRB80 PER</th>
+                    <th style="width: 80px;">BH10 PER</th>
+
+                    
+                </tr>
+                </thead>
+                <tbody>
+                {{#each dataQuanHuyenHTMTDAY}}
+                    <tr>
+                    <td style="word-wrap: break-word;">{{this.id}}</td>
+                    <td style="word-wrap: break-word;">{{this.date_id}}</td>
+                    <td style="word-wrap: break-word;">{{this.date}}</td>
+                    <td style="word-wrap: break-word;">{{this.ttml}}</td>
+                    <td style="word-wrap: break-word;">{{this.ctkd}}</td>
+                    <td style="word-wrap: break-word;">{{this.province}}</td>
+                    <td style="word-wrap: break-word;">{{this.district}}</td>
+                    <td style="word-wrap: break-word;">{{this.total_cell}}</td>
+                    <td style="word-wrap: break-word;">{{this.count_prb80}}</td>
+                    <td style="word-wrap: break-word;">{{this.count_bh10}}</td>
+                    <td style="word-wrap: break-word;">{{this.prb80_per}}</td>
+                    <td style="word-wrap: break-word;">{{this.bh10_per}}</td>
+                   
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; color: white;">
+            <div>
+            {{#if hasPrevQuanHuyenHTMTDAY}}
+            <a href="?pageQuanHuyenHTMTDAY={{prevPageQuanHuyenHTMTDAY}}&pageSizeQuanHuyenHTMTDAY={{pageSizeQuanHuyenHTMTDAY}}" style="color: white;">&laquo; Prev</a>
+            {{/if}}
+            </div>
+            <div>Trang {{pageQuanHuyenHTMTDAY}}</div>
+            <div>
+            {{#if hasNextQuanHuyenHTMTDAY}}
+            <a href="?pageQuanHuyenHTMTDAY={{nextPageQuanHuyenHTMTDAY}}&pageSizeQuanHuyenHTMTDAY={{pageSizeQuanHuyenHTMTDAY}}" style="color: white;">Next &raquo;</a>
+            {{/if}}
+            </div>
+        </div>
+        {{else}}
+        <p>Không có dữ liệu QuanHuyenHTMTDAY.</p>
+        {{/if}}
+        </div>
+      {{{QuanHuyenHTMTDAYTableHtml}}}
+    </div>
+
+   

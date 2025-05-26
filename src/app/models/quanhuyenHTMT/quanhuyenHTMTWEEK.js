@@ -1,4 +1,4 @@
-const { getConnection } = require('../../config/db');
+const { getConnection } = require('../../../config/db');
 
 function formatDate(str) {
   if (!str) return null;
@@ -14,8 +14,8 @@ async function getAllStats(page = 1, pageSize = 50) {
     const query = `
       SELECT * FROM (
         SELECT a.*, ROWNUM rnum FROM (
-          SELECT * FROM WEB_HOME_TRAMMATLIENLAC_PROVINCE
-          WHERE NOC = 'Mien Bac'
+          SELECT * FROM QUANHUYEN_HTMT_2025_WEEK
+          WHERE TTML = 'Mien Bac'
           ORDER BY ID DESC
         ) a WHERE ROWNUM <= :maxRow
       )
@@ -31,30 +31,16 @@ async function getAllStats(page = 1, pageSize = 50) {
 
     return result.rows.map(row => ({
       id: row[0],
-      ngay: formatDate(row[1]),
-      noc: row[2],
-      province:row[3],
-      siteScTotal: row[4],
-      site2gSc: row[5],
-      site3gSc: row[6],
-      site4gSc: row[7],
-      siteScTotalRate: row[8],
-      site2gScRate: row[9],
-      site3gScRate: row[10],
-      site4gScRate: row[11],
-      mllDuration: row[12],
-      mllDurationRate: row[13],
-      ucttTotal: row[14],
-      uctt2g: row[15],
-      uctt3g: row[16],
-      uctt4g: row[17],
-      powerRate: row[18],
-      hardwareRate: row[19],
-      transRate: row[20],
-      mnkRate: row[21],
-      thutu: row[22],
-      nnCxdRate: row[23],
-      nnChuaCoRate: row[24],
+      week_id: row[1],
+      ttml: row[2],
+      ctkd: row[3],
+      province: row[4],
+      district: row[5],
+      total_cell: row[6],
+      count_prb80: row[7],
+      count_bh10: row[8],
+      prb80_per: row[9],
+      bh10_per: row[10],
     }));
 
   } finally {

@@ -1,4 +1,4 @@
-const { getConnection } = require('../../config/db');
+const { getConnection } = require('../../../config/db');
 
 function formatDate(str) {
   if (!str) return null;
@@ -14,7 +14,7 @@ async function getAllStats(page = 1, pageSize = 50) {
     const query = `
       SELECT * FROM (
         SELECT a.*, ROWNUM rnum FROM (
-          SELECT * FROM WEB_HOME_TRAMMATLIENLAC
+          SELECT * FROM WEB_HOME_TRAMMATLIENLAC_TVT
           WHERE NOC = 'Mien Bac'
           ORDER BY ID DESC
         ) a WHERE ROWNUM <= :maxRow
@@ -33,27 +33,29 @@ async function getAllStats(page = 1, pageSize = 50) {
       id: row[0],
       ngay: formatDate(row[1]),
       noc: row[2],
-      siteScTotal: row[3],
-      site2gSc: row[4],
-      site3gSc: row[5],
-      site4gSc: row[6],
-      siteScTotalRate: row[7],
-      site2gScRate: row[8],
-      site3gScRate: row[9],
-      site4gScRate: row[10],
-      mllDuration: row[11],
-      mllDurationRate: row[12],
-      ucttTotal: row[13],
-      uctt2g: row[14],
-      uctt3g: row[15],
-      uctt4g: row[16],
-      powerRate: row[17],
-      hardwareRate: row[18],
-      transRate: row[19],
-      mnkRate: row[20],
-      thutu: row[21],
-      nnCxdRate: row[22],
-      nnChuaCoRate: row[23],
+      dvt:row[3],
+      tvt:row[4],
+      siteScTotal: row[5],
+      site2gSc: row[6],
+      site3gSc: row[7],
+      site4gSc: row[8],
+      siteScTotalRate: row[9],
+      site2gScRate: row[10],
+      site3gScRate: row[11],
+      site4gScRate: row[12],
+      mllDuration: row[13],
+      mllDurationRate: row[14],
+      ucttTotal: row[15],
+      uctt2g: row[16],
+      uctt3g: row[17],
+      uctt4g: row[18],
+      powerRate: row[19],
+      hardwareRate: row[20],
+      transRate: row[21],
+      mnkRate: row[22],
+      thutu: row[23],
+      nnCxdRate: row[24],
+      nnChuaCoRate: row[25],
     }));
 
   } finally {
