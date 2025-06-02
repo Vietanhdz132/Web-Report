@@ -3,7 +3,7 @@ const oracledb = require('oracledb');
 const dbConfig = {
   user: 'mlmb',
   password: 'mlmb@811',
-  connectString: '10.46.42.75:1521/FREEPDB1',
+  connectString: '10.46.42.79:1521/FREEPDB1',
 };
 
 let pool;

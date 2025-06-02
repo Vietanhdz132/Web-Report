@@ -8,6 +8,7 @@ const tokenRouter = require('./token');
 const AuthMiddleWare = require('../middleware/AuthMiddleware');  // Import AuthMiddleware
 const testdataRouter = require('./testdata/testdata');
 const dashbroadRouter = require('./dashboard/dashboard');
+const syncRoute = require('./sync.route');
 
 
 function route(app) {
@@ -16,6 +17,7 @@ function route(app) {
   // Bảo vệ route order
 
   // Các route không yêu cầu xác thực
+  app.use('/data', syncRoute);
   app.use('/dashboard', dashbroadRouter);
   app.use('/testdata', testdataRouter);
   app.use('/order', AuthMiddleWare.isAuth, orderRouter);
