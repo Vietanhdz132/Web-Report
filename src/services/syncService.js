@@ -90,4 +90,90 @@ async function syncData(remotePath, localPath, tableName, columns, mapRowFn) {
   });
 }
 
-module.exports = { syncData };
+
+async function importData(localPath, tableName, columns, mapRowFn) {
+  const localDir = path.dirname(localPath);
+  if (!fs.existsSync(localDir)) {
+    fs.mkdirSync(localDir, { recursive: true });
+  }
+
+
+  const connection = await oracleClient.getConnection();
+  const fileStream = fs.createReadStream(localPath);
+  const parser = csvParser({
+  mapHeaders: ({ header }) => {
+    const cleaned = header.trim().replace(/^"+|"+$/g, ''); // xóa tất cả dấu " đầu cuối và trim
+    console.log(`Header raw: [${header}] => cleaned: [${cleaned}]`);
+    return cleaned;
+  }
+});
+
+  const rowsBatch = [];
+
+  return new Promise((resolve, reject) => {
+    fileStream
+      .pipe(parser)
+      .on('data', async (row) => {
+        
+
+        parser.pause();
+        rowsBatch.push(row);
+
+        if (rowsBatch.length >= BATCH_SIZE) {
+          try {
+            const binds = rowsBatch.map(mapRowFn);
+            await connection.executeMany(
+              `INSERT INTO ${tableName} (
+                ${columns.join(', ')}
+              ) VALUES (
+    :1, :2, :3, :4, :5, :6,
+    :7, :8, :9, :10, :11, :12, :13, :14, :15, :16,
+    :17, :18, :19, :20, :21
+  )`,
+              binds,
+              { autoCommit: false }
+            );
+            console.log(`✅ Batch inserted: ${rowsBatch.length} rows`);
+            rowsBatch.length = 0;
+            parser.resume();
+          } catch (err) {
+            fileStream.destroy(err);
+            reject(err);
+          }
+        } else {
+          parser.resume();
+        }
+      })
+      .on('end', async () => {
+        try {
+          if (rowsBatch.length > 0) {
+            const binds = rowsBatch.map(mapRowFn);
+            await connection.executeMany(
+              `INSERT INTO ${tableName} (
+                ${columns.join(', ')}
+              ) VALUES (
+    :1, :2, :3, :4, :5, :6,
+    :7, :8, :9, :10, :11, :12, :13, :14, :15, :16,
+    :17, :18, :19, :20, :21
+  )`,
+              binds,
+              { autoCommit: false }
+            );
+            console.log(`✅ Final batch inserted: ${rowsBatch.length} rows`);
+          }
+
+          await connection.commit();
+          await connection.close();
+        
+
+          console.log('✅ Sync completed');
+          resolve();
+        } catch (err) {
+          reject(err);
+        }
+      })
+      .on('error', err => reject(err));
+  });
+}
+
+module.exports = { syncData, importData };

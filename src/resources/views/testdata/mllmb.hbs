@@ -1,0 +1,93 @@
+
+  <!-- Tab content -->
+  <div class="tab-content mt-3" id="mllmbTabContent">
+    <!-- Tab 1: MLL -->
+    <div class="tab-pane fade show active" id="mllmb" role="tabpanel">
+      
+      
+        <div style="color: white; background-color: #1e1e1e; padding: 20px;">
+        <h1>{{titleMLLMB}}</h1>
+
+        {{#if dataMLLMB.length}}
+        <div style="max-height: 500px; overflow-y: auto; border: 1px solid white;">
+            <!-- Bảng MLL -->
+            <table border="1" cellpadding="6" cellspacing="0" style="color: white; border-color: white; width: 100%; font-size: 13px; table-layout: fixed;">
+                <thead style="position: sticky; top: 0; background-color: #333;">
+                <tr >
+                    <th style="width: 80px;">ID</th>
+                    <th style="width: 90px;">TICKET_ID</th>
+                    <th style="width: 80px;">SITE_ID</th>
+                    <th style="width: 80px;">ALARM NAME</th>
+                    <th style="width: 80px;">SDATE </th>
+                    <th style="width: 80px;">EDATE</th>
+                    <th style="width: 100px;">Tg MLL trong ngày (phút)</th>
+                    <th style="width: 80px;">PROVINCE</th>
+                    <th style="width: 80px;">DISTRICT</th>
+                    <th style="width: 80px;">REGION</th>
+                    <th style="width: 100px;">MÃ TRUNG TÂM XL</th>
+                    <th style="width: 100px;">MÃ PHÒNG XL</th>
+                    <th style="width: 100px;">MÃ TỔ XL</th>
+                    <th style="width: 80px;">NETWORK</th>
+                    <th style="width: 90px;">NN CẤP 1</th>
+                    <th style="width: 90px;">NN CẤP 2</th>
+                    <th style="width: 90px;">NN CẤP 3</th>
+                    <th style="width: 80px;">NGÀY TẠO</th>
+                    <th style="width: 90px;">HỆ THỐNG</th>
+                    <th style="width: 90px;">CLEARED</th>
+                    <th style="width: 80px;">MD DATE</th>
+                    <th style="width: 70px;">IS REDUCE</th>
+                    
+                </tr>
+                </thead>
+                <tbody>
+                {{#each dataMLLMB}}
+                    <tr style="border-bottom: 1px solid white;">
+                    <td style="word-wrap: break-word;">{{this.ID}}</td>
+                    <td style="word-wrap: break-word;">{{this.TICKET_ID}}</td>
+                    <td style="word-wrap: break-word;">{{this.SITE_ID}}</td>
+                    <td style="word-wrap: break-word;">{{this.ALARM_NAME}}</td>
+                    <td style="word-wrap: break-word;">{{this.SDATE}}</td>
+                    <td style="word-wrap: break-word;">{{this.EDATE}}</td>
+                    <td style="word-wrap: break-word;">{{this.DURATION_IN_DAY}}</td>
+                    <td style="word-wrap: break-word;">{{this.PROVINCE}}</td>
+                    <td style="word-wrap: break-word;">{{this.DISTRICT}}</td>
+                    <td style="word-wrap: break-word;">{{this.REGION}}</td>
+                    <td style="word-wrap: break-word;">{{this.MA_TRUNG_TAM_XL}}</td>
+                    <td style="word-wrap: break-word;">{{this.MA_PHONG_XL}}</td>
+                    <td style="word-wrap: break-word;">{{this.MA_TO_XL}}</td>
+                    <td style="word-wrap: break-word;">{{this.NETWORK}}</td>
+                    <td style="word-wrap: break-word;">{{this.NN_CAP_1}}</td>
+                    <td style="word-wrap: break-word;">{{this.NN_CAP_2}}</td>
+                    <td style="word-wrap: break-word;">{{this.NN_CAP_3}}</td>
+                    <td style="word-wrap: break-word;">{{this.NGAY_TAO}}</td>
+                    <td style="word-wrap: break-word;">{{this.HE_THONG}}</td>
+                    <td style="word-wrap: break-word;">{{this.CLEARED}}</td>
+                    <td style="word-wrap: break-word;">{{this.MD_SDATE}}</td>
+                    <td style="word-wrap: break-word;">{{this.IS_REDUCE}}</td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; color: white;">
+            <div>
+            {{#if hasPrevMLLMB}}
+            <a href="?pageMLLMB={{prevPageMLLMB}}&pageSizeMLLMB={{pageSizeMLLMB}}" style="color: white;">&laquo; Prev</a>
+            {{/if}}
+            </div>
+            <div>Trang {{pageMLLMB}}</div>
+            <div>
+            {{#if hasNextMLLMB}}
+            <a href="?pageMLLMB={{nextPageMLLMB}}&pageSizeMLLMB={{pageSizeMLLMB}}" style="color: white;">Next &raquo;</a>
+            {{/if}}
+            </div>
+        </div>
+        {{else}}
+        <p>Không có dữ liệu MLL.</p>
+        {{/if}}
+        </div>
+      {{{mllTableHtml}}}
+    </div>
+
+   

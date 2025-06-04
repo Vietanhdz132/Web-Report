@@ -7,7 +7,7 @@ const orderRouter = require('./order');
 const tokenRouter = require('./token');
 const AuthMiddleWare = require('../middleware/AuthMiddleware');  // Import AuthMiddleware
 const testdataRouter = require('./testdata/testdata');
-const dashbroadRouter = require('./dashboard/dashboard');
+const dashbroadRouter = require('./dashbroad/dashboard');
 const syncRoute = require('./sync.route');
 
 

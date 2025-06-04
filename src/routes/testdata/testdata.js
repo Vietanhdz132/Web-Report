@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const testdataController = require('../../app/controllers/TestdataController');
 
+const MLLMB = require('../testdata/mllmb');
 const tramMLL = require('../testdata/trammll');
-const tramMLLDVT = require('../testdata/trammlldvt'); // sửa lại đây đúng tên file/router
+const tramMLLDVT = require('../testdata/trammlldvt'); 
 const tramMLLTVT = require('../testdata/trammlltvt');
 const tramMLLTINH = require('../testdata/trammlltinh');
 const tramMLLHUYEN = require('../testdata/trammllhuyen');
@@ -25,6 +26,7 @@ const dvtHTMTDAY = require('../dvtHTMT/dvtHTMTday');
 router.get('/', testdataController.index);
 
 // Các router con
+router.use('/mllmb', MLLMB);
 router.use('/trammll', tramMLL);
 router.use('/trammlldvt', tramMLLDVT);
 router.use('/trammlltvt', tramMLLTVT);

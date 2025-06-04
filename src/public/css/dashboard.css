@@ -1,0 +1,116 @@
+@charset "UTF-8";
+.header-dashboard {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+
+.title-dashboard {
+  font-weight: 700;
+  font-size: 24px;
+  flex-shrink: 0;
+  color: #fff6f6;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+  color: #444;
+}
+
+.filter-item label {
+  margin-bottom: 4px;
+  margin-right: 10px;
+  font-weight: 600;
+  width: 100%;
+  color: #fff6f6;
+  display: flex;
+  align-self: center;
+  justify-content: start;
+}
+
+.filter-item select {
+  min-width: 120px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: border-color 0.2s ease-in-out;
+  margin: 0 auto; /* căn giữa select trong filter-item */
+  display: block;
+}
+
+.filter-item select:hover,
+.filter-item select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .header-dashboard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .filter-group {
+    gap: 12px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .filter-item {
+    min-width: 100px;
+    flex: 1;
+  }
+}
+.body-dashboard {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap; /* cho responsive */
+  justify-content: space-between;
+}
+
+.item-body {
+  flex: 1 1 22%; /* mỗi cột chiếm khoảng 22% chiều rộng container, có thể 4 cột vừa */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 220px; /* giới hạn nhỏ nhất */
+}
+
+.item-body > div {
+  background: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  color: #444;
+  transition: box-shadow 0.3s ease;
+}
+
+.item-body > div:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 900px) {
+  .body-dashboard {
+    flex-direction: column;
+  }
+  .item-body {
+    flex: 1 1 100%;
+    min-width: unset;
+  }
+}
+
+/*# sourceMappingURL=dashboard.css.map */
