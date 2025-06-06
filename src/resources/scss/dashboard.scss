@@ -2,9 +2,8 @@
     display: flex;
     align-items: center;
     gap: 24px;
-    padding-top: 16px;
-    padding-bottom: 16px;
-
+    padding-top: 10px;
+    padding-bottom: 2px;
     border-bottom: 1px solid #ddd;
     flex-wrap: wrap;
   }
@@ -74,19 +73,61 @@
   }
 
   
+.stat-card {
+  margin-top: 16px; 
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  text-align: center;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+}
+
+.stat-title {
+  background-color: #4873b4;
+  font-weight: bold;
+  padding: 1px 0;
+  font-size: 16px;
+  color: #ffffff;
+  
+}
+
+.stat-value {
+  font-size: 60px;
+  font-weight: 500;
+}
+
+.stat-footer{
+  margin-bottom: 3px;
+  font-size: 15px;
+}
 
 .body-dashboard {
   display: flex;
-  gap: 24px;
-  flex-wrap: wrap; /* cho responsive */
-  justify-content: space-between;
+  flex-wrap: nowrap; /* cho responsive */
+  flex-direction: row;
 }
+
+.item-sum {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+
+}
+
+.item-deltail {
+  width: 85%;
+  display: flex;
+  flex-direction: row;
+
+}
+
 
 .item-body {
   flex: 1 1 22%; /* mỗi cột chiếm khoảng 22% chiều rộng container, có thể 4 cột vừa */
   display: flex;
+  margin-left: 15px;
   flex-direction: column;
-  gap: 16px;
   min-width: 220px; /* giới hạn nhỏ nhất */
 }
 
@@ -94,7 +135,6 @@
   background: #fafafa;
   border: 1px solid #ddd;
   border-radius: 8px;
-  padding: 16px;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
   font-size: 14px;
   color: #444;
@@ -106,11 +146,28 @@
 }
 
 @media (max-width: 900px) {
+  .item-sum,
+  .item-detail {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .body-dashboard {
     flex-direction: column;
   }
-  .item-body {
-    flex: 1 1 100%;
-    min-width: unset;
-  }
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db; /* Màu chính */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 30px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

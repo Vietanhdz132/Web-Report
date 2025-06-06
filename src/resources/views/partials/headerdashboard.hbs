@@ -1,4 +1,5 @@
 <style>
+
   .custom-tab {
     margin-left: 80px;
     margin-right: 80px;
@@ -11,7 +12,7 @@
 
   .custom-tab .nav-link.active {
   color: white !important;
-  background-color: #495057;
+  background-color: #21252900;
   border: 1px solid white; /* viền trắng khi active */
   border-bottom: none; /* nếu muốn không có viền dưới khi tab đang được chọn */
 }
@@ -48,8 +49,8 @@
 <nav>
   <div class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link" href="/dashboard/average-card">
-        Thống kê mất liên lạc
+      <a class="nav-link active" href="/dashboard/average-card">
+        Thống kê thời gian mất liên lạc
       </a>
     
     </li>
@@ -74,3 +75,20 @@
 
 
 
+<script>
+  document.querySelectorAll(".custom-tab .nav-link").forEach(link => {
+    link.addEventListener("click", function () {
+      // Xóa class active khỏi tất cả tab
+      document.querySelectorAll(".custom-tab .nav-link").forEach(l => l.classList.remove("active"));
+
+      // Thêm class active cho tab được click
+      this.classList.add("active");
+    });
+  });
+</script>
+<script>
+  // Nếu URL hiện tại là chính xác "/dashboard", thì chuyển hướng
+  if (window.location.pathname === "/dashboard") {
+    window.location.href = "/dashboard/average-card";
+  }
+</script>

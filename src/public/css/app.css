@@ -740,6 +740,11 @@ body {
   gap: 20px;
 }
 
+.container {
+  max-width: 90vw !important;
+  margin-left: 5vw;
+}
+
 .footer .column {
   flex: 1;
   /* Các cột có kích thước bằng nhau */

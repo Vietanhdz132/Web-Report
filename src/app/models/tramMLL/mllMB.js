@@ -32,7 +32,7 @@ async function getAllStats(page = 1, pageSize = 50) {
             TO_CHAR(TO_DATE(MD_SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS MD_SDATE,
             IS_REDUCE,
 
-            -- Thêm cột thời gian mất liên lạc trong ngày (tính theo giây)
+            -- Thêm cột thời gian mất liên lạc trong ngày (tính theo phút)
             (
               CASE 
                 WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) 
@@ -42,7 +42,127 @@ async function getAllStats(page = 1, pageSize = 50) {
                   (TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS') 
                    - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) * 24 * 60 
               END
-            ) AS DURATION_IN_DAY
+            ) AS DURATION_IN_DAY,
+
+            -- Thêm cột thời gian mất liên lạc ban ngày
+            (
+            CASE
+              WHEN EDATE IS NULL THEN
+                0  -- hoặc logic phù hợp cho NULL
+              WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) THEN
+                CASE
+                  WHEN GREATEST(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')) 
+                      >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN 0 -- Không overlap với ban ngày
+                  ELSE
+                    GREATEST(
+                      (
+                        LEAST(
+                          TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                          TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                        )
+                        - GREATEST(
+                            TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                            TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                          )
+                      ) * 24 * 60,
+                      0
+                    )
+                END
+              ELSE
+                CASE
+                  WHEN GREATEST(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')) 
+                      >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN 0 -- Không overlap với ban ngày
+                  ELSE
+                    GREATEST(
+                      (
+                        TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                        - GREATEST(
+                            TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                            TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                          )
+                      ) * 24 * 60,
+                      0
+                    )
+                END
+            END
+          ) AS DURATION_DAYTIME
+          ,
+
+
+            -- Thêm cột thời gian mất liên lạc ban đêm
+            
+            (
+              CASE 
+                WHEN EDATE IS NULL THEN
+                  -- Tính từ SDATE đến 05:00 sáng hôm sau (hoặc SYSDATE nếu nhỏ hơn)
+                  GREATEST(
+                    (
+                      LEAST(
+                        SYSDATE,
+                        TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') + 1, 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                      )
+                      - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                    ) * 24 * 60,
+                    0
+                  )
+                  
+                WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) THEN
+              -- Nếu cùng ngày
+              CASE 
+                WHEN TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN -- Nếu trong khoảng 22:00 - 23:59:59
+                    GREATEST(
+                      (
+                        TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                        - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      ) * 24 * 60,
+                      0
+                    )
+                WHEN TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') <= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN -- Nếu trong khoảng 00:00 - 05:00 sáng cùng ngày
+                    GREATEST(
+                      (
+                        TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                        - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      ) * 24 * 60,
+                      0
+                    )
+                ELSE
+                  0 -- Không thuộc khung giờ ban đêm
+              END
+              
+            ELSE
+              -- Nếu khác ngày, tính tổng 2 phần
+              GREATEST(
+                (
+                  -- phần từ SDATE đến 23:59:59 nếu SDATE >= 22:00
+                  CASE WHEN TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                    THEN
+                      TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 23:59:59', 'MM/DD/YYYY HH24:MI:SS')
+                      - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                    ELSE 0
+                  END
+                ) * 24 * 60
+                +
+                (
+                  -- phần từ 00:00 đến EDATE nếu EDATE <= 05:00 ngày kế tiếp
+                  CASE WHEN TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') <= TO_DATE(TO_CHAR(TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                    THEN
+                      TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      - TO_DATE(TO_CHAR(TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')), 'MM/DD/YYYY') || ' 00:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                    ELSE 0
+                  END
+                ) * 24 * 60,
+                0
+              )
+          END
+        )
+        AS DURATION_NIGHTTIME
+
 
           FROM MLL_MB
           ORDER BY ID DESC
@@ -67,7 +187,9 @@ async function getAllStats(page = 1, pageSize = 50) {
       ALARM_NAME: row.ALARM_NAME,
       SDATE: row.SDATE,
       EDATE: row.EDATE,
-      DURATION_IN_DAY: row.DURATION_IN_DAY, 
+      DURATION_IN_DAY: row.DURATION_IN_DAY,
+      DURATION_DAYTIME: row.DURATION_DAYTIME,
+      DURATION_NIGHTTIME: row.DURATION_NIGHTTIME,
       PROVINCE: row.PROVINCE,
       DISTRICT: row.DISTRICT,
       REGION: row.REGION,
@@ -108,15 +230,165 @@ async function getAverageDuration(filterType = 'year', batchSize = 10000, onBatc
         SELECT * FROM (
           SELECT a.*, ROWNUM rnum FROM (
             SELECT
-              TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), '${groupByFormat}') AS PERIOD,
+             
+            ID,
+            TICKET_ID,
+            SITE_ID,
+            ALARM_NAME,
+            TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS SDATE,
+            TO_CHAR(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS EDATE,
+            PROVINCE,
+            DISTRICT,
+            REGION,
+            MA_TRUNG_TAM_XL,
+            MA_PHONG_XL,
+            MA_TO_XL,
+            NETWORK,
+            NN_CAP_1,
+            NN_CAP_2,
+            NN_CAP_3,
+            TO_CHAR(TO_DATE(NGAY_TAO, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS NGAY_TAO,
+            HE_THONG,
+            CLEARED,
+            TO_CHAR(TO_DATE(MD_SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS MD_SDATE,
+            IS_REDUCE,
+
+            
+
+            -- Thêm cột thời gian mất liên lạc ban ngày
+            (
+            CASE
+              WHEN EDATE IS NULL THEN
+                0  -- hoặc logic phù hợp cho NULL
+              WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) THEN
+                CASE
+                  WHEN GREATEST(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')) 
+                      >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN 0 -- Không overlap với ban ngày
+                  ELSE
+                    GREATEST(
+                      (
+                        LEAST(
+                          TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                          TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                        )
+                        - GREATEST(
+                            TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                            TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                          )
+                      ) * 24 * 60,
+                      0
+                    )
+                END
+              ELSE
+                CASE
+                  WHEN GREATEST(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')) 
+                      >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN 0 -- Không overlap với ban ngày
+                  ELSE
+                    GREATEST(
+                      (
+                        TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                        - GREATEST(
+                            TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                            TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                          )
+                      ) * 24 * 60,
+                      0
+                    )
+                END
+              END
+            ) AS DURATION_DAYTIME
+            ,
+
+
+            -- Thêm cột thời gian mất liên lạc ban đêm
+            
+            (
               CASE 
-                WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) 
-                THEN 
-                  (TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) * 24 * 60
-                ELSE 
-                  (TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS') 
-                   - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) * 24 * 60
-              END AS DURATION_MINUTES
+                WHEN EDATE IS NULL THEN
+                  -- Tính từ SDATE đến 05:00 sáng hôm sau (hoặc SYSDATE nếu nhỏ hơn)
+                  GREATEST(
+                    (
+                      LEAST(
+                        SYSDATE,
+                        TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') + 1, 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                      )
+                      - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                    ) * 24 * 60,
+                    0
+                  )
+                  
+                WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) THEN
+              -- Nếu cùng ngày
+              CASE 
+                WHEN TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN -- Nếu trong khoảng 22:00 - 23:59:59
+                    GREATEST(
+                      (
+                        TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                        - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      ) * 24 * 60,
+                      0
+                    )
+                WHEN TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') <= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                  THEN -- Nếu trong khoảng 00:00 - 05:00 sáng cùng ngày
+                    GREATEST(
+                      (
+                        TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                        - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      ) * 24 * 60,
+                      0
+                    )
+                ELSE
+                  0 -- Không thuộc khung giờ ban đêm
+              END
+              
+              ELSE
+                -- Nếu khác ngày, tính tổng 2 phần
+                GREATEST(
+                  (
+                    -- phần từ SDATE đến 23:59:59 nếu SDATE >= 22:00
+                    CASE WHEN TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM') >= TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 22:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                      THEN
+                        TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 23:59:59', 'MM/DD/YYYY HH24:MI:SS')
+                        - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                      ELSE 0
+                    END
+                  ) * 24 * 60
+                  +
+                  (
+                    -- phần từ 00:00 đến EDATE nếu EDATE <= 05:00 ngày kế tiếp
+                    CASE WHEN TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') <= TO_DATE(TO_CHAR(TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')), 'MM/DD/YYYY') || ' 05:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                      THEN
+                        TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')
+                        - TO_DATE(TO_CHAR(TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')), 'MM/DD/YYYY') || ' 00:00:00', 'MM/DD/YYYY HH24:MI:SS')
+                      ELSE 0
+                    END
+                  ) * 24 * 60,
+                  0
+                )
+            END
+            )
+            AS DURATION_NIGHTTIME,
+
+        
+            TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), '${groupByFormat}') AS PERIOD,
+            
+            CASE 
+              WHEN TRUNC(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) = TRUNC(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM')) 
+              THEN 
+                (TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM') - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) * 24 * 60
+              ELSE 
+                (TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM/DD/YYYY') || ' 23:59:59', 'MM/DD/YYYY HH24:MI:SS')
+                - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM')) * 24 * 60
+
+                
+                
+            END AS DURATION_IN_DAY
+
             FROM MLL_MB
             ORDER BY ID
           ) a WHERE ROWNUM <= :maxRow
@@ -139,19 +411,32 @@ async function getAverageDuration(filterType = 'year', batchSize = 10000, onBatc
 
       for (const row of rows) {
         const period = row.PERIOD;
-        const duration = row.DURATION_MINUTES;
+        const duration = row.DURATION_IN_DAY || 0;
+        const duration_daytime = row.DURATION_DAYTIME || 0;
+        const duration_nighttime = row.DURATION_NIGHTTIME || 0;
 
         if (!groupedData[period]) {
-          groupedData[period] = { sum: 0, count: 0 };
+          groupedData[period] = {
+            sum_total: 0,
+            sum_daytime: 0,
+            sum_nighttime: 0,
+            count: 0,
+          };
         }
-        groupedData[period].sum += duration;
+
+        groupedData[period].sum_total += duration;
+        groupedData[period].sum_daytime += duration_daytime;
+        groupedData[period].sum_nighttime += duration_nighttime;
         groupedData[period].count += 1;
       }
+      
 
       if (onBatch) {
         const batchSummary = Object.entries(groupedData).map(([period, data]) => ({
           PERIOD: period,
-          AVG_DURATION_MINUTES: data.sum / data.count,
+          AVG_DURATION_TOTAL: data.sum_total / data.count,
+          AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+          AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
         }));
         await onBatch(batchSummary);
       }
@@ -161,13 +446,14 @@ async function getAverageDuration(filterType = 'year', batchSize = 10000, onBatc
 
     return Object.entries(groupedData).map(([period, data]) => ({
       PERIOD: period,
-      AVG_DURATION_MINUTES: data.sum / data.count,
+      AVG_DURATION_TOTAL: data.sum_total / data.count,
+      AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+      AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
     }));
   } finally {
     await connection.close();
   }
 }
-
 
 
 module.exports = { getAllStats, getAverageDuration };
