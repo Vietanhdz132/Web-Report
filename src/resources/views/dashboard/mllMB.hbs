@@ -384,7 +384,9 @@
         } else {
           clearDays();
         }
+        fetchAverageDurations(); // GỌI LẠI API SAU KHI CHỌN THÁNG
       });
+
 
     } catch (err) {
       console.error("Lỗi khi tải slicer:", err);
@@ -440,7 +442,9 @@
     allOption.textContent = 'Tất cả ngày';
     daySelect.appendChild(allOption);
     daySelect.value = 'all';
+    fetchAverageDurations(); // GỌI LẠI API SAU KHI RESET NGÀY
   }
+
 
   async function fetchAverageDurations() {
     try {
