@@ -45,16 +45,49 @@ class MLLMBController {
 
   }
 
+
+  async getSlicerOptions(req, res) {
+    try {
+    const data = await MLLMB.getSlicerOptions();
+    console.log('Data from getSlicerOptions:', data);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
+
   async getAverageDuration(req, res) {
     try {
-      const filterType = req.query.filterType || 'year';
-      const data = await MLLMB.getAverageDuration(filterType, 10000);
-      res.status(200).json({ success: true, filterType, data });
+      const { dvt, year, month, day } = req.query;
+
+      // Lấy dữ liệu chi tiết từ DB
+      const rows = await MLLMB.getAverageDuration({ dvt, year, month, day });
+
+      // Nhóm dữ liệu theo DVT và PERIOD
+      const groupedData = rows.reduce((acc, row) => {
+        const key = `${row.DVT}|${row.PERIOD}`
+        if (!acc[key]) acc[key] = { DVT: row.DVT, PERIOD: row.PERIOD, items: [] };
+        acc[key].items.push(row);
+        return acc;
+      }, {});
+
+      // Convert object thành mảng
+      const response = Object.values(groupedData);
+
+      res.json({
+        success: true,
+        data: response,
+      });
     } catch (error) {
-      console.error('Lỗi lấy dữ liệu trung bình:', error);
-      res.status(500).json({ success: false, error: error.message });
+      console.error('Error in averageDurationHandler:', error);
+      res.status(500).json({
+        success: false,
+        error: error.message || 'Internal server error',
+      });
     }
   }
+
 
   async viewAverageCard(req, res) {
     try {

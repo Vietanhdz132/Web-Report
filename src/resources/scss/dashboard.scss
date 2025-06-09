@@ -40,7 +40,7 @@
   }
 
   .filter-item select {
-     min-width: 120px;
+    min-width: 155px;
     padding: 6px 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -101,6 +101,12 @@
   margin-bottom: 3px;
   font-size: 15px;
 }
+
+.stat-unit{
+  margin-top: 3px;
+  font-size: 15px;
+}
+
 
 .body-dashboard {
   display: flex;

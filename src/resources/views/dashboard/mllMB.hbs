@@ -5,6 +5,13 @@
 
   <div class="filter-group">
     <div class="filter-item">
+      <label for="stationSelect">Đài:</label>
+      <select id="stationSelect">
+        <option value="all">Tất cả đài</option>
+      </select>
+    </div>
+
+    <div class="filter-item">
       <label for="yearSelect">Năm:</label>
       <select id="yearSelect"></select>
     </div>
@@ -33,25 +40,31 @@
 
     <div  class="stat-card">
       <div class="stat-title">Thời gian MLL trung bình</div>
+      <div class="stat-unit" id="unit-average-card" ></div>
       <div id="average-card" class="stat-value loader"></div>
       <div class="stat-footer" id="date-average-card" ></div>
+      
+
 
     </div>
 
     <div  class="stat-card">
       <div class="stat-title">Thời gian MLL trung bình ngày</div>
+      <div class="stat-unit" id="unit-average-card-day" ></div>
       <div id="average-card-day" class="stat-value loader"></div>
       <div class="stat-footer" id="date-average-card-day" ></div>
     </div>
 
     <div  class="stat-card">
       <div class="stat-title">Thời gian MLL trung bình đêm</div>
+      <div class="stat-unit" id="unit-average-card-night" ></div>
       <div id="average-card-night" class="stat-value loader"></div>
       <div class="stat-footer" id="date-average-card-night" ></div>
     </div>
 
     <div  class="stat-card">
       <div class="stat-title">Avg TgMLL</div>
+      <div class="stat-unit" id="unit-average-card" ></div>
       <div id="average-card" class="stat-value loader"></div>
       <div class="stat-footer" id="date-average-card" ></div>
     </div>
@@ -147,7 +160,7 @@
 
 
 
-<script>
+{{!-- <script>
   let fullDayData = []; // Dữ liệu ngày để tạo slicer và dùng khi chọn ngày
 
   async function fetchDayData() {
@@ -159,6 +172,7 @@
       return;
     }
     fullDayData = json.data;
+    
 
     // Khởi tạo slicer năm, tháng, ngày
     initSlicers(fullDayData);
@@ -313,4 +327,186 @@
   // Khi load trang
   fetchDayData();
 
+</script> --}}
+
+<script>
+  async function loadSlicers() {
+    try {
+      const response = await fetch('/dashboard/slicer-duration');
+      const json = await response.json();
+
+      if (!json.success) throw new Error("API trả về thất bại");
+
+      const { DVT, DATE_TREE } = json.data;
+
+      window.DATE_TREE = DATE_TREE;
+
+      const stationSelect = document.getElementById('stationSelect');
+      const yearSelect = document.getElementById('yearSelect');
+      const monthSelect = document.getElementById('monthSelect');
+      const daySelect = document.getElementById('daySelect');
+
+      // Populate Đài
+      DVT.forEach(station => {
+        const option = document.createElement('option');
+        option.value = station;
+        option.textContent = station;
+        stationSelect.appendChild(option);
+      });
+
+      // Populate Năm
+      const years = Object.keys(DATE_TREE).sort();
+      yearSelect.innerHTML = '';
+      years.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
+
+      const latestYear = years[years.length - 1];
+      yearSelect.value = latestYear;
+
+      populateMonths(latestYear); // tháng mặc định: tất cả + danh sách
+
+      // --- Events ---
+      yearSelect.addEventListener('change', () => {
+        const selectedYear = yearSelect.value;
+        populateMonths(selectedYear); // cập nhật lại tháng khi đổi năm
+        clearDays(); // reset ngày
+      });
+
+      monthSelect.addEventListener('change', () => {
+        const selectedYear = yearSelect.value;
+        const selectedMonth = monthSelect.value;
+        if (selectedMonth !== 'all') {
+          populateDays(selectedYear, selectedMonth);
+        } else {
+          clearDays();
+        }
+      });
+
+    } catch (err) {
+      console.error("Lỗi khi tải slicer:", err);
+    }
+  }
+
+  function populateMonths(year) {
+    const months = Object.keys(DATE_TREE[year] || {}).sort();
+    const monthSelect = document.getElementById('monthSelect');
+    monthSelect.innerHTML = '';
+
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = 'Tất cả tháng';
+    monthSelect.appendChild(allOption);
+
+    months.forEach(month => {
+      const option = document.createElement('option');
+      option.value = month;
+      option.textContent = month;
+      monthSelect.appendChild(option);
+    });
+
+    monthSelect.value = 'all';
+  }
+
+  function populateDays(year, month) {
+    const days = (DATE_TREE[year] && DATE_TREE[year][month]) || [];
+    const sortedDays = [...days].sort();
+    const daySelect = document.getElementById('daySelect');
+    daySelect.innerHTML = '';
+
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = 'Tất cả ngày';
+    daySelect.appendChild(allOption);
+
+    sortedDays.forEach(day => {
+      const option = document.createElement('option');
+      option.value = day;
+      option.textContent = day;
+      daySelect.appendChild(option);
+    });
+
+    daySelect.value = 'all';
+  }
+
+  function clearDays() {
+    const daySelect = document.getElementById('daySelect');
+    daySelect.innerHTML = '';
+    const allOption = document.createElement('option');
+    allOption.value = 'all';
+    allOption.textContent = 'Tất cả ngày';
+    daySelect.appendChild(allOption);
+    daySelect.value = 'all';
+  }
+
+  async function fetchAverageDurations() {
+    try {
+      const dvt = document.getElementById('stationSelect').value;
+      const year = document.getElementById('yearSelect').value;
+      const month = document.getElementById('monthSelect').value;
+      const day = document.getElementById('daySelect').value;
+
+
+      const params = new URLSearchParams();
+      if (dvt !== 'all') params.append('dvt', dvt);
+      if (year !== 'all') params.append('year', year);
+      if (month !== 'all') params.append('month', month);
+      if (day !== 'all') params.append('day', day);
+
+      
+      const response = await fetch(`/dashboard/average-duration?${params.toString()}`);
+      const data = await response.json();
+        
+      
+
+      // Lấy dữ liệu items[0] trong data[0]
+      const firstGroup = data.data[0];
+      const firstItem = firstGroup.items && firstGroup.items[0];
+
+      if (!firstItem) throw new Error('Không có dữ liệu items');
+      const dvt_card = firstItem.DVT;
+      const date = firstItem.PERIOD;
+      const avg = firstItem.AVG_DURATION_TOTAL;
+      const avg_day = firstItem.AVG_DURATION_DAYTIME;
+      const avg_night = firstItem.AVG_DURATION_NIGHTTIME;
+
+      document.getElementById('average-card').classList.remove('loader');
+      document.getElementById('average-card').innerHTML = `<div>${avg.toFixed(2)}</div>`;
+      document.getElementById('unit-average-card').innerHTML = `<div><strong>${dvt_card}</strong></div>`;
+      document.getElementById('date-average-card').innerHTML = `<div><strong>${date}</strong></div>`;
+
+
+      document.getElementById('average-card-day').classList.remove('loader');
+      document.getElementById('average-card-day').innerHTML = `<div>${avg_day.toFixed(2)}</div>`;
+      document.getElementById('unit-average-card-day').innerHTML = `<div><strong>${dvt_card}</strong></div>`;
+      document.getElementById('date-average-card-day').innerHTML = `<div><strong>${date}</strong></div>`;
+
+      document.getElementById('average-card-night').classList.remove('loader')
+      document.getElementById('average-card-night').innerHTML = `<div>${avg_night.toFixed(2)}</div>`;
+      document.getElementById('unit-average-card-night').innerHTML = `<div><strong>${dvt_card}</strong></div>`;
+      document.getElementById('date-average-card-night').innerHTML = `<div><strong>${date}</strong></div>`;
+
+    } catch (error) {
+      console.error('Lỗi khi tải dữ liệu trung bình:', error);
+    }
+  }
+
+  function attachSlicerEvents() {
+    ['stationSelect', 'yearSelect', 'monthSelect', 'daySelect'].forEach(id => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.addEventListener('change', fetchAverageDurations);
+      }
+    });
+  }
+
+  // Gọi khi trang tải xong
+  window.onload = function () {
+    loadSlicers();     // Tải dữ liệu vào slicer
+    attachSlicerEvents();
+    fetchAverageDurations();  // Lắng nghe thay đổi
+  };
 </script>
