@@ -48,7 +48,7 @@ router.get('/sync', async (req, res) => {
 router.get('/syncMLL', async (req, res) => {
   try {
     
-    const fileName = `MLL_MB_20250606.csv`;
+    const fileName = `MLL_MB_202506010.csv`;
 
  
     const localPath = path.resolve(__dirname, '../data', fileName);

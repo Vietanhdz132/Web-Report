@@ -78,10 +78,11 @@
     <div class = "item-body">
 
     <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
+      <div class="stat-title">Thời gian mất liên lạc trung bình theo Đài</div>
+      <canvas id="mllChart"></canvas>
+      <div class="stat-footer" id="date-average-detail-card" ></div>
     </div>
+
 
     <div  class="stat-card">
       <div class="stat-title"></div>
@@ -103,31 +104,7 @@
 
   </div>
 
-  <div class = "item-body">
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-  </div>
+  
 
   <div class = "item-body">
     <div class="stat-card">
@@ -514,3 +491,197 @@
     fetchAverageDurations();  // Lắng nghe thay đổi
   };
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
+<script>
+  const chartCanvas = document.getElementById('mllChart');
+  let chartInstance = null;
+
+  async function fetchDataAndUpdateChart() {
+    {{!-- const dvt = stationSelect.value; --}}
+    const year = yearSelect.value;
+    const month = monthSelect.value;
+    const day = daySelect.value;
+
+    const query = new URLSearchParams();
+    {{!-- if (dvt !== 'all') query.append('dvt', dvt); --}}
+    if (year !== 'all') query.append('year', year);
+    if (month !== 'all') query.append('month', month);
+    if (day !== 'all') query.append('day', day);
+
+    const response = await fetch(`/dashboard/average-duration-detail?${query.toString()}`);
+    const json = await response.json();
+    const data = json.data;
+
+    const labels = data.map(entry => entry.DVT);
+    const daytimeData = data.map(entry => entry.items[0]?.AVG_DURATION_DAYTIME || 0);
+    const nighttimeData = data.map(entry => entry.items[0]?.AVG_DURATION_NIGHTTIME || 0);
+
+    const footer = document.getElementById('date-average-detail-card');
+    footer.innerText = data[0]?.PERIOD || 'Không có dữ liệu';
+    
+    updateChart(labels, daytimeData, nighttimeData);
+  }
+
+  function updateChart(labels, daytimeData, nighttimeData) {
+  if (chartInstance) chartInstance.destroy();
+
+  const ctx = chartCanvas.getContext('2d'); // lấy context 2d của canvas
+
+  // Gradient Bar ngày
+  const daytimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+  daytimeGradient.addColorStop(0, '#f9e79f');
+  daytimeGradient.addColorStop(1, '#f1c40f');
+
+  // Gradient Bar đêm
+  const nighttimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+  nighttimeGradient.addColorStop(0, '#85c1e9');
+  nighttimeGradient.addColorStop(1, '#3498db');
+
+  // Gradient Line tổng
+  const lineGradient = ctx.createLinearGradient(0, 0, chartCanvas.width, 0);
+  lineGradient.addColorStop(0, '#e74c3c');
+  lineGradient.addColorStop(1, '#c0392b');
+
+  const totalData = labels.map((_, i) => daytimeData[i] + nighttimeData[i]);
+
+  chartInstance = new Chart(chartCanvas, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Ban ngày (phút)',
+          data: daytimeData,
+          backgroundColor: daytimeGradient,
+          borderRadius: 12,
+          barPercentage: 0.6,
+          stack: 'stack1',
+          hoverBackgroundColor: '#f39c12',
+          datalabels: {
+            color: '#000',
+            anchor: 'center',
+            align: 'center',
+            formatter: value => value.toFixed(2),
+            font: { weight: 'bold', size: 10 }
+          }
+        },
+         {
+          label: 'Ban đêm (phút)',
+          data: nighttimeData,
+          backgroundColor: nighttimeGradient,
+          borderRadius: 12,
+          barPercentage: 0.6,
+          stack: 'stack1',
+          hoverBackgroundColor: '#2980b9',
+          datalabels: {
+            color: '#000',
+            anchor: 'center',
+            align: 'center',
+            formatter: value => value.toFixed(2),
+            font: { weight: 'bold', size: 10 }
+          }
+        },
+        {
+          label: 'Tổng (phút)',
+          data: totalData,
+          type: 'line',
+          yAxisID: 'y',
+          order: 99,
+          stack: null,
+          borderColor: lineGradient,
+          backgroundColor: 'rgba(231, 76, 60, 0.2)',
+          borderWidth: 3,
+          pointRadius: 3,
+          pointHoverRadius: 8,
+          pointBackgroundColor: '#e74c3c',
+          pointHoverBackgroundColor: '#c0392b',
+          fill: false,
+          tension: 0.4,
+          datalabels: {
+            align: 'end',
+            anchor: 'end',
+            offset: -5,
+            color: '#e74c3c',
+            formatter: value => `${value.toFixed(2)}`,
+            font: { weight: 'bold', size: 11 }
+          }
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutQuart'
+      },
+      plugins: {
+        legend: {
+          position: 'top',
+          labels: {
+            font: { weight: 'bold', size: 14 }
+          }
+        },
+        legend: {
+          position: 'top',
+          labels: {
+            font: {
+              weight: 'bold',
+              size: 14
+            },
+            padding: 10,
+            usePointStyle: true,
+            pointStyle: 'rectRounded'
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false,
+          backgroundColor: 'rgba(0,0,0,0.8)',
+          titleFont: { weight: 'bold', size: 14 },
+          bodyFont: { size: 13 },
+          callbacks: {
+            label: ctx => {
+              const val = ctx.raw;
+              return `${ctx.dataset.label}: ${val.toFixed(2)} phút`;
+            }
+          }
+        },
+        datalabels: {
+          display: true,
+          clamp: true
+        }
+      },
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      scales: {
+        x: { stacked: true, grid: { display: false }, ticks: { font: { weight: 'bold' } } },
+        y: {
+          stacked: true,
+          grid: { display: false },
+        
+          ticks: { font: { weight: 'bold' } }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+}
+
+
+
+
+  // Gọi hàm khi filter thay đổi
+  stationSelect.addEventListener('change', fetchDataAndUpdateChart);
+  yearSelect.addEventListener('change', fetchDataAndUpdateChart);
+  monthSelect.addEventListener('change', fetchDataAndUpdateChart);
+  daySelect.addEventListener('change', fetchDataAndUpdateChart);
+
+  // Gọi lần đầu
+  fetchDataAndUpdateChart();
+</script>
+
