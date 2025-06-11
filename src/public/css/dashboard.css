@@ -108,20 +108,60 @@
 
 .body-dashboard {
   display: flex;
-  flex-wrap: nowrap; /* cho responsive */
-  flex-direction: row;
+  flex-direction: column;
 }
 
+/* PHẦN TRÊN */
+.item-1 {
+  display: flex;
+  align-items: stretch;
+}
+
+/* BÊN TRÁI */
 .item-sum {
-  width: 15%;
+  width: 40%;
+  height: 400px;
   display: flex;
   flex-direction: column;
 }
 
-.item-deltail {
-  width: 85%;
+.item-sum-1 {
   display: flex;
-  flex-direction: row;
+  gap: 16px;
+  flex: 1;
+}
+
+/* BÊN PHẢI */
+.item-deltail {
+  width: 60%;
+  height: 400px;
+  display: flex;
+}
+
+.item-body {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* PHẦN DƯỚI */
+.item-2 {
+  width: 100%;
+  height: 400px;
+  display: flex;
+}
+
+/* THẺ CHUNG */
+.stat-card {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 10px 10px 5px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 150px;
 }
 
 .item-body {

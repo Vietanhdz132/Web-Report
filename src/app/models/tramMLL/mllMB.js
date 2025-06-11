@@ -694,6 +694,237 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
   }
 }
 
+async function getAverageDurationTarget({ dvt, year, month, onBatch }) {
+  const connection = await oracledb.getConnection();
+  try {
+    let groupByFormat = 'YYYY-MM';
+    
+
+    let offset = 0;
+    let hasMore = true;
+    const groupedData = {};
+    const batchSize = 10000
+
+    const sql = `
+      SELECT
+        ID,
+        TICKET_ID,
+        SITE_ID,
+        ALARM_NAME,
+        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS SDATE,
+        TO_CHAR(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS EDATE,
+        CASE MA_PHONG_XL
+          WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
+          WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
+          WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
+          WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
+          WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
+          WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
+          WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
+          ELSE N'Khác'
+        END AS DVT,
+        PROVINCE,
+        DISTRICT,
+        REGION,
+        MA_TRUNG_TAM_XL,
+        MA_PHONG_XL,
+        MA_TO_XL,
+        NETWORK,
+        NN_CAP_1,
+        NN_CAP_2,
+        NN_CAP_3,
+        TO_CHAR(TO_DATE(NGAY_TAO, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS NGAY_TAO,
+        HE_THONG,
+        CLEARED,
+        TO_CHAR(TO_DATE(MD_SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS MD_SDATE,
+        IS_REDUCE,
+
+        
+
+        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), '${groupByFormat}') AS PERIOD,
+        
+        -- Tổng thời gian mất liên lạc trong ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+            0
+          ) * 24 * 60
+        ) AS DURATION_IN_DAY,
+
+        -- Thời gian ban ngày: 05:00–22:00 cùng ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 22:00:00', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          ) * 24 * 60
+        ) AS DURATION_DAYTIME,
+
+        -- Thời gian ban đêm: 00:00–05:00 và 22:00–23:59:59 cùng ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          )
+          +
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 22:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          )
+        ) * 24 * 60 AS DURATION_NIGHTTIME
+
+        FROM MLL_MB
+        WHERE 1=1
+        AND (:dvt IS NULL OR 
+            CASE MA_PHONG_XL
+              WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
+              WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
+              WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
+              WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
+              WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
+              WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
+              WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
+              ELSE N'Khác'
+            END = :dvt)
+        AND (:year IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'YYYY') = :year)
+        AND (:month IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') = :month)
+        AND (:day IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') = :day)
+      ORDER BY DVT, PERIOD
+    `;
+
+      while (hasMore) {
+        const binds = {
+          dvt,
+          year,
+          month
+          
+        };
+
+        const result = await connection.execute(sql, binds, {
+          outFormat: oracledb.OUT_FORMAT_OBJECT,
+          maxRows: batchSize,
+          fetchArraySize: batchSize
+        });
+
+        const rows = result.rows;
+
+        if (rows.length === 0) {
+          hasMore = false;
+          break;
+        }
+
+        for (const row of rows) {
+          const period = row.PERIOD;
+
+          // Nếu có truyền dvt thì lấy dvt đó, còn không thì gộp tất cả
+          const dvtKey = dvt || 'ALL';
+          const key = `${dvtKey}_${period}`;
+
+          const duration = row.DURATION_IN_DAY || 0;
+          const duration_daytime = row.DURATION_DAYTIME || 0;
+          const duration_nighttime = row.DURATION_NIGHTTIME || 0;
+
+          if (!groupedData[key]) {
+            groupedData[key] = {
+              dvt: dvt || 'Mạng lưới miền Bắc',
+              period,
+              sum_total: 0,
+              sum_daytime: 0,
+              sum_nighttime: 0,
+              count: 0,
+            };
+          }
+
+          groupedData[key].sum_total += duration;
+          groupedData[key].sum_daytime += duration_daytime;
+          groupedData[key].sum_nighttime += duration_nighttime;
+          groupedData[key].count += 1;
+        }
+
+        if (onBatch) {
+          const batchSummary = Object.values(groupedData).map(data => {
+            const parts = data.period.split('-');
+            let formattedPeriod = '';
+
+            if (parts.length === 1) {
+              formattedPeriod = `Năm ${parts[0]}`;
+            } else if (parts.length === 2) {
+              formattedPeriod = `Tháng ${parts[1]} năm ${parts[0]}`;
+            } else if (parts.length === 3) {
+              formattedPeriod = `Ngày ${parts[2]} tháng ${parts[1]} năm ${parts[0]}`;
+            }
+
+            return {
+              DVT: data.dvt,
+              PERIOD: formattedPeriod,
+              AVG_DURATION_TOTAL: data.sum_total / data.count,
+              AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+              AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
+            };
+          });
+          await onBatch(batchSummary);
+        }
+
+        offset += rows.length;
+        if (rows.length < batchSize) {
+          hasMore = false;
+        }
+      }
+
+      return Object.values(groupedData).map(data => {
+        const parts = data.period.split('-');
+        let formattedPeriod = '';
+
+        if (parts.length === 1) {
+          formattedPeriod = `Năm ${parts[0]}`;
+        } else if (parts.length === 2) {
+          formattedPeriod = `Tháng ${parts[1]} năm ${parts[0]}`;
+        } else if (parts.length === 3) {
+          formattedPeriod = `Ngày ${parts[2]} tháng ${parts[1]} năm ${parts[0]}`;
+        }
+
+        return {
+          DVT: data.dvt,
+          PERIOD: formattedPeriod,
+          AVG_DURATION_TOTAL: data.sum_total / data.count,
+          AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+          AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
+        };
+      });
+
+  } finally {
+    await connection.close();
+  }
+}
+
 async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
   const connection = await oracledb.getConnection();
 
@@ -927,4 +1158,250 @@ async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
     await connection.close();
   }
 }
-module.exports = { getAllStats, getAverageDuration,getAverageDurationDetail, getSlicerOptions};
+
+async function getAverageDurationDetailProvince({ dvt, year, month, day, onBatch }) {
+  const connection = await oracledb.getConnection();
+  try {
+    let groupByFormat = 'YYYY';
+    if (day) {
+      groupByFormat = 'YYYY-MM-DD';
+    } else if (month) {
+      groupByFormat = 'YYYY-MM';
+    }
+
+    let offset = 0;
+    let hasMore = true;
+    const groupedData = {};
+    const batchSize = 10000
+
+    const sql = `
+      SELECT
+        ID,
+        TICKET_ID,
+        SITE_ID,
+        ALARM_NAME,
+        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS SDATE,
+        TO_CHAR(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS EDATE,
+        CASE MA_PHONG_XL
+          WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
+          WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
+          WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
+          WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
+          WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
+          WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
+          WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
+          ELSE N'Khác'
+        END AS DVT,
+        PROVINCE,
+        DISTRICT,
+        REGION,
+        MA_TRUNG_TAM_XL,
+        MA_PHONG_XL,
+        MA_TO_XL,
+        NETWORK,
+        NN_CAP_1,
+        NN_CAP_2,
+        NN_CAP_3,
+        TO_CHAR(TO_DATE(NGAY_TAO, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS NGAY_TAO,
+        HE_THONG,
+        CLEARED,
+        TO_CHAR(TO_DATE(MD_SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY HH24:MI:SS') AS MD_SDATE,
+        IS_REDUCE,
+
+        
+
+        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), '${groupByFormat}') AS PERIOD,
+        
+        -- Tổng thời gian mất liên lạc trong ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+            0
+          ) * 24 * 60
+        ) AS DURATION_IN_DAY,
+
+        -- Thời gian ban ngày: 05:00–22:00 cùng ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 22:00:00', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          ) * 24 * 60
+        ) AS DURATION_DAYTIME,
+
+        -- Thời gian ban đêm: 00:00–05:00 và 22:00–23:59:59 cùng ngày SDATE
+        (
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 05:00:00', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 00:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          )
+          +
+          GREATEST(
+            LEAST(
+              NVL(TO_DATE(EDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                  TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')),
+              TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 23:59:59', 'DD/MM/YYYY HH24:MI:SS')
+            )
+            - GREATEST(
+                TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'),
+                TO_DATE(TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD/MM/YYYY') || ' 22:00:00', 'DD/MM/YYYY HH24:MI:SS')
+              ),
+            0
+          )
+        ) * 24 * 60 AS DURATION_NIGHTTIME
+
+        FROM MLL_MB
+        WHERE 1=1
+        AND (:dvt IS NULL OR 
+            CASE MA_PHONG_XL
+              WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
+              WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
+              WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
+              WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
+              WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
+              WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
+              WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
+              ELSE N'Khác'
+            END = :dvt)
+        
+        AND (:year IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'YYYY') = :year)
+        AND (:month IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') = :month)
+        AND (:day IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') = :day)
+      ORDER BY DVT, PERIOD
+    `;
+
+      while (hasMore) {
+        const binds = {
+          dvt,
+          year,
+          month,
+          day
+        };
+
+        const result = await connection.execute(sql, binds, {
+          outFormat: oracledb.OUT_FORMAT_OBJECT,
+          maxRows: batchSize,
+          fetchArraySize: batchSize
+        });
+
+        const rows = result.rows;
+
+        if (rows.length === 0) {
+          hasMore = false;
+          break;
+        }
+
+        for (const row of rows) {
+          const period = row.PERIOD;
+          const dvtKey = dvt ? (row.DVT || dvt) : "Trung tâm miền Bắc";
+          const MA_TO_XL = row.MA_TO_XL || 'Không rõ';
+          const key = `${MA_TO_XL}_${dvtKey}_${period}`;
+
+          const duration = row.DURATION_IN_DAY || 0;
+          const duration_daytime = row.DURATION_DAYTIME || 0;
+          const duration_nighttime = row.DURATION_NIGHTTIME || 0;
+
+          if (!groupedData[key]) {
+            groupedData[key] = {
+              dvt: dvtKey,
+              MA_TO_XL: MA_TO_XL,
+              period,
+              sum_total: 0,
+              sum_daytime: 0,
+              sum_nighttime: 0,
+              count: 0,
+            };
+          }
+
+          groupedData[key].sum_total += duration;
+          groupedData[key].sum_daytime += duration_daytime;
+          groupedData[key].sum_nighttime += duration_nighttime;
+          groupedData[key].count += 1;
+        }
+
+
+        if (onBatch) {
+          const batchSummary = Object.values(groupedData).map(data => {
+            const parts = data.period.split('-');
+            let formattedPeriod = '';
+
+            if (parts.length === 1) {
+              formattedPeriod = `Năm ${parts[0]}`;
+            } else if (parts.length === 2) {
+              formattedPeriod = `Tháng ${parts[1]} năm ${parts[0]}`;
+            } else if (parts.length === 3) {
+              formattedPeriod = `Ngày ${parts[2]} tháng ${parts[1]} năm ${parts[0]}`;
+            }
+
+            return {
+              MA_TO_XL: data.MA_TO_XL,
+              DVT: data.dvt,
+              PERIOD: formattedPeriod,
+              AVG_DURATION_TOTAL: data.sum_total / data.count,
+              AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+              AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
+            };
+          });
+
+          await onBatch(batchSummary);
+        }
+
+        offset += rows.length;
+        if (rows.length < batchSize) {
+          hasMore = false;
+        }
+      }
+
+      // Final return
+      return Object.values(groupedData).map(data => {
+        const parts = data.period.split('-');
+        let formattedPeriod = '';
+
+        if (parts.length === 1) {
+          formattedPeriod = `Năm ${parts[0]}`;
+        } else if (parts.length === 2) {
+          formattedPeriod = `Tháng ${parts[1]} năm ${parts[0]}`;
+        } else if (parts.length === 3) {
+          formattedPeriod = `Ngày ${parts[2]} tháng ${parts[1]} năm ${parts[0]}`;
+        }
+
+        return {
+          MA_TO_XL: data.MA_TO_XL,
+          DVT: data.dvt,
+          PERIOD: formattedPeriod,
+          AVG_DURATION_TOTAL: data.sum_total / data.count,
+          AVG_DURATION_DAYTIME: data.sum_daytime / data.count,
+          AVG_DURATION_NIGHTTIME: data.sum_nighttime / data.count,
+        };
+      });
+
+
+
+  } finally {
+    await connection.close();
+  }
+}
+
+
+
+module.exports = { getAllStats, getAverageDuration,getAverageDurationDetail, getSlicerOptions, getAverageDurationDetailProvince};

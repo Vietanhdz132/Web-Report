@@ -88,6 +88,8 @@ class MLLMBController {
     }
   }
 
+  
+
   async getAverageDurationDetail(req, res) {
     try {
       const { dvt, year, month, day } = req.query;
@@ -119,6 +121,35 @@ class MLLMBController {
     }
   }
 
+  async getAverageDurationDetailProvince(req, res) {
+      try {
+        const { dvt, year, month, day } = req.query;
+        const rows = await MLLMB.getAverageDurationDetailProvince({ dvt, year, month, day });
+
+        const groupedData = rows.reduce((acc, row) => {
+          const key = `${row.DVT}|${row.PERIOD}`;
+          if (!acc[key]) acc[key] = { DVT: row.DVT, PERIOD: row.PERIOD, items: [] };
+          acc[key].items.push(row); // mỗi row giờ sẽ có thêm PROVINCE
+          return acc;
+        }, {});
+
+
+
+        // Convert object thành mảng
+        const response = Object.values(groupedData);
+
+        res.json({
+          success: true,
+          data: response,
+        });
+      } catch (error) {
+        console.error('Error in averageDurationHandler:', error);
+        res.status(500).json({
+          success: false,
+          error: error.message || 'Internal server error',
+        });
+      }
+  }
 
   async viewAverageCard(req, res) {
     try {

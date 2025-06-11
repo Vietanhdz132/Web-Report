@@ -7,7 +7,7 @@
     <div class="filter-item">
       <label for="stationSelect">Đài:</label>
       <select id="stationSelect">
-        <option value="all">Tất cả đài</option>
+        <option value="all">Tất cả các đài</option>
       </select>
     </div>
 
@@ -18,122 +18,83 @@
     <div class="filter-item">
       <label for="monthSelect">Tháng:</label>
       <select id="monthSelect">
-        <option value="all">Tất cả tháng</option>
+        <option value="all">Tất cả các tháng</option>
       </select>
     </div>
     <div class="filter-item">
       <label for="daySelect">Ngày:</label>
       <select id="daySelect">
-        <option value="all">Tất cả ngày</option>
+        <option value="all">Tất cả các ngày</option>
       </select>
     </div>
   </div>
 </div>
 
-<div class = "body-dashboard">
+<div class="body-dashboard">
+  <!-- PHẦN TRÊN -->
+  <div class="item-1">
+    <!-- Thống kê tổng hợp -->
+    <div class="item-sum">
+      <div class="item-sum-1">
+        <div class="stat-card">
+          <div class="stat-title">Thời gian MLL trung bình</div>
+          <div class="stat-unit" id="unit-average-card"></div>
+          <div id="average-card" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card"></div>
+        </div>
 
-  <div class = "item-sum">
+        <div class="stat-card">
+          <div class="stat-title">Thời gian MLL trung bình ngày</div>
+          <div class="stat-unit" id="unit-average-card-day"></div>
+          <div id="average-card-day" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card-day"></div>
+        </div>
+      </div>
 
-    {{!-- <div id="average-card" >
-      <p>Đang tải...</p>
-    </div> --}}
+      <div class="item-sum-1">
+        <div class="stat-card">
+          <div class="stat-title">Thời gian MLL trung bình đêm</div>
+          <div class="stat-unit" id="unit-average-card-night"></div>
+          <div id="average-card-night" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card-night"></div>
+        </div>
 
-    <div  class="stat-card">
-      <div class="stat-title">Thời gian MLL trung bình</div>
-      <div class="stat-unit" id="unit-average-card" ></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
+        <div class="stat-card">
+          <div class="stat-title">Avg TgMLL</div>
+          <div class="stat-unit" id="unit-average-card"></div>
+          <div id="average-card" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Biểu đồ bên phải -->
+    <div class="item-deltail">
+      <div class="item-body">
+        <div class="stat-card">
+          <div id = "stat-title-dvt" class="stat-title">Thời gian mất liên lạc trung bình theo Đài</div>
+          <div id="custom-legend" style="margin-bottom: 10px;"></div>
+
+          <canvas id="mllChart"></canvas>
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHẦN DƯỚI: Biểu đồ dài -->
+  <div class="item-2">
+    <div class="stat-card">
+      <div id = "stat-title-to" class="stat-title">Thời gian mất liên lạc trung bình theo Tổ</div>
+      <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
+
+      <canvas id="chartSummary"></canvas>
       
-
-
-    </div>
-
-    <div  class="stat-card">
-      <div class="stat-title">Thời gian MLL trung bình ngày</div>
-      <div class="stat-unit" id="unit-average-card-day" ></div>
-      <div id="average-card-day" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card-day" ></div>
-    </div>
-
-    <div  class="stat-card">
-      <div class="stat-title">Thời gian MLL trung bình đêm</div>
-      <div class="stat-unit" id="unit-average-card-night" ></div>
-      <div id="average-card-night" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card-night" ></div>
-    </div>
-
-    <div  class="stat-card">
-      <div class="stat-title">Avg TgMLL</div>
-      <div class="stat-unit" id="unit-average-card" ></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-   
-
-  </div>
-
-
-  <div class="item-deltail">
-
-    <div class = "item-body">
-
-    <div class="stat-card">
-      <div class="stat-title">Thời gian mất liên lạc trung bình theo Đài</div>
-      <canvas id="mllChart"></canvas>
-      <div class="stat-footer" id="date-average-detail-card" ></div>
-    </div>
-
-
-    <div  class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div  class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-  </div>
-
-  
-
-  <div class = "item-body">
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
-    </div>
-
-    <div class="stat-card">
-      <div class="stat-title"></div>
-      <div id="average-card" class="stat-value loader"></div>
-      <div class="stat-footer" id="date-average-card" ></div>
     </div>
   </div>
-
 </div>
-  </div>
+
 
 
 
@@ -305,7 +266,8 @@
   fetchDayData();
 
 </script> --}}
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 <script>
   async function loadSlicers() {
     try {
@@ -315,7 +277,6 @@
       if (!json.success) throw new Error("API trả về thất bại");
 
       const { DVT, DATE_TREE } = json.data;
-
       window.DATE_TREE = DATE_TREE;
 
       const stationSelect = document.getElementById('stationSelect');
@@ -331,7 +292,7 @@
         stationSelect.appendChild(option);
       });
 
-      // Populate Năm
+      // Populate Năm và chọn latestYear
       const years = Object.keys(DATE_TREE).sort();
       yearSelect.innerHTML = '';
       years.forEach(year => {
@@ -340,17 +301,42 @@
         option.textContent = year;
         yearSelect.appendChild(option);
       });
-
       const latestYear = years[years.length - 1];
       yearSelect.value = latestYear;
 
-      populateMonths(latestYear); // tháng mặc định: tất cả + danh sách
+      // Populate Tháng và chọn latestMonth
+      const months = Object.keys(DATE_TREE[latestYear] || {}).sort();
+      let latestMonth = 'all';
+      if (months.length > 0) {
+        latestMonth = months[months.length - 1];
+      }
+      populateMonths(latestYear, latestMonth);
+
+      // **BỔ SUNG gọi populateDays cho tháng mặc định**
+      if (latestMonth !== 'all') {
+        populateDays(latestYear, latestMonth);
+      } else {
+        clearDays(false);
+      }
+
+      // Sau đó gọi API
+      fetchAverageDurations();
+
 
       // --- Events ---
       yearSelect.addEventListener('change', () => {
         const selectedYear = yearSelect.value;
-        populateMonths(selectedYear); // cập nhật lại tháng khi đổi năm
-        clearDays(); // reset ngày
+        // Lấy tháng lớn nhất trong năm mới chọn
+        const monthsNew = Object.keys(DATE_TREE[selectedYear] || {}).sort();
+        let newLatestMonth = 'all';
+        if (monthsNew.length > 0) {
+          newLatestMonth = monthsNew[monthsNew.length - 1];
+        }
+        populateMonths(selectedYear, newLatestMonth);
+        clearDays(false); // reset ngày về all mà KHÔNG gọi API ngay
+
+        // Sau khi cập nhật tháng và ngày xong mới gọi API 1 lần
+        fetchAverageDurations();
       });
 
       monthSelect.addEventListener('change', () => {
@@ -359,18 +345,25 @@
         if (selectedMonth !== 'all') {
           populateDays(selectedYear, selectedMonth);
         } else {
-          clearDays();
+          clearDays(false); // KHÔNG gọi API ngay
         }
-        fetchAverageDurations(); // GỌI LẠI API SAU KHI CHỌN THÁNG
+        fetchAverageDurations(); // Gọi API ngay sau khi thay đổi tháng
       });
 
+
+      attachSlicerEvents();
+      fetchAverageDurations();   // Gọi API lấy dữ liệu trung bình
+      fetchDataAndUpdateChart();
+      fetchDataAndUpdateChartTo()
 
     } catch (err) {
       console.error("Lỗi khi tải slicer:", err);
     }
   }
 
-  function populateMonths(year) {
+
+  // Sửa hàm populateMonths có thêm param chọn tháng mặc định
+  function populateMonths(year, selectedMonth = 'all') {
     const months = Object.keys(DATE_TREE[year] || {}).sort();
     const monthSelect = document.getElementById('monthSelect');
     monthSelect.innerHTML = '';
@@ -387,8 +380,9 @@
       monthSelect.appendChild(option);
     });
 
-    monthSelect.value = 'all';
+    monthSelect.value = selectedMonth;
   }
+
 
   function populateDays(year, month) {
     const days = (DATE_TREE[year] && DATE_TREE[year][month]) || [];
@@ -411,7 +405,8 @@
     daySelect.value = 'all';
   }
 
-  function clearDays() {
+
+  function clearDays(callFetch = true) {
     const daySelect = document.getElementById('daySelect');
     daySelect.innerHTML = '';
     const allOption = document.createElement('option');
@@ -419,7 +414,9 @@
     allOption.textContent = 'Tất cả ngày';
     daySelect.appendChild(allOption);
     daySelect.value = 'all';
-    fetchAverageDurations(); // GỌI LẠI API SAU KHI RESET NGÀY
+    if (callFetch) {
+      fetchAverageDurations(); // GỌI LẠI API SAU KHI RESET NGÀY
+    }
   }
 
 
@@ -475,6 +472,7 @@
     }
   }
 
+
   function attachSlicerEvents() {
     ['stationSelect', 'yearSelect', 'monthSelect', 'daySelect'].forEach(id => {
       const element = document.getElementById(id);
@@ -484,18 +482,7 @@
     });
   }
 
-  // Gọi khi trang tải xong
-  window.onload = function () {
-    loadSlicers();     // Tải dữ liệu vào slicer
-    attachSlicerEvents();
-    fetchAverageDurations();  // Lắng nghe thay đổi
-  };
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
-
-<script>
+ 
   const chartCanvas = document.getElementById('mllChart');
   let chartInstance = null;
 
@@ -514,174 +501,463 @@
     const response = await fetch(`/dashboard/average-duration-detail?${query.toString()}`);
     const json = await response.json();
     const data = json.data;
-
     const labels = data.map(entry => entry.DVT);
     const daytimeData = data.map(entry => entry.items[0]?.AVG_DURATION_DAYTIME || 0);
     const nighttimeData = data.map(entry => entry.items[0]?.AVG_DURATION_NIGHTTIME || 0);
 
-    const footer = document.getElementById('date-average-detail-card');
-    footer.innerText = data[0]?.PERIOD || 'Không có dữ liệu';
+    const footer = document.getElementById('stat-title-dvt');
+      if (footer && data?.[0]?.PERIOD) {
+        footer.innerHTML = `Thời gian mất liên lạc trung bình theo Đài (${data[0].PERIOD})`;
+      } else if (footer) {
+        footer.innerText = 'Không có dữ liệu';
+      }
+
     
     updateChart(labels, daytimeData, nighttimeData);
   }
 
+
   function updateChart(labels, daytimeData, nighttimeData) {
-  if (chartInstance) chartInstance.destroy();
+    if (chartInstance) chartInstance.destroy();
 
-  const ctx = chartCanvas.getContext('2d'); // lấy context 2d của canvas
+    const ctx = chartCanvas.getContext('2d');
 
-  // Gradient Bar ngày
-  const daytimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
-  daytimeGradient.addColorStop(0, '#f9e79f');
-  daytimeGradient.addColorStop(1, '#f1c40f');
+    // Gradients
+    const daytimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    daytimeGradient.addColorStop(0, '#f9e79f');
+    daytimeGradient.addColorStop(1, '#f1c40f');
 
-  // Gradient Bar đêm
-  const nighttimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
-  nighttimeGradient.addColorStop(0, '#85c1e9');
-  nighttimeGradient.addColorStop(1, '#3498db');
+    const nighttimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    nighttimeGradient.addColorStop(0, '#85c1e9');
+    nighttimeGradient.addColorStop(1, '#3498db');
 
-  // Gradient Line tổng
-  const lineGradient = ctx.createLinearGradient(0, 0, chartCanvas.width, 0);
-  lineGradient.addColorStop(0, '#e74c3c');
-  lineGradient.addColorStop(1, '#c0392b');
+    const lineGradient = ctx.createLinearGradient(0, 0, chartCanvas.width, 0);
+    lineGradient.addColorStop(0, '#e74c3c');
+    lineGradient.addColorStop(1, '#c0392b');
 
-  const totalData = labels.map((_, i) => daytimeData[i] + nighttimeData[i]);
+    const totalData = labels.map((_, i) => daytimeData[i] + nighttimeData[i]);
 
-  chartInstance = new Chart(chartCanvas, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [
-        {
-          label: 'Ban ngày (phút)',
-          data: daytimeData,
-          backgroundColor: daytimeGradient,
-          borderRadius: 12,
-          barPercentage: 0.6,
-          stack: 'stack1',
-          hoverBackgroundColor: '#f39c12',
-          datalabels: {
-            color: '#000',
-            anchor: 'center',
-            align: 'center',
-            formatter: value => value.toFixed(2),
-            font: { weight: 'bold', size: 10 }
-          }
-        },
-         {
-          label: 'Ban đêm (phút)',
-          data: nighttimeData,
-          backgroundColor: nighttimeGradient,
-          borderRadius: 12,
-          barPercentage: 0.6,
-          stack: 'stack1',
-          hoverBackgroundColor: '#2980b9',
-          datalabels: {
-            color: '#000',
-            anchor: 'center',
-            align: 'center',
-            formatter: value => value.toFixed(2),
-            font: { weight: 'bold', size: 10 }
-          }
-        },
-        {
-          label: 'Tổng (phút)',
-          data: totalData,
-          type: 'line',
-          yAxisID: 'y',
-          order: 99,
-          stack: null,
-          borderColor: lineGradient,
-          backgroundColor: 'rgba(231, 76, 60, 0.2)',
-          borderWidth: 3,
-          pointRadius: 3,
-          pointHoverRadius: 8,
-          pointBackgroundColor: '#e74c3c',
-          pointHoverBackgroundColor: '#c0392b',
-          fill: false,
-          tension: 0.4,
-          datalabels: {
-            align: 'end',
-            anchor: 'end',
-            offset: -5,
-            color: '#e74c3c',
-            formatter: value => `${value.toFixed(2)}`,
-            font: { weight: 'bold', size: 11 }
-          }
-        }
-      ]
-    },
-    options: {
-      responsive: true,
-      animation: {
-        duration: 1000,
-        easing: 'easeOutQuart'
-      },
-      plugins: {
-        legend: {
-          position: 'top',
-          labels: {
-            font: { weight: 'bold', size: 14 }
-          }
-        },
-        legend: {
-          position: 'top',
-          labels: {
-            font: {
-              weight: 'bold',
-              size: 14
+    chartInstance = new Chart(chartCanvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Ban ngày (phút)',
+            data: daytimeData,
+            backgroundColor: daytimeGradient,
+            borderRadius: 12,
+            barPercentage: 0.6,
+            stack: 'stack1',
+            hoverBackgroundColor: '#f39c12',
+            datalabels: {
+              color: '#000',
+              anchor: 'center',
+              align: 'center',
+              formatter: value => value.toFixed(2),
+              font: { weight: 'bold', size: 10 }
             },
-            padding: 10,
-            usePointStyle: true,
-            pointStyle: 'rectRounded'
+            _legendColor: '#f1c40f' // dùng cho chú thích
+          },
+          {
+            label: 'Ban đêm (phút)',
+            data: nighttimeData,
+            backgroundColor: nighttimeGradient,
+            borderRadius: 12,
+            barPercentage: 0.6,
+            stack: 'stack1',
+            hoverBackgroundColor: '#2980b9',
+            datalabels: {
+              color: '#000',
+              anchor: 'center',
+              align: 'center',
+              formatter: value => value.toFixed(2),
+              font: { weight: 'bold', size: 10 }
+            },
+            _legendColor: '#3498db'
+          },
+          {
+            label: 'Tổng (phút)',
+            data: totalData,
+            type: 'line',
+            yAxisID: 'y',
+            order: 99,
+            stack: null,
+            borderColor: lineGradient,
+            backgroundColor: 'rgba(231, 76, 60, 0.2)',
+            borderWidth: 3,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#e74c3c',
+            pointHoverBackgroundColor: '#c0392b',
+            fill: false,
+            tension: 0.4,
+            datalabels: {
+              align: 'end',
+              anchor: 'end',
+              offset: -5,
+              color: '#e74c3c',
+              formatter: value => `${value.toFixed(2)}`,
+              font: { weight: 'bold', size: 11 }
+            },
+            _legendColor: '#e74c3c'
           }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1000,
+          easing: 'easeOutQuart'
         },
-        tooltip: {
-          mode: 'index',
-          intersect: false,
-          backgroundColor: 'rgba(0,0,0,0.8)',
-          titleFont: { weight: 'bold', size: 14 },
-          bodyFont: { size: 13 },
-          callbacks: {
-            label: ctx => {
-              const val = ctx.raw;
-              return `${ctx.dataset.label}: ${val.toFixed(2)} phút`;
+        plugins: {
+              legend: { display: false }, // Tắt legend mặc định
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleFont: { weight: 'bold', size: 14 },
+                bodyFont: { size: 13 },
+                callbacks: {
+                  label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(2)} phút`
+                }
+              },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            titleFont: { weight: 'bold', size: 14 },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: ctx => {
+                const val = ctx.raw;
+                return `${ctx.dataset.label}: ${val.toFixed(2)} phút`;
+              }
             }
+          },
+          datalabels: {
+            display: true,
+            clamp: true
           }
         },
-        datalabels: {
-          display: true,
-          clamp: true
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        layout: {
+          padding: {
+            bottom: 30  // tạo khoảng cách để trục X không bị che
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            grid: { display: false },
+            ticks: {
+              font: { weight: 'bold' },
+              maxRotation: 45,  // xoay nhẹ cho dễ đọc
+              minRotation: 0,
+              autoSkip: false,  // không bỏ qua nhãn trục x
+              maxTicksLimit: 10 // giới hạn số nhãn tối đa tránh tràn
+            },
+            title: {
+              display: true,
+              
+              font: { weight: 'bold', size: 14 }
+            }
+          },
+          y: {
+            stacked: true,
+            grid: { display: false },
+            ticks: { font: { weight: 'bold' } }
+          }
+        },
+        // Thêm barThickness để cột mảnh hơn
+        // Nếu bạn dùng loại biểu đồ cột (bar), thêm phần này:
+        elements: {
+          bar: {
+            barThickness: 15, // giảm độ rộng cột
+            maxBarThickness: 20
+          }
         }
       },
-      interaction: {
-        mode: 'index',
-        intersect: false
-      },
-      scales: {
-        x: { stacked: true, grid: { display: false }, ticks: { font: { weight: 'bold' } } },
-        y: {
-          stacked: true,
-          grid: { display: false },
-        
-          ticks: { font: { weight: 'bold' } }
-        }
+
+
+        plugins: [ChartDataLabels]
+      });
+
+      // === Custom Legend as Checkbox ===
+      const legendContainer = document.getElementById('custom-legend');
+      legendContainer.innerHTML = chartInstance.data.datasets.map((ds, i) => `
+        <label style="margin-right: 16px; cursor: pointer; user-select: none; display: inline-flex; align-items: center;">
+          <input type="checkbox" data-index="${i}" checked style="margin-right: 6px;" />
+          <span style="
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            background-color: ${ds._legendColor};
+            margin-right: 6px;
+          "></span>
+          <span style="font-weight: bold;">${ds.label}</span>
+        </label>
+      `).join('');
+
+      legendContainer.querySelectorAll('input[type="checkbox"]').forEach(input => {
+        input.addEventListener('change', function () {
+          const index = +this.dataset.index;
+          chartInstance.getDatasetMeta(index).hidden = !this.checked;
+          chartInstance.update();
+        });
+      });
+    }
+
+
+    // Gọi hàm khi filter thay đổi
+    yearSelect.addEventListener('change', fetchDataAndUpdateChart);
+    monthSelect.addEventListener('change', fetchDataAndUpdateChart);
+    daySelect.addEventListener('change', fetchDataAndUpdateChart);
+
+  const chartCanvasTo = document.getElementById('chartSummary');
+  let chartInstanceTo = null;
+
+  async function fetchDataAndUpdateChartTo() {
+    const dvt = stationSelect.value;
+    const year = yearSelect.value;
+    const month = monthSelect.value;
+    const day = daySelect.value;
+
+    const query = new URLSearchParams();
+    if (dvt !== 'all') query.append('dvt', dvt);
+    if (year !== 'all') query.append('year', year);
+    if (month !== 'all') query.append('month', month);
+    if (day !== 'all') query.append('day', day);
+
+    const response = await fetch(`/dashboard/average-duration-detail-province?${query.toString()}`);
+    const json = await response.json();
+    const data = json.data;
+    const rawData = json.data?.[0]?.items ?? [];
+
+    const labels = rawData.map(entry => entry.MA_TO_XL);
+    const daytimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_DAYTIME) || 0);
+    const nighttimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_NIGHTTIME) || 0);
+
+    const footer = document.getElementById('stat-title-to');
+      if (footer && data?.[0]?.PERIOD) {
+        footer.innerHTML = `Thời gian mất liên lạc trung bình theo Tổ (${data[0].PERIOD})`;
+      } else if (footer) {
+        footer.innerText = 'Không có dữ liệu';
       }
-    },
-    plugins: [ChartDataLabels]
-  });
-}
+
+    updateChartTo(labels, daytimeData, nighttimeData);
+
+  
+  }
 
 
+  function updateChartTo(labels, daytimeData, nighttimeData) {
+    if (chartInstanceTo) chartInstanceTo.destroy();
+
+    const ctx = chartCanvasTo.getContext('2d');
+
+    // Gradients
+    const daytimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    daytimeGradient.addColorStop(0, '#f9e79f');
+    daytimeGradient.addColorStop(1, '#f1c40f');
+
+    const nighttimeGradient = ctx.createLinearGradient(0, 0, 0, 400);
+    nighttimeGradient.addColorStop(0, '#85c1e9');
+    nighttimeGradient.addColorStop(1, '#3498db');
+
+    const lineGradient = ctx.createLinearGradient(0, 0, chartCanvasTo.width, 0);
+    lineGradient.addColorStop(0, '#e74c3c');
+    lineGradient.addColorStop(1, '#c0392b');
+
+    const totalData = labels.map((_, i) => daytimeData[i] + nighttimeData[i]);
+
+    chartInstanceTo = new Chart(chartCanvasTo, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Ban ngày (phút)',
+            data: daytimeData,
+            backgroundColor: daytimeGradient,
+            borderRadius: 12,
+            barPercentage: 0.6,
+            stack: 'stack1',
+            hoverBackgroundColor: '#f39c12',
+            datalabels: {
+              color: '#000',
+              anchor: 'center',
+              align: 'center',
+              formatter: value => value.toFixed(2),
+              font: { weight: 'bold', size: 10 }
+            },
+            _legendColor: '#f1c40f' // dùng cho chú thích
+          },
+          {
+            label: 'Ban đêm (phút)',
+            data: nighttimeData,
+            backgroundColor: nighttimeGradient,
+            borderRadius: 12,
+            barPercentage: 0.6,
+            stack: 'stack1',
+            hoverBackgroundColor: '#2980b9',
+            datalabels: {
+              color: '#000',
+              anchor: 'center',
+              align: 'center',
+              formatter: value => value.toFixed(2),
+              font: { weight: 'bold', size: 10 }
+            },
+            _legendColor: '#3498db'
+          },
+          {
+            label: 'Tổng (phút)',
+            data: totalData,
+            type: 'line',
+            yAxisID: 'y',
+            order: 99,
+            stack: null,
+            borderColor: lineGradient,
+            backgroundColor: 'rgba(231, 76, 60, 0.2)',
+            borderWidth: 3,
+            pointRadius: 3,
+            pointHoverRadius: 5,
+            pointBackgroundColor: '#e74c3c',
+            pointHoverBackgroundColor: '#c0392b',
+            fill: false,
+            tension: 0.4,
+            datalabels: {
+              align: 'end',
+              anchor: 'end',
+              offset: -5,
+              color: '#e74c3c',
+              formatter: value => `${value.toFixed(2)}`,
+              font: { weight: 'bold', size: 11 }
+            },
+            _legendColor: '#e74c3c'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: {
+          duration: 1000,
+          easing: 'easeOutQuart'
+        },
+        plugins: {
+              legend: { display: false }, // Tắt legend mặc định
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+                backgroundColor: 'rgba(0,0,0,0.8)',
+                titleFont: { weight: 'bold', size: 14 },
+                bodyFont: { size: 13 },
+                callbacks: {
+                  label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(2)} phút`
+                }
+              },
+          tooltip: {
+            mode: 'index',
+            intersect: false,
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            titleFont: { weight: 'bold', size: 14 },
+            bodyFont: { size: 13 },
+            callbacks: {
+              label: ctx => {
+                const val = ctx.raw;
+                return `${ctx.dataset.label}: ${val.toFixed(2)} phút`;
+              }
+            }
+          },
+          datalabels: {
+            display: true,
+            clamp: true
+          }
+        },
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        layout: {
+          padding: {
+            bottom: 60  // tạo khoảng cách để trục X không bị che
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            offset:true,
+            grid: { display: false },
+            ticks: {
+              font: { weight: 'bold' },
+              maxRotation: 45,  // xoay nhẹ cho dễ đọc
+              minRotation: 0,
+              autoSkip: true,  // không bỏ qua nhãn trục x
+              maxTicksLimit: 100 // giới hạn số nhãn tối đa tránh tràn
+            },
+            
+          },
+          y: {
+            stacked: true,
+            grid: { display: false },
+            ticks: { font: { weight: 'bold' } }
+          }
+        },
+        // Thêm barThickness để cột mảnh hơn
+        // Nếu bạn dùng loại biểu đồ cột (bar), thêm phần này:
+        elements: {
+          bar: {
+            barThickness: 15, // giảm độ rộng cột
+            maxBarThickness: 20
+          }
+        }
+      },
 
 
-  // Gọi hàm khi filter thay đổi
-  stationSelect.addEventListener('change', fetchDataAndUpdateChart);
-  yearSelect.addEventListener('change', fetchDataAndUpdateChart);
-  monthSelect.addEventListener('change', fetchDataAndUpdateChart);
-  daySelect.addEventListener('change', fetchDataAndUpdateChart);
+          plugins: [ChartDataLabels]
+        });
 
+        // === Custom Legend as Checkbox ===
+        const legendContainer = document.getElementById('custom-legend-province');
+        legendContainer.innerHTML = chartInstanceTo.data.datasets.map((ds, i) => `
+          <label style="margin-right: 16px; cursor: pointer; user-select: none; display: inline-flex; align-items: center;">
+            <input type="checkbox" data-index="${i}" checked style="margin-right: 6px;" />
+            <span style="
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+              border-radius: 3px;
+              background-color: ${ds._legendColor};
+              margin-right: 6px;
+            "></span>
+            <span style="font-weight: bold;">${ds.label}</span>
+          </label>
+        `).join('');
+
+        legendContainer.querySelectorAll('input[type="checkbox"]').forEach(input => {
+          input.addEventListener('change', function () {
+            const index = +this.dataset.index;
+            chartInstanceTo.getDatasetMeta(index).hidden = !this.checked;
+            chartInstanceTo.update();
+          });
+        });
+      }
+
+
+    // Gọi hàm khi filter thay đổi
+    stationSelect.addEventListener('change', fetchDataAndUpdateChartTo);
+    yearSelect.addEventListener('change', fetchDataAndUpdateChartTo);
+    monthSelect.addEventListener('change', fetchDataAndUpdateChartTo);
+    daySelect.addEventListener('change', fetchDataAndUpdateChartTo);
   // Gọi lần đầu
-  fetchDataAndUpdateChart();
+  window.onload = () => {
+  loadSlicers();
+};
 </script>
 
