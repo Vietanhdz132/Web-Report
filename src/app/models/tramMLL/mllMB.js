@@ -1,5 +1,6 @@
 const oracledb = require('oracledb');
 const { getConnection } = require('../../../config/db/oracleClient');
+const { executeQuery } = require('../../../config/db/oracleClient');
 
 async function getAllStats(page = 1, pageSize = 50) {
   const offset = (page - 1) * pageSize;
@@ -149,64 +150,57 @@ async function getAllStats(page = 1, pageSize = 50) {
 }
 
 async function getSlicerOptions() {
-  const connection = await getConnection();
+  const query = `
+    SELECT DISTINCT
+      CASE MA_PHONG_XL
+        WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
+        WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
+        WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
+        WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
+        WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
+        WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
+        WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
+        ELSE N'Khác'
+      END AS DVT,
+      TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'YYYY') AS YEAR,
+      TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') AS MONTH,
+      TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') AS DAY
+    FROM MLL_MB
+    WHERE SDATE IS NOT NULL
+  `;
 
-  try {
-    const query = `
-      SELECT DISTINCT
-        CASE MA_PHONG_XL
-          WHEN N'DVT_Ha_Noi_1' THEN N'ĐVT Hà Nội 1'
-          WHEN N'DVT_Ha_Noi_2' THEN N'ĐVT Hà Nội 2'
-          WHEN N'DVT_Hai_Phong' THEN N'ĐVT Hải Phòng'
-          WHEN N'DVT_Nam_Dinh' THEN N'ĐVT Nam Định'
-          WHEN N'DVT_Nghe_An' THEN N'ĐVT Nghệ An'
-          WHEN N'DVT_Thai_Nguyen' THEN N'ĐVT Thái Nguyên'
-          WHEN N'DVT_Vinh_Phuc' THEN N'ĐVT Vĩnh Phúc'
-          ELSE N'Khác'
-        END AS DVT,
-        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'YYYY') AS YEAR,
-        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') AS MONTH,
-        TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') AS DAY
-      FROM MLL_MB
-      WHERE SDATE IS NOT NULL
-    `;
+  const result = await executeQuery(query, [], { outFormat: oracledb.OUT_FORMAT_OBJECT });
+  const rows = result.rows;
 
-    const result = await connection.execute(query, [], { outFormat: oracledb.OUT_FORMAT_OBJECT });
-    const rows = result.rows;
+  const dvtSet = new Set();
+  const dateTree = {};
 
-    const dvtSet = new Set();
-    const dateTree = {}; // year -> month -> day array
+  for (const row of rows) {
+    const { DVT, YEAR, MONTH, DAY } = row;
+    if (DVT) dvtSet.add(DVT);
 
-    for (const row of rows) {
-      const { DVT, YEAR, MONTH, DAY } = row;
-      if (DVT) dvtSet.add(DVT);
+    if (YEAR && MONTH && DAY) {
+      const y = YEAR;
+      const m = MONTH.padStart(2, '0');
+      const d = DAY.padStart(2, '0');
 
-      if (YEAR && MONTH && DAY) {
-        const y = YEAR;
-        const m = MONTH.padStart(2, '0');
-        const d = DAY.padStart(2, '0');
+      if (!dateTree[y]) dateTree[y] = {};
+      if (!dateTree[y][m]) dateTree[y][m] = new Set();
 
-        if (!dateTree[y]) dateTree[y] = {};
-        if (!dateTree[y][m]) dateTree[y][m] = new Set();
-
-        dateTree[y][m].add(d);
-      }
+      dateTree[y][m].add(d);
     }
-
-    // Convert sets to arrays and sort
-    for (const y in dateTree) {
-      for (const m in dateTree[y]) {
-        dateTree[y][m] = [...dateTree[y][m]].sort();
-      }
-    }
-
-    return {
-      DVT: [...dvtSet].sort((a, b) => a.localeCompare(b, 'vi')),
-      DATE_TREE: dateTree,
-    };
-  } finally {
-    await connection.close();
   }
+
+  for (const y in dateTree) {
+    for (const m in dateTree[y]) {
+      dateTree[y][m] = [...dateTree[y][m]].sort();
+    }
+  }
+
+  return {
+    DVT: [...dvtSet].sort((a, b) => a.localeCompare(b, 'vi')),
+    DATE_TREE: dateTree,
+  };
 }
 
 
@@ -587,6 +581,7 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
         AND (:month IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') = :month)
         AND (:day IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') = :day)
       ORDER BY DVT, PERIOD
+      OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY
     `;
 
       while (hasMore) {
@@ -594,7 +589,9 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
           dvt,
           year,
           month,
-          day
+          day,
+          offset,
+          limit: batchSize
         };
 
         const result = await connection.execute(sql, binds, {
@@ -609,7 +606,11 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
           hasMore = false;
           break;
         }
-
+        
+        offset += rows.length;
+          if (rows.length < batchSize) {
+            hasMore = false;
+          }
         for (const row of rows) {
           const period = row.PERIOD;
 
@@ -1054,20 +1055,17 @@ async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
           AND (:month IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') = :month)
           AND (:day IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') = :day)
         ORDER BY DVT, PERIOD
+        OFFSET :offset ROWS FETCH NEXT :batchSize ROWS ONLY
+
+        
+        
       `;
 
         while (hasMore) {
-          const binds = {
-            dvt,
-            year,
-            month,
-            day
-          };
+          const binds = { dvt, year, month, day, offset, batchSize };
 
           const result = await connection.execute(sql, binds, {
             outFormat: oracledb.OUT_FORMAT_OBJECT,
-            maxRows: batchSize,
-            fetchArraySize: batchSize
           });
 
           const rows = result.rows;
@@ -1288,20 +1286,14 @@ async function getAverageDurationDetailProvince({ dvt, year, month, day, onBatch
         AND (:month IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'MM') = :month)
         AND (:day IS NULL OR TO_CHAR(TO_DATE(SDATE, 'MM/DD/YYYY HH:MI:SS AM'), 'DD') = :day)
       ORDER BY DVT, PERIOD
+      OFFSET :offset ROWS FETCH NEXT :batchSize ROWS ONLY
     `;
 
       while (hasMore) {
-        const binds = {
-          dvt,
-          year,
-          month,
-          day
-        };
+        const binds = { dvt, year, month, day, offset, batchSize };
 
         const result = await connection.execute(sql, binds, {
           outFormat: oracledb.OUT_FORMAT_OBJECT,
-          maxRows: batchSize,
-          fetchArraySize: batchSize
         });
 
         const rows = result.rows;

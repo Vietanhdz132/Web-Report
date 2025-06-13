@@ -1,9 +1,9 @@
-const ftpClient = require('../config/db/ftpClient');
-const oracleClient = require('../config/db/oracleClient');
+const ftpClient = require('../../../config/db/ftpClient');
+const oracleClient = require('../../../config/db/oracleClient');
 const csvParser = require('csv-parser');
 const fs = require('fs');
 const path = require('path');
-
+const unzipper = require('unzipper');
 const BATCH_SIZE = 10000;
 
 /**
@@ -90,14 +90,61 @@ async function syncData(remotePath, localPath, tableName, columns, mapRowFn) {
   });
 }
 
-
-async function importData(localPath, tableName, columns, mapRowFn) {
-  const localDir = path.dirname(localPath);
+async function downloadAndUnzipFromFTP(remoteZipPath, localZipPath) {
+  const localDir = path.dirname(localZipPath);
   if (!fs.existsSync(localDir)) {
     fs.mkdirSync(localDir, { recursive: true });
   }
 
+  // Kết nối và tải file .zip
+  await ftpClient.connect();
+  await ftpClient.downloadFile(remoteZipPath, localZipPath);
+  console.log(`✅ File .zip downloaded to ${localZipPath}`);
+  await ftpClient.close();
+  
+  // BGiải nén
+  const extractedFiles = [];
+  await new Promise((resolve, reject) => {
+    fs.createReadStream(localZipPath)
+      .pipe(unzipper.Parse())
+      .on('entry', function (entry) {
+        const fileName = entry.path;
+        const destPath = path.join(localDir, fileName);
 
+        if (fileName.endsWith('.csv')) {
+          extractedFiles.push(destPath);
+          entry.pipe(fs.createWriteStream(destPath));
+        } else {
+          entry.autodrain();
+        }
+      })
+      .on('error', reject)
+      .on('close', resolve);
+  });
+
+  // Xoá file zip sau khi giải nén
+  try {
+    fs.unlinkSync(localZipPath);
+    console.log(`🗑️ Deleted ZIP file: ${localZipPath}`);
+  } catch (err) {
+    console.warn(`⚠️ Could not delete ZIP file: ${err.message}`);
+  }
+
+  // Kiểm tra kết quả
+  if (extractedFiles.length === 0) {
+    throw new Error('❌ No CSV file found inside the ZIP');
+  }
+
+  console.log(`✅ Extracted CSV: ${extractedFiles[0]}`);
+  return extractedFiles[0];
+}
+
+async function importData(localPath, tableName, columns, mapRowFn) {
+  const localDir = path.dirname(localPath);
+  
+  if (!fs.existsSync(localDir)) {
+    fs.mkdirSync(localDir, { recursive: true });
+  }
   const connection = await oracleClient.getConnection();
   const fileStream = fs.createReadStream(localPath);
   const parser = csvParser({
@@ -108,14 +155,13 @@ async function importData(localPath, tableName, columns, mapRowFn) {
   }
 });
 
+  const placeholders = columns.map((_, i) => `:${i + 1}`).join(', ');
   const rowsBatch = [];
 
   return new Promise((resolve, reject) => {
     fileStream
       .pipe(parser)
       .on('data', async (row) => {
-        
-
         parser.pause();
         rowsBatch.push(row);
 
@@ -125,11 +171,7 @@ async function importData(localPath, tableName, columns, mapRowFn) {
             await connection.executeMany(
               `INSERT INTO ${tableName} (
                 ${columns.join(', ')}
-              ) VALUES (
-                :1, :2, :3, :4, :5, :6,
-                :7, :8, :9, :10, :11, :12, :13, :14, :15, :16,
-                :17, :18, :19, :20, :21
-              )`,
+              ) VALUES (${placeholders})`,
               binds,
               { autoCommit: false }
             );
@@ -151,11 +193,7 @@ async function importData(localPath, tableName, columns, mapRowFn) {
             await connection.executeMany(
               `INSERT INTO ${tableName} (
                 ${columns.join(', ')}
-              ) VALUES (
-                :1, :2, :3, :4, :5, :6,
-                :7, :8, :9, :10, :11, :12, :13, :14, :15, :16,
-                :17, :18, :19, :20, :21
-              )`,
+              ) VALUES (${placeholders})`,
               binds,
               { autoCommit: false }
             );
@@ -164,7 +202,6 @@ async function importData(localPath, tableName, columns, mapRowFn) {
 
           await connection.commit();
           await connection.close();
-        
 
           console.log('✅ Sync completed');
           resolve();
@@ -176,4 +213,4 @@ async function importData(localPath, tableName, columns, mapRowFn) {
   });
 }
 
-module.exports = { syncData, importData };
+module.exports = { syncData, importData, downloadAndUnzipFromFTP };
