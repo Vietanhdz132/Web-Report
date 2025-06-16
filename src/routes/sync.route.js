@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const axios = require('axios');
 const fs = require('fs');  
 const fsPromises = require('fs').promises;
 const { format } = require('date-fns');
@@ -49,7 +50,7 @@ router.get('/sync', async (req, res) => {
 
 router.get('/test-download', async (req, res) => {
   // Nhận remotePath từ query hoặc dùng mặc định nếu không có
-  const remotePath = req.query.remotePath || '/ALARM/MLL_MB_20250601.zip';
+  const remotePath = req.query.remotePath || '/ALARM/MLL_MB_20250614.zip';
 
   // Lấy tên file zip từ remotePath
   const fileName = path.basename(remotePath);
@@ -69,16 +70,19 @@ router.get('/test-download', async (req, res) => {
   }
 });
 
-
-
 router.get('/syncMLL', async (req, res) => {
   try {
-    const fileName = `MLL_MB_20250612.csv`; // hoặc tính tự động theo ngày như đã gợi ý
-    const localPath = path.resolve(__dirname, '../data', fileName);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dateStr = yesterday.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+    // const dateStr = 20250614;
+    const zipFileName = `MLL_MB_${dateStr}.zip`;
+    const remoteZipPath = `/ALARM/${zipFileName}`;
+    const localZipPath = path.resolve(__dirname, '../data', zipFileName);
 
-    if (!fs.existsSync(localPath)) {
-      return res.status(400).json({ message: `❌ File not found: ${fileName}` });
-    }
+    // 🔽 Tải và giải nén
+    const extractedCsvPath = await downloadAndUnzipFromFTP(remoteZipPath, localZipPath);
+    const fileName = path.basename(extractedCsvPath);
 
     const tableName = 'MLL_MB';
     const columns = [
@@ -111,13 +115,13 @@ router.get('/syncMLL', async (req, res) => {
       row.IS_REDUCE,
     ];
 
-    await importData(localPath, tableName, columns, mapRowFn);
+    await importData(extractedCsvPath, tableName, columns, mapRowFn);
 
     try {
-      await fsPromises.unlink(localPath);
-      console.log('✅ File deleted successfully');
+      await fsPromises.unlink(extractedCsvPath);
+      console.log('✅ MLL_MB File deleted successfully');
     } catch (delErr) {
-      console.error('❌ Failed to delete file:', delErr);
+      console.error('❌ MLL_MB Failed to delete file:', delErr);
     }
 
     res.status(200).json({
@@ -134,12 +138,17 @@ router.get('/syncMLL', async (req, res) => {
 
 router.get('/syncMFD', async (req, res) => {
   try {
-    const fileName = `MFD_MB_20250613.csv`; // hoặc tính tự động theo ngày như đã gợi ý
-    const localPath = path.resolve(__dirname, '../data', fileName);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dateStr = yesterday.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+    // const dateStr = 20250614;
+    const zipFileName = `MFD_MB_${dateStr}.zip`;
+    const remoteZipPath = `/ALARM/${zipFileName}`;
+    const localZipPath = path.resolve(__dirname, '../data', zipFileName);
 
-    if (!fs.existsSync(localPath)) {
-      return res.status(400).json({ message: `❌ File not found: ${fileName}` });
-    }
+    // 🔽 Tải và giải nén
+    const extractedCsvPath = await downloadAndUnzipFromFTP(remoteZipPath, localZipPath);
+    const fileName = path.basename(extractedCsvPath);
 
     const tableName = 'MFD_MB';
     const columns = [
@@ -172,13 +181,13 @@ router.get('/syncMFD', async (req, res) => {
       row.CLEARED,
     ];
 
-    await importData(localPath, tableName, columns, mapRowFn);
+    await importData(extractedCsvPath, tableName, columns, mapRowFn);
 
     try {
-      await fsPromises.unlink(localPath);
-      console.log('✅ File deleted successfully');
+      await fsPromises.unlink(extractedCsvPath);
+      console.log('✅ MFD_MB File deleted successfully');
     } catch (delErr) {
-      console.error('❌ Failed to delete file:', delErr);
+      console.error('❌ MFD_MB Failed to delete file:', delErr);
     }
 
     res.status(200).json({
@@ -195,18 +204,24 @@ router.get('/syncMFD', async (req, res) => {
 
 router.get('/syncMD', async (req, res) => {
   try {
-    const fileName = `CanhbaoMD_MB_20250613.csv`; // hoặc tính tự động theo ngày như đã gợi ý
-    const localPath = path.resolve(__dirname, '../data', fileName);
 
-    if (!fs.existsSync(localPath)) {
-      return res.status(400).json({ message: `❌ File not found: ${fileName}` });
-    }
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dateStr = yesterday.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+    // const dateStr = 20250614;
+    const zipFileName = `CanhbaoMD_MB_${dateStr}.zip`;
+    const remoteZipPath = `/ALARM/${zipFileName}`;
+    const localZipPath = path.resolve(__dirname, '../data', zipFileName);
 
-    const tableName = 'CanhbaoMD_MB';
+    // 🔽 Tải và giải nén
+    const extractedCsvPath = await downloadAndUnzipFromFTP(remoteZipPath, localZipPath);
+    const fileName = path.basename(extractedCsvPath);
+
+    const tableName = 'CANHBAO_MD_MB';
     const columns = [
       'IP_ADDRESS', 'SITEID', 'CELLID', 'ALARM_NAME', 'SDATE', 'EDATE', 'UCTT', 'NE_TYPE', 'ALARM_TYPE',
       'DISTRICT', 'PROVINCE', 'TEAM', 'DEPT', 'REGION', 'NETWORK', 'UK_ALARM_KEY',
-      'VENDOR', 'NE', 'DATETIME', 'CREATED_DATE', 'CLEARED'
+      'VENDOR', 'NE',  'CREATED_BY', 'SITE_TYPE'
     ];
 
     const mapRowFn = (row) => [
@@ -228,18 +243,17 @@ router.get('/syncMD', async (req, res) => {
       row.UK_ALARM_KEY,
       row.VENDOR,
       row.NE,
-      row.DATETIME,
-      row.CREATED_DATE,
-      row.CLEARED,
+      row.CREATED_BY,
+      row.SITE_TYPE
     ];
 
-    await importData(localPath, tableName, columns, mapRowFn);
+    await importData(extractedCsvPath, tableName, columns, mapRowFn);
 
     try {
-      await fsPromises.unlink(localPath);
-      console.log('✅ File deleted successfully');
+      await fsPromises.unlink(extractedCsvPath);
+      console.log('✅ CanhbaoMD File deleted successfully');
     } catch (delErr) {
-      console.error('❌ Failed to delete file:', delErr);
+      console.error('❌ CanhbaoMD Failed to delete file:', delErr);
     }
 
     res.status(200).json({
@@ -254,15 +268,19 @@ router.get('/syncMD', async (req, res) => {
   }
 });
 
-
 router.get('/syncPAKH', async (req, res) => {
   try {
-    const fileName = `PAKH_MB_20250612.csv`; // hoặc tính tự động theo ngày như đã gợi ý
-    const localPath = path.resolve(__dirname, '../data', fileName);
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const dateStr = yesterday.toISOString().slice(0, 10).replace(/-/g, ''); // YYYYMMDD
+    // const dateStr = 20250614;
+    const zipFileName = `PAKH_MB_${dateStr}.zip`;
+    const remoteZipPath = `/ALARM/${zipFileName}`;
+    const localZipPath = path.resolve(__dirname, '../data', zipFileName);
 
-    if (!fs.existsSync(localPath)) {
-      return res.status(400).json({ message: `❌ File not found: ${fileName}` });
-    }
+    // 🔽 Tải và giải nén
+    const extractedCsvPath = await downloadAndUnzipFromFTP(remoteZipPath, localZipPath);
+    const fileName = path.basename(extractedCsvPath);
 
     const tableName = 'PAKH_MB';
     const columns = [
@@ -397,13 +415,13 @@ router.get('/syncPAKH', async (req, res) => {
       row.TRANG_THAI
     ];
 
-    await importData(localPath, tableName, columns, mapRowFn);
+    await importData(extractedCsvPath, tableName, columns, mapRowFn);
 
     try {
-      await fsPromises.unlink(localPath);
-      console.log('✅ File deleted successfully');
+      await fsPromises.unlink(extractedCsvPath);
+      console.log('✅ PAKH_MB File deleted successfully');
     } catch (delErr) {
-      console.error('❌ Failed to delete file:', delErr);
+      console.error('❌ PAKH_MB Failed to delete file:', delErr);
     }
 
     res.status(200).json({
@@ -417,5 +435,34 @@ router.get('/syncPAKH', async (req, res) => {
     res.status(500).json({ message: '❌ Sync failed', error: err.message });
   }
 });
+
+router.get('/syncAll', async (req, res) => {
+  try {
+    const baseUrl = 'http://10.46.42.79:3000/data'; // Thay bằng baseURL thật nếu cần
+
+    const results = {};
+
+    console.log('▶️ Sync PAKH...');
+    results.PAKH = (await axios.get(`${baseUrl}/syncPAKH`)).data;
+
+    console.log('▶️ Sync MLL...');
+    results.MLL = (await axios.get(`${baseUrl}/syncMLL`)).data;
+
+    console.log('▶️ Sync MD...');
+    results.MD = (await axios.get(`${baseUrl}/syncMD`)).data;
+
+    console.log('▶️ Sync MFD...');
+    results.MFD = (await axios.get(`${baseUrl}/syncMFD`)).data;
+
+    res.json({
+      message: '✅ All APIs called successfully (sequential)',
+      results
+    });
+  } catch (error) {
+    console.error('❌ Error calling sync APIs:', error);
+    res.status(500).json({ message: '❌ Failed to sync all', error: error.message });
+  }
+});
+
 
 module.exports = router;
