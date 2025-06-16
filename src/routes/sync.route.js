@@ -3,6 +3,7 @@ const path = require('path');
 const axios = require('axios');
 const fs = require('fs');  
 const fsPromises = require('fs').promises;
+const { writeLog } = require('../ulti/logger');
 const { format } = require('date-fns');
 const { syncData,importData,downloadAndUnzipFromFTP } = require('../app/models/services/syncService');
 
@@ -438,27 +439,35 @@ router.get('/syncPAKH', async (req, res) => {
 
 router.get('/syncAll', async (req, res) => {
   try {
-    const baseUrl = 'http://10.46.42.79:3000/data'; // Thay bằng baseURL thật nếu cần
-
+    const baseUrl = 'http://10.46.42.79:3000/data';
     const results = {};
 
-    console.log('▶️ Sync PAKH...');
+    writeLog('▶️ [syncAll] Bắt đầu đồng bộ dữ liệu');
+
+    writeLog('⏳ Sync PAKH...');
     results.PAKH = (await axios.get(`${baseUrl}/syncPAKH`)).data;
+    writeLog('✅ PAKH thành công');
 
-    console.log('▶️ Sync MLL...');
+    writeLog('⏳ Sync MLL...');
     results.MLL = (await axios.get(`${baseUrl}/syncMLL`)).data;
+    writeLog('✅ MLL thành công');
 
-    console.log('▶️ Sync MD...');
+    writeLog('⏳ Sync MD...');
     results.MD = (await axios.get(`${baseUrl}/syncMD`)).data;
+    writeLog('✅ MD thành công');
 
-    console.log('▶️ Sync MFD...');
+    writeLog('⏳ Sync MFD...');
     results.MFD = (await axios.get(`${baseUrl}/syncMFD`)).data;
+    writeLog('✅ MFD thành công');
+
+    writeLog('🎉 [syncAll] Tất cả API đã gọi thành công\n');
 
     res.json({
       message: '✅ All APIs called successfully (sequential)',
       results
     });
   } catch (error) {
+    writeLog(`❌ [syncAll] Lỗi khi gọi API: ${error.message}`);
     console.error('❌ Error calling sync APIs:', error);
     res.status(500).json({ message: '❌ Failed to sync all', error: error.message });
   }
