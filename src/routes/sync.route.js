@@ -460,7 +460,7 @@ router.get('/syncAll', async (req, res) => {
     results.MFD = (await axios.get(`${baseUrl}/syncMFD`)).data;
     writeLog('✅ MFD thành công');
 
-    writeLog('🎉 [syncAll] Tất cả API đã gọi thành công\n');
+    writeLog('🎉 [syncAll] Tất cả API đã gọi thành công');
 
     res.json({
       message: '✅ All APIs called successfully (sequential)',

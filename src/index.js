@@ -40,19 +40,20 @@ route(app);
 app.listen(port, () => {
   console.log(`App listening on port ${port}`);
 
-  cron.schedule('0 8 * * *', async () => {
+  cron.schedule('0 7 * * *', async () => {
     writeLog('⏳ Bắt đầu chạy đồng bộ dữ liệu...');
 
     try {
-      console.log('▶️ [8h VN] Tự động gọi API syncAll');
+      console.log('▶️ [7h VN] Tự động gọi API syncAll');
       const res = await axios.get('http://localhost:3000/data/syncAll');
-      writeLog(`✅ Đồng bộ thành công: ${JSON.stringify(res.data.message || res.data)}`);
+      writeLog(`✅ Đồng bộ thành công: ${JSON.stringify(res.data.message || res.data)}\n`);
       console.log('✅ Sync thành công:', res.data.message);
-      
+
     } catch (err) {
-      writeLog(`❌ Lỗi khi đồng bộ: ${err.message}`);
+      writeLog(`❌ Lỗi khi đồng bộ: ${err.message}\n`);
       console.error('❌ Lỗi khi gọi API syncAll:', error.message);
     }
+
   }, {
     timezone: 'Asia/Ho_Chi_Minh'
   });
