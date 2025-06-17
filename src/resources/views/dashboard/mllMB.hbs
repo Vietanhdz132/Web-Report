@@ -66,10 +66,10 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-title">Avg TgMLL</div>
-          <div class="stat-unit" id="unit-average-card"></div>
-          <div id="average-card" class="stat-value loader"></div>
-          <div class="stat-footer" id="date-average-card"></div>
+          <div class="stat-title">Target thời gian MLL</div>
+          <div class="stat-unit" id="unit-average-card-target"></div>
+          <div id="average-card-target" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card-target"></div>
         </div>
       </div>
     </div>
@@ -343,6 +343,7 @@
 
         // Sau khi cập nhật tháng và ngày xong mới gọi API 1 lần
         fetchAverageDurations();
+        
       });
 
       monthSelect.addEventListener('change', () => {
@@ -359,8 +360,11 @@
 
       attachSlicerEvents();
       fetchAverageDurations();   // Gọi API lấy dữ liệu trung bình
+      getDurationTarget();
       fetchDataAndUpdateChart();
       fetchDataAndUpdateChartTo()
+      
+      
 
     } catch (err) {
       console.error("Lỗi khi tải slicer:", err);
@@ -460,6 +464,7 @@
       document.getElementById('average-card').classList.remove('loader');
       document.getElementById('average-card').innerHTML = `<div>${avg.toFixed(2)}</div>`;
       document.getElementById('unit-average-card').innerHTML = `<div><strong>${dvt_card}</strong></div>`;
+      document.getElementById('unit-average-card-target').innerHTML = `<div><strong>${dvt_card}</strong></div>`;
       document.getElementById('date-average-card').innerHTML = `<div><strong>${date}</strong></div>`;
 
 
@@ -484,6 +489,8 @@
       const element = document.getElementById(id);
       if (element) {
         element.addEventListener('change', fetchAverageDurations);
+        element.addEventListener('change', getDurationTarget);
+
       }
     });
   }
@@ -962,6 +969,57 @@
     monthSelect.addEventListener('change', fetchDataAndUpdateChartTo);
     daySelect.addEventListener('change', fetchDataAndUpdateChartTo);
   // Gọi lần đầu
+
+
+  async function getDurationTarget() {
+    try {
+      let columnLabel = document.getElementById('stationSelect').value;
+
+      // Map label sang mã cột
+      const columnMap = {
+        'ĐVT Hà Nội 1': 'HN1',
+        'ĐVT Hà Nội 2': 'HN2',
+        'ĐVT Hải Phòng': 'HPG',
+        'ĐVT Nam Định': 'NDH',
+        'ĐVT Vĩnh Phúc': 'VPC',
+        'ĐVT Thái Nguyên': 'TNN',
+        'ĐVT Nghệ An': 'NAN',
+        'all': 'MIEN_BAC'
+      };
+
+      let column = columnMap[columnLabel];
+
+      const year = document.getElementById('yearSelect').value;
+      const month = document.getElementById('monthSelect').value;
+
+      const params = new URLSearchParams();
+
+      // Nếu người dùng chọn "Tất cả các đài", hoặc không chọn, có thể xử lý column undefined hoặc gửi hết
+      if (column) params.append('column', column);
+      if (year !== 'all') params.append('year', year);
+      if (month !== 'all') params.append('month', month);
+
+      const response = await fetch(`/dashboard/duration-target?${params.toString()}`);
+      const data = await response.json();
+
+      if (!Array.isArray(data) || data.length === 0 || typeof data[0].VALUE === 'undefined') {
+        throw new Error('API không trả về dữ liệu hợp lệ');
+      }
+
+      const { VALUE, PERIOD } = data[0];
+
+      document.getElementById('average-card-target').classList.remove('loader');
+      document.getElementById('average-card-target').innerHTML = `<div>${VALUE.toFixed(2)}</div>`;
+      document.getElementById('date-average-card-target').innerHTML = `<div><strong>${PERIOD}</strong></div>`;
+
+      console.log(data);
+
+    } catch (error) {
+      console.error('Lỗi khi tải dữ liệu :', error);
+    }
+  }
+
+
   window.onload = () => {
   loadSlicers();
 };

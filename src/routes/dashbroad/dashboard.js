@@ -8,6 +8,7 @@ const MLLMBController = require('../../app/controllers/TramMLL/MLLMB');
 // Route chính
 router.get('/', dashbroadController.index);
 router.get('/average-duration', MLLMBController.getAverageDuration); // API
+router.get('/duration-target', MLLMBController.getDurationTarget);
 router.get('/average-duration-detail', MLLMBController.getAverageDurationDetail); // API
 router.get('/average-duration-detail-province', MLLMBController.getAverageDurationDetailProvince); // API
 router.get('/slicer-duration', MLLMBController.getSlicerOptions); // API

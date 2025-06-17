@@ -162,6 +162,24 @@ class MLLMBController {
       res.status(500).render('500', { layout: 'dashboardLayout' });
     }
   }
+
+  async getDurationTarget(req, res) {
+      try {
+        const { column, year, month } = req.query;
+
+        const data = await MLLMB.getAverageDurationTarget({ column, year, month });
+
+        res.status(200).json(data);
+      } catch (error) {
+        console.error('🔴 Error in getDurationTarget:', error);
+        res.status(500).json({
+          error: 'Internal Server Error',
+          detail: error.message
+        });
+      }
+    }
 }
+
+  
 
 module.exports = new MLLMBController();
