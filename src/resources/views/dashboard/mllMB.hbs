@@ -50,27 +50,30 @@
         </div>
 
         <div class="stat-card">
-          <div class="stat-title">Thời gian MLL trung bình ngày</div>
-          <div class="stat-unit" id="unit-average-card-day"></div>
-          <div id="average-card-day" class="stat-value loader"></div>
-          <div class="stat-footer" id="date-average-card-day"></div>
-        </div>
-      </div>
-
-      <div class="item-sum-1">
-        <div class="stat-card">
-          <div class="stat-title">Thời gian MLL trung bình đêm</div>
-          <div class="stat-unit" id="unit-average-card-night"></div>
-          <div id="average-card-night" class="stat-value loader"></div>
-          <div class="stat-footer" id="date-average-card-night"></div>
-        </div>
-
-        <div class="stat-card">
           <div class="stat-title">Target thời gian MLL</div>
           <div class="stat-unit" id="unit-average-card-target"></div>
           <div id="average-card-target" class="stat-value loader"></div>
           <div class="stat-footer" id="date-average-card-target"></div>
         </div>
+       
+      </div>
+
+      <div class="item-sum-1">
+         <div class="stat-card">
+          <div class="stat-title">Thời gian MLL TB ngày</div>
+          <div class="stat-unit" id="unit-average-card-day"></div>
+          <div id="average-card-day" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card-day"></div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-title">Thời gian MLL TB đêm</div>
+          <div class="stat-unit" id="unit-average-card-night"></div>
+          <div id="average-card-night" class="stat-value loader"></div>
+          <div class="stat-footer" id="date-average-card-night"></div>
+        </div>
+
+        
       </div>
     </div>
 
@@ -96,6 +99,16 @@
       <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
 
       <canvas id="chartSummary"></canvas>
+      
+    </div>
+  </div>
+
+  <div class="item-2">
+    <div class="stat-card">
+      <div style="position: relative; width: 300px; height: 300px; margin: auto;">
+        <div id="chartTarget" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+        <div id="chartValue" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></div>
+      </div>
       
     </div>
   </div>
@@ -274,6 +287,7 @@
 </script> --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+
 <script>
   async function loadSlicers() {
     try {
@@ -1025,3 +1039,88 @@
 };
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+  const value = 40;
+  const target = 59;
+  const max = 120;
+
+  const valuePercent = (value / max) * 100;
+  const targetPercent = (target / max) * 100;
+
+  const isPassed = value <= target;
+
+  // Vòng ngoài: target
+  const chartTarget = new ApexCharts(document.querySelector("#chartTarget"), {
+    chart: {
+      type: 'radialBar',
+      height: 300,
+      sparkline: { enabled: true },
+    },
+    series: [targetPercent],
+    colors: ['#CCCCCC'],
+    plotOptions: {
+      radialBar: {
+        startAngle: -90,
+        endAngle: 90,
+        hollow: {
+          size: '55%',
+        },
+        track: {
+          background: '#f0f0f0',
+          strokeWidth: '100%', // dày để vòng rõ
+        },
+        dataLabels: {
+          show: false
+        }
+      }
+    },
+    labels: ['Target']
+  });
+
+  // Vòng trong: value
+  const chartValue = new ApexCharts(document.querySelector("#chartValue"), {
+    chart: {
+      type: 'radialBar',
+      height: 300,
+      sparkline: { enabled: true },
+    },
+    series: [valuePercent],
+    colors: [isPassed ? 'green' : 'red'],
+    plotOptions: {
+      radialBar: {
+        startAngle: -90,
+        endAngle: 90,
+        hollow: {
+          size: '60%', // giống vòng ngoài để tâm khớp
+        },
+        track: {
+          background: 'transparent',
+          strokeWidth: '60%', // nhỏ hơn để nằm gọn bên trong
+        },
+        dataLabels: {
+          name: {
+            show: true,
+            offsetY: -10,
+            formatter: () => `${value} / ${target}\n ${isPassed ? '✔️' : '❌'}`,
+            style: {
+              fontSize: '20px'
+            }
+          },
+          value: {
+            offsetY: 0,
+            formatter: () => `${value} / ${target}`,
+            style: {
+              fontSize: '20px'
+            }
+          }
+        }
+      }
+    },
+    
+  });
+
+  chartTarget.render();
+  chartValue.render();
+</script>

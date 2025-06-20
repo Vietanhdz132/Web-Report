@@ -121,13 +121,14 @@
 .item-1 {
   display: flex;
   align-items: stretch;
+  height: 400px;
 
 }
 
 /* BÊN TRÁI */
 .item-sum {
   width: 40%;
-  height: 400px;
+  
   display: flex;
   flex-direction: column;
 
@@ -142,7 +143,7 @@
 /* BÊN PHẢI */
 .item-deltail {
   width: 60%;
-  height: 400px;
+
   display: flex;
 }
 
@@ -170,7 +171,7 @@
   padding: 10px 10px 5px 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   min-width: 150px;
 }
 
@@ -197,17 +198,34 @@
   box-shadow: 0 4px 12px rgb(0 0 0 / 0.15);
 }
 
+/* Responsive cho tablet và mobile */
 @media (max-width: 900px) {
-  .item-sum,
-  .item-detail {
-    width: 100%;
-    max-width: 100%;
+  .item-1 {
+    flex-direction: column;
+    height: auto;
   }
 
-  .body-dashboard {
+  .item-sum,
+  .item-deltail {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .item-sum-1 {
     flex-direction: column;
   }
+
+  .item-body {
+    margin-left: 0;
+    min-width: 100%;
+  }
+
+  .item-2 {
+    flex-direction: column;
+    height: auto;
+  }
 }
+
 
 
 .loader {
@@ -223,4 +241,17 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+.gauge-card {
+  width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.gauge-info {
+
+  font-size: 14px;
+  line-height: 1.6;
 }
