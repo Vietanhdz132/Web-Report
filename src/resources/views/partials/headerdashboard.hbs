@@ -47,52 +47,39 @@
 </style>
 
 <nav>
-  <div class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">
+  <ul class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link active" href="/dashboard/average-card">
-        MLL
-      </a>
-    
+      <a class="nav-link" href="/dashboard/average-card">MLL</a>
     </li>
-    
-    <li class="nav-item ">
-      <a class="nav-link " >
-        AC
-      </a>
-      
+    <li class="nav-item">
+      <a class="nav-link" href="/dashboard/average-card-ac">AC</a>
     </li>
-
-    <li class="nav-item ">
-      <a class="nav-link" >
-        MFD
-      </a>
-      
+    <li class="nav-item">
+      <a class="nav-link" href="/dashboard/average-card-mfd">MFD</a>
     </li>
-
-    <li class="nav-item ">
-      <a class="nav-link" >
-        Truyền dẫn
-      </a>
-      
+    <li class="nav-item">
+      <a class="nav-link" href="/dashboard/average-card-td">Truyền dẫn</a>
     </li>
-
-  </div>
+  </ul>
 </nav>
 
 
 
 
-<script>
-  document.querySelectorAll(".custom-tab .nav-link").forEach(link => {
-    link.addEventListener("click", function () {
-      // Xóa class active khỏi tất cả tab
-      document.querySelectorAll(".custom-tab .nav-link").forEach(l => l.classList.remove("active"));
 
-      // Thêm class active cho tab được click
-      this.classList.add("active");
-    });
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const currentPath = window.location.pathname;
+
+  links.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
   });
 </script>
+
 <script>
   // Nếu URL hiện tại là chính xác "/dashboard", thì chuyển hướng
   if (window.location.pathname === "/dashboard") {

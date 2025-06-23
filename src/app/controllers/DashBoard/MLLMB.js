@@ -1,4 +1,4 @@
-const MLLMB = require('../../models/tramMLL/mllMB');
+const MLLMB = require('../../models/dashboard/mllMB');
 
 
 class MLLMBController {

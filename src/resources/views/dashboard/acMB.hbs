@@ -121,7 +121,7 @@
 <script>
   async function loadSlicers() {
     try {
-      const response = await fetch('/dashboard/slicer-duration');
+      const response = await fetch('/dashboard/slicer-duration-ac');
       const json = await response.json();
 
       if (!json.success) throw new Error("API trả về thất bại");
@@ -204,7 +204,6 @@
 
       attachSlicerEvents();
       fetchAverageDurations();   // Gọi API lấy dữ liệu trung bình
-      getDurationTarget();
       fetchDataAndUpdateChart();
       fetchDataAndUpdateChartTo()
       
@@ -289,7 +288,7 @@
       if (day !== 'all') params.append('day', day);
 
       
-      const response = await fetch(`/dashboard/average-duration?${params.toString()}`);
+      const response = await fetch(`/dashboard/average-duration-ac?${params.toString()}`);
       const data = await response.json();
         
       
@@ -355,14 +354,13 @@
     if (month !== 'all') query.append('month', month);
     if (day !== 'all') query.append('day', day);
 
-    const response = await fetch(`/dashboard/average-duration-detail?${query.toString()}`);
+    const response = await fetch(`/dashboard/average-duration-detail-ac?${query.toString()}`);
     const json = await response.json();
     const data = json.data;
     const labels = data.map(entry => entry.DVT);
     const daytimeData = data.map(entry => entry.items[0]?.AVG_DURATION_DAYTIME || 0);
     const nighttimeData = data.map(entry => entry.items[0]?.AVG_DURATION_NIGHTTIME || 0);
 
-    document.getElementById('mllChart').classList.remove('loader');
     const footer = document.getElementById('stat-title-dvt');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Đài (${data[0].PERIOD})`;
@@ -571,11 +569,11 @@
       });
     }
 
+
     // Gọi hàm khi filter thay đổi
     yearSelect.addEventListener('change', fetchDataAndUpdateChart);
     monthSelect.addEventListener('change', fetchDataAndUpdateChart);
     daySelect.addEventListener('change', fetchDataAndUpdateChart);
-
 
   const chartCanvasTo = document.getElementById('chartSummary');
   let chartInstanceTo = null;
@@ -592,7 +590,7 @@
     if (month !== 'all') query.append('month', month);
     if (day !== 'all') query.append('day', day);
 
-    const response = await fetch(`/dashboard/average-duration-detail-province?${query.toString()}`);
+    const response = await fetch(`/dashboard/average-duration-detail-province-ac?${query.toString()}`);
     const json = await response.json();
     const data = json.data;
     const rawData = json.data?.[0]?.items ?? [];
@@ -601,7 +599,6 @@
     const daytimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_DAYTIME) || 0);
     const nighttimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_NIGHTTIME) || 0);
 
-    document.getElementById('chartSummary').classList.remove('loader');
     const footer = document.getElementById('stat-title-to');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Tổ (${data[0].PERIOD})`;
@@ -817,53 +814,7 @@
   // Gọi lần đầu
 
 
-  async function getDurationTarget() {
-    try {
-      let columnLabel = document.getElementById('stationSelect').value;
-
-      // Map label sang mã cột
-      const columnMap = {
-        'ĐVT Hà Nội 1': 'HN1',
-        'ĐVT Hà Nội 2': 'HN2',
-        'ĐVT Hải Phòng': 'HPG',
-        'ĐVT Nam Định': 'NDH',
-        'ĐVT Vĩnh Phúc': 'VPC',
-        'ĐVT Thái Nguyên': 'TNN',
-        'ĐVT Nghệ An': 'NAN',
-        'all': 'MIEN_BAC'
-      };
-
-      let column = columnMap[columnLabel];
-
-      const year = document.getElementById('yearSelect').value;
-      const month = document.getElementById('monthSelect').value;
-
-      const params = new URLSearchParams();
-
-      // Nếu người dùng chọn "Tất cả các đài", hoặc không chọn, có thể xử lý column undefined hoặc gửi hết
-      if (column) params.append('column', column);
-      if (year !== 'all') params.append('year', year);
-      if (month !== 'all') params.append('month', month);
-
-      const response = await fetch(`/dashboard/duration-target?${params.toString()}`);
-      const data = await response.json();
-
-      if (!Array.isArray(data) || data.length === 0 || typeof data[0].VALUE === 'undefined') {
-        throw new Error('API không trả về dữ liệu hợp lệ');
-      }
-
-      const { VALUE, PERIOD } = data[0];
-
-      document.getElementById('average-card-target').classList.remove('loader');
-      document.getElementById('average-card-target').innerHTML = `<div>${VALUE.toFixed(2)}</div>`;
-      document.getElementById('date-average-card-target').innerHTML = `<div><strong>${PERIOD}</strong></div>`;
-
-      console.log(data);
-
-    } catch (error) {
-      console.error('Lỗi khi tải dữ liệu :', error);
-    }
-  }
+  
 
 
   window.onload = () => {

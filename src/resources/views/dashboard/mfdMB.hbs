@@ -84,7 +84,7 @@
           <div id = "stat-title-dvt" class="stat-title">Thời gian mất liên lạc trung bình theo Đài</div>
           <div id="custom-legend" style="margin-bottom: 10px;"></div>
 
-          <canvas id="mllChart" class="loader"></canvas>
+          <canvas id="mllChart"></canvas>
           
           
         </div>
@@ -98,7 +98,7 @@
       <div id = "stat-title-to" class="stat-title">Thời gian mất liên lạc trung bình theo Tổ</div>
       <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
 
-      <canvas id="chartSummary" class="loader"></canvas>
+      <canvas id="chartSummary"></canvas>
       
     </div>
   </div>
@@ -108,7 +108,7 @@
       <div id = "stat-title-to" class="stat-title">Thời gian mất liên lạc trung bình theo ngày</div>
       <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
 
-      <canvas id="chartSummary" class="loader"></canvas>
+      <canvas id="chartSummary"></canvas>
       
     </div>
   </div>
@@ -362,7 +362,6 @@
     const daytimeData = data.map(entry => entry.items[0]?.AVG_DURATION_DAYTIME || 0);
     const nighttimeData = data.map(entry => entry.items[0]?.AVG_DURATION_NIGHTTIME || 0);
 
-    document.getElementById('mllChart').classList.remove('loader');
     const footer = document.getElementById('stat-title-dvt');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Đài (${data[0].PERIOD})`;
@@ -571,11 +570,11 @@
       });
     }
 
+
     // Gọi hàm khi filter thay đổi
     yearSelect.addEventListener('change', fetchDataAndUpdateChart);
     monthSelect.addEventListener('change', fetchDataAndUpdateChart);
     daySelect.addEventListener('change', fetchDataAndUpdateChart);
-
 
   const chartCanvasTo = document.getElementById('chartSummary');
   let chartInstanceTo = null;
@@ -601,7 +600,6 @@
     const daytimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_DAYTIME) || 0);
     const nighttimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_NIGHTTIME) || 0);
 
-    document.getElementById('chartSummary').classList.remove('loader');
     const footer = document.getElementById('stat-title-to');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Tổ (${data[0].PERIOD})`;
