@@ -1,0 +1,383 @@
+@charset "UTF-8";
+.report-pvt {
+  font-family: "Segoe UI", sans-serif;
+  color: #ffffff;
+  padding: 2rem;
+}
+
+/* ==== Tiêu đề chính ==== */
+.report-pvt__title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  padding-left: 16px;
+  border-left: 5px solid #ffffff;
+  color: #ffffff;
+}
+
+/* ==== Nút tạo mới ==== */
+.report-pvt__create-wrapper {
+  margin-bottom: 2rem;
+}
+
+.report-pvt__button-create {
+  display: inline-block;
+  background: linear-gradient(145deg, #00c4cc, #0097a7);
+  color: #ffffff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 188, 212, 0.25);
+  transition: all 0.3s ease;
+}
+
+.report-pvt__button-create:hover {
+  background: #00838f;
+  box-shadow: 0 6px 12px rgba(0, 188, 212, 0.3);
+}
+
+/* ==== Tiêu đề danh sách ==== */
+.report-pvt__list-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* ==== Bảng báo cáo ==== */
+.report-pvt__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1c1c1c;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.report-pvt__table th,
+.report-pvt__table td {
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+.report-pvt__table th {
+  background-color: #263238;
+  color: #00bcd4;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.report-pvt__table td {
+  color: #ffffff;
+}
+
+.report-pvt__table tr:hover {
+  background-color: #2a2a2a;
+  transition: background-color 0.2s;
+}
+
+/* ==== Hành động ==== */
+.report-pvt__actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.report-pvt__action-link {
+  color: #81d4fa;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.report-pvt__action-link:hover {
+  color: #29b6f6;
+  text-decoration: underline;
+}
+
+.report-pvt__action-form {
+  display: inline;
+}
+
+.report-pvt__action-delete {
+  background: none;
+  border: none;
+  color: #ef5350;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.report-pvt__action-delete:hover {
+  color: #f44336;
+  text-decoration: underline;
+}
+
+/* ==== Không có dữ liệu ==== */
+.report-pvt__no-data {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #aaaaaa;
+  text-align: center;
+}
+
+/* Container chính */
+.report-pvt-create {
+  max-width: 1400px;
+  margin: 30px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề lớn */
+.report-pvt-create__title {
+  color: #007acc;
+  font-weight: 700;
+  margin-bottom: 25px;
+  font-size: 2.4rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Nhóm input và textarea */
+.report-pvt-create__group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.report-pvt-create__group label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Input & textarea chung */
+.report-pvt-create__group input,
+.report-pvt-create__group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #222;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+  font-family: inherit;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Textarea ban đầu cao hơn */
+.report-pvt-create__group textarea {
+  min-height: 80px;
+  overflow: hidden;
+}
+
+/* Input/textarea khi focus */
+.report-pvt-create__group input:focus,
+.report-pvt-create__group textarea:focus {
+  outline: none;
+  border-color: #007acc;
+  box-shadow: 0 0 6px rgba(0, 122, 204, 0.4);
+  background-color: #fff;
+}
+
+/* Các section con (mục con, bảng) */
+.report-subitem,
+.report-subtable {
+  position: relative;
+  margin-top: 15px;
+  padding: 10px; /* tăng padding-bottom để chứa nút xóa dưới */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 122, 204, 0.15);
+  border: 1px solid #c3d7f0;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Hover nhẹ */
+.report-subitem:hover,
+.report-subtable:hover {
+  box-shadow: 0 0 12px rgba(0, 122, 204, 0.3);
+}
+
+/* Nút xóa (đặt dưới cùng, không dùng position absolute) */
+.report-subitem button,
+.report-subtable button {
+  position: static; /* bỏ position absolute */
+  display: inline-block;
+  background: #e94e4e;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 0 5px rgba(233, 78, 78, 0.6666666667);
+  transition: background-color 0.3s ease;
+  margin-top: 16px;
+  user-select: none;
+  /* căn giữa nút */
+  margin-left: auto;
+  margin-right: 0;
+  display: block; /* cho xuống dòng riêng */
+  width: max-content;
+}
+
+.report-subitem button:hover,
+.report-subtable button:hover {
+  background-color: #b03030;
+  box-shadow: 0 0 10px rgba(176, 48, 48, 0.8);
+}
+
+/* Tiêu đề mục con, bảng (textarea) */
+.child-title,
+.table-title {
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 1.5px solid #007acc;
+  border-radius: 5px;
+  padding: 6px 10px;
+  resize: vertical;
+  color: #007acc;
+  background-color: #f0f8ff;
+  margin-bottom: 12px;
+  font-family: inherit;
+  box-shadow: inset 0 1px 2px rgba(0, 122, 204, 0.2);
+}
+
+/* Phần chọn hàng & cột */
+.report-subtable > div {
+  margin-bottom: 12px;
+  font-size: 0.95rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.report-subtable label {
+  font-weight: 600;
+}
+
+.report-subtable input[type=number] {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1.5px solid #007acc;
+  border-radius: 5px;
+  width: 60px;
+  background-color: #fff;
+  color: #222;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.report-subtable input[type=number]:focus {
+  outline: none;
+  border-color: #005f9e;
+  box-shadow: 0 0 5px rgba(0, 95, 158, 0.6666666667);
+}
+
+/* Nút tạo bảng (vẫn nằm cạnh input số hàng/cột) */
+.report-subtable > div > button {
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.report-subtable > div > button:hover {
+  background-color: #005f9e;
+}
+
+/* Bảng editable */
+.editable-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+
+.editable-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  background-color: #fff;
+}
+
+/* Textarea trong bảng */
+.editable-table textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #007acc;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 36px;
+  color: #222;
+  background-color: #f9fbff;
+  transition: border-color 0.3s ease;
+}
+
+.editable-table textarea:focus {
+  outline: none;
+  border-color: #005f9e;
+  box-shadow: 0 0 6px rgba(0, 95, 158, 0.6666666667);
+}
+
+/* Các nút lưu, hủy dưới form */
+.report-pvt-create__actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.report-pvt-create__actions button,
+.report-pvt-create__actions .btn-cancel {
+  cursor: pointer;
+  background-color: #007acc;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 36px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 122, 204, 0.3);
+}
+
+.report-pvt-create__actions button:hover,
+.report-pvt-create__actions .btn-cancel:hover {
+  background-color: #005f9e;
+  box-shadow: 0 4px 14px rgba(0, 95, 158, 0.6);
+}
+
+/*# sourceMappingURL=report-pvt.css.map */

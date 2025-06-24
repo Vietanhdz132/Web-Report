@@ -1,0 +1,50 @@
+<div class="report-pvt">
+  <h1 class="report-pvt__title">📄 Báo cáo tuần - Phòng Vô Tuyến</h1>
+
+  <!-- ✅ Nút Tạo mới -->
+  <div class="report-pvt__create-wrapper">
+   <a href="/report/pvt/create" class="report-pvt__button-create">➕ Tạo báo cáo mới</a>
+
+  </div>
+
+  <!-- ✅ Danh sách báo cáo -->
+  <section class="report-pvt__list">
+    <h2 class="report-pvt__list-title">📋 Danh sách báo cáo đã tạo</h2>
+
+    {{#if reports.length}}
+      <table class="report-pvt__table">
+        <thead>
+          <tr>
+            <th>Tuần</th>
+            <th>Số hiệu</th>
+            <th>Ngày tạo</th>
+            <th>Phòng</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each reports}}
+            <tr>
+              <td>{{this.title}}</td>
+              <td>{{this.number}}</td>
+              <td>{{this.date}}</td>
+              <td>{{this.department}}</td>
+              <td class="report-pvt__actions">
+                <a href="/report/view/{{this._id}}" class="report-pvt__action-link">📄 Xem</a>
+                <a href="/report/edit/{{this._id}}" class="report-pvt__action-link">✏️ Sửa</a>
+                <form action="/report/{{this._id}}" method="POST" class="report-pvt__action-form">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" onclick="return confirm('Xoá báo cáo này?')" class="report-pvt__action-delete">🗑️</button>
+                </form>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{else}}
+      <p class="report-pvt__no-data">Chưa có báo cáo nào.</p>
+    {{/if}}
+  </section>
+</div>
+
+

@@ -12,9 +12,11 @@ const port = 3000;
 
 const route = require('./routes');
 const db = require('./config/db/oracleClient');
+const mongoDB = require('./config/db/mongoClient');
 
 // Connect to DB
 db.connect();
+mongoDB.connect();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
@@ -29,6 +31,9 @@ app.engine(
   'hbs',
   engine({
     extname: '.hbs',
+    helpers: {
+      eq: (a, b) => a === b,
+    }
   }),
 );
 

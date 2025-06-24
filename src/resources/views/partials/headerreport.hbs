@@ -1,0 +1,88 @@
+<style>
+
+  .custom-tab {
+    margin-left: 80px;
+    margin-right: 80px;
+  }
+
+  .custom-tab .nav-link {
+    color: white !important;
+
+  }
+
+  .custom-tab .nav-link.active {
+  color: white !important;
+  background-color: #21252900;
+  border: 1px solid white; /* viền trắng khi active */
+  border-bottom: none; /* nếu muốn không có viền dưới khi tab đang được chọn */
+}
+
+  /* Khi hover vào .dropdown, dropdown-menu sẽ hiện ra */
+.nav-item.dropdown:hover > .dropdown-menu {
+  display: block;
+  margin-top: 0; /* bỏ khoảng cách mặc định nếu có */
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Ẩn dropdown-menu mặc định */
+.dropdown-menu {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.dropdown-menu a {
+  color: black !important;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f8f9fa; /* màu nền khi hover, bạn có thể đổi nếu muốn */
+  color: rgb(255, 255, 255) !important;
+}
+
+
+
+</style>
+
+<nav>
+  <ul class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">
+    <li class="nav-item">
+      <a class="nav-link" href="/report/pvt/view">Report P.VTN</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="">Report P.TCHC</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="">Report P.TD</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="">Report P.KT</a>
+    </li>
+  </ul>
+</nav>
+
+
+
+
+
+<script>
+  const links = document.querySelectorAll('.nav-link');
+  const currentPath = window.location.pathname;
+
+  links.forEach(link => {
+    if (link.getAttribute('href') === currentPath) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+</script>
+
+<script>
+  // Nếu URL hiện tại là chính xác "/dashboard", thì chuyển hướng
+  if (window.location.pathname === "/report") {
+    window.location.href = "/report/pvt/view";
+  }
+</script>

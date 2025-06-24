@@ -9,6 +9,7 @@ const AuthMiddleWare = require('../middleware/AuthMiddleware');  // Import AuthM
 const testdataRouter = require('./testdata/testdata');
 const dashbroadRouter = require('./dashbroad/dashboard');
 const syncRoute = require('./sync.route');
+const phongVTNRouter = require('./report/phongVTN.router');
 
 
 function route(app) {
@@ -17,6 +18,7 @@ function route(app) {
   // Bảo vệ route order
 
   // Các route không yêu cầu xác thực
+  app.use('/report', phongVTNRouter);
   app.use('/data', syncRoute);
   app.use('/dashboard', dashbroadRouter);
   app.use('/testdata', testdataRouter);

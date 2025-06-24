@@ -1,0 +1,388 @@
+<div class="report-pvt-create">
+  <h1 class="report-pvt-create__title">Tạo Báo Cáo Tuần Mới - Phòng Vô Tuyến</h1>
+
+  <form id="createReportForm" action="/report/create" method="POST" class="report-pvt-create__form">
+    <!-- Thông tin chung -->
+    <div class="report-pvt-create__group">
+      <label for="week">Tuần</label>
+      <input id="week" name="week" type="number" required />
+    </div>
+
+    <div class="report-pvt-create__group">
+      <label for="number">Số hiệu</label>
+      <input id="number" name="number" type="text" required />
+    </div>
+
+    <div class="report-pvt-create__group">
+      <label for="createdAt">Ngày tạo</label>
+      <input id="createdAt" name="createdAt" type="date" required />
+    </div>
+
+    <!-- I. Đánh giá kết quả triển khai -->
+    <hr />
+    <h2>I. ĐÁNH GIÁ KẾT QUẢ TRIỂN KHAI</h2>
+
+    <div class="report-pvt-create__group">
+      <h4 for="bscKpi">1. Kết quả thực hiện BSC-KPI</h4>
+      <div class="report-section__children">
+        <!-- Nơi thêm mục con động -->
+      </div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+
+    <h4>2. Công việc trọng tâm</h4>
+    <!-- Các mục công tác -->
+    <div class="report-pvt-create__group">
+      <label for="tuh">Công tác TUH</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="ptm">Công tác PTM</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="cntt">Công tác CNTT</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="vhm">Công tác VHM</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="khcp">Công tác KHCP</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+
+    <!-- II. Kết luận chỉ đạo -->
+    <hr />
+    <h2>II. THỰC HIỆN KẾT LUẬN, CHỈ ĐẠO</h2>
+    <div class="report-pvt-create__group">
+      <h4 for="conclusion">Nội dung kết luận, chỉ đạo</h4>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+
+    <!-- III. Tồn tại, kiến nghị -->
+    <hr />
+    <h2>III. TỒN TẠI, KIẾN NGHỊ</h2>
+    <div class="report-pvt-create__group">
+      <h4 for="kientnghi_ldtt">1. Kiến nghị với LĐTT/TCT</h4>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <h4 for="kientnghi_dvkhac">2. Kiến nghị với đơn vị khác</h4>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+
+    <!-- IV. Kế hoạch tuần tới -->
+    <hr />
+    <h2>IV. KẾ HOẠCH TUẦN TỚI</h2>
+    <div class="report-pvt-create__group">
+      <label for="kehoach_tuh">Công tác TUH</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="kehoach_ptm">Công tác PTM</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="kehoach_cntt">Công tác CNTT</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="kehoach_vhm">Công tác VHM</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="kehoach_khcp">Công tác KHCP</label>
+      <div class="report-section__children"></div>
+      <div class="report-section__tools">
+        <button type="button" onclick="addChild(this)">➕ Thêm mục con</button>
+        <button type="button" onclick="addTable(this)">📊 Thêm bảng</button>
+      </div>
+    </div>
+
+    <!-- Nơi nhận -->
+    <hr />
+    <h2>NƠI NHẬN</h2>
+    <div class="report-pvt-create__group">
+      <label for="receivers">Nơi nhận</label>
+      <textarea id="receivers" name="receivers" rows="4" required>
+- Như trên;
+- Ban GĐTT;
+- Tổng hợp, TCHC;
+- Lưu VTN.
+      </textarea>
+    </div>
+
+    <!-- Ký tên -->
+    <hr />
+    <h2>Thông tin ký báo cáo</h2>
+    <div class="report-pvt-create__group">
+      <label for="signer">Người ký</label>
+      <input id="signer" name="signer" type="text" value="Đỗ Duy Bình" required />
+    </div>
+    <div class="report-pvt-create__group">
+      <label for="position">Chức vụ</label>
+      <input id="position" name="position" type="text" value="TRƯỞNG PHÒNG" required />
+    </div>
+
+    <div class="report-pvt-create__actions">
+      <button type="submit">💾 Lưu báo cáo</button>
+      <a href="/report" class="btn-cancel">Hủy</a>
+    </div>
+  </form>
+</div>
+
+
+<script>
+  document.querySelectorAll('textarea').forEach(textarea => {
+  function autoResize() {
+    this.style.height = 'auto';
+    this.style.height = this.scrollHeight + 'px';
+  }
+  textarea.addEventListener('input', autoResize);
+  autoResize.call(textarea);
+});
+
+</script>
+
+<script>
+  // Tự động resize textarea
+  function autoResizeTextarea(el) {
+    el.style.height = 'auto';
+    el.style.height = el.scrollHeight + 'px';
+  }
+
+  // Thêm mục con (title + nội dung)
+  function addChild(button) {
+    const container = button.closest('.report-pvt-create__group').querySelector('.report-section__children');
+
+    const childWrapper = document.createElement('div');
+    childWrapper.className = 'report-subitem';
+
+    // Thay input tiêu đề thành textarea để hỗ trợ xuống dòng
+    const titleTextarea = document.createElement('textarea');
+    titleTextarea.name = 'childTitles[]';
+    titleTextarea.placeholder = 'Tiêu đề mục con';
+    titleTextarea.className = 'child-title';
+    titleTextarea.rows = 1;
+    titleTextarea.addEventListener('input', () => autoResizeTextarea(titleTextarea));
+
+    const contentTextarea = document.createElement('textarea');
+    contentTextarea.name = 'childContents[]';
+    contentTextarea.rows = 3;
+    contentTextarea.placeholder = 'Nội dung mục con';
+    contentTextarea.addEventListener('input', () => autoResizeTextarea(contentTextarea));
+
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.textContent = '❌ Xoá';
+    removeBtn.onclick = () => childWrapper.remove();
+
+    childWrapper.appendChild(titleTextarea);
+    childWrapper.appendChild(contentTextarea);
+    childWrapper.appendChild(removeBtn);
+
+    container.appendChild(childWrapper);
+
+    // Tự động resize ngay sau khi thêm
+    autoResizeTextarea(titleTextarea);
+    autoResizeTextarea(contentTextarea);
+  }
+
+
+  function addTable(button) {
+  const container = button.closest('.report-pvt-create__group').querySelector('.report-section__children');
+
+  const tableWrapper = document.createElement('div');
+  tableWrapper.className = 'report-subtable';
+
+  // Hàm tự động resize textarea
+  function autoResizeTextarea(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+  }
+
+  // Tiêu đề bảng là textarea
+  const titleTextarea = document.createElement('textarea');
+  titleTextarea.name = 'tableTitles[]';
+  titleTextarea.placeholder = 'Tiêu đề bảng';
+  titleTextarea.className = 'table-title';
+  titleTextarea.rows = 1;
+  titleTextarea.style.width = '100%';
+  titleTextarea.style.boxSizing = 'border-box';
+  titleTextarea.style.resize = 'vertical';
+  titleTextarea.style.marginBottom = '12px';
+  titleTextarea.addEventListener('input', () => autoResizeTextarea(titleTextarea));
+  autoResizeTextarea(titleTextarea);
+
+  // Phần chọn số hàng và cột
+  const configDiv = document.createElement('div');
+  configDiv.style.marginBottom = '14px';
+  configDiv.style.display = 'flex';
+  configDiv.style.alignItems = 'center';
+  configDiv.style.gap = '12px';
+
+  const rowsLabel = document.createElement('label');
+  rowsLabel.textContent = 'Số hàng: ';
+  const rowsInput = document.createElement('input');
+  rowsInput.type = 'number';
+  rowsInput.min = 1;
+  rowsInput.value = 3;
+  rowsInput.style.width = '60px';
+  rowsInput.style.padding = '6px 8px';
+  rowsLabel.appendChild(rowsInput);
+
+  const colsLabel = document.createElement('label');
+  colsLabel.textContent = ' Số cột: ';
+  const colsInput = document.createElement('input');
+  colsInput.type = 'number';
+  colsInput.min = 1;
+  colsInput.value = 3;
+  colsInput.style.width = '60px';
+  colsInput.style.padding = '6px 8px';
+  colsLabel.appendChild(colsInput);
+
+  const createBtn = document.createElement('button');
+  createBtn.type = 'button';
+  createBtn.textContent = 'Tạo bảng';
+  createBtn.style.padding = '8px 16px';
+  createBtn.style.backgroundColor = '#0078d7';
+  createBtn.style.color = '#fff';
+  createBtn.style.border = 'none';
+  createBtn.style.borderRadius = '6px';
+  createBtn.style.cursor = 'pointer';
+  createBtn.style.fontWeight = '600';
+  createBtn.style.transition = 'background-color 0.3s ease';
+  createBtn.onmouseenter = () => (createBtn.style.backgroundColor = '#005ea8');
+  createBtn.onmouseleave = () => (createBtn.style.backgroundColor = '#0078d7');
+
+  createBtn.onclick = () => {
+    const rows = parseInt(rowsInput.value);
+    const cols = parseInt(colsInput.value);
+    if (rows > 0 && cols > 0) {
+      createTable(rows, cols);
+    } else {
+      alert('Số hàng và số cột phải lớn hơn 0');
+    }
+  };
+
+  configDiv.appendChild(rowsLabel);
+  configDiv.appendChild(colsLabel);
+  configDiv.appendChild(createBtn);
+
+  const table = document.createElement('table');
+  table.className = 'editable-table';
+  table.style.width = '100%';
+  table.style.borderCollapse = 'collapse';
+
+  function createTable(rows, cols) {
+    table.innerHTML = '';
+    for (let i = 0; i < rows; i++) {
+      const tr = document.createElement('tr');
+      for (let j = 0; j < cols; j++) {
+        const td = document.createElement('td');
+        td.style.border = '1px solid #ccc';
+        td.style.padding = '6px 10px';
+
+        const textarea = document.createElement('textarea');
+        textarea.name = `tableCell[]`;
+        textarea.rows = 2;
+        textarea.style.width = '100%';
+        textarea.style.boxSizing = 'border-box';
+        textarea.style.resize = 'vertical';
+        textarea.style.fontFamily = 'inherit';
+
+        // Gắn event tự động resize
+        textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+        autoResizeTextarea(textarea);
+
+        td.appendChild(textarea);
+        tr.appendChild(td);
+      }
+      table.appendChild(tr);
+    }
+  }
+
+  // Tạo bảng mặc định 3x3
+  createTable(3, 3);
+
+  // Nút xoá đặt dưới bảng
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.textContent = '❌ Xóa bảng';
+  removeBtn.style.marginTop = '14px';
+  removeBtn.style.backgroundColor = '#e04545';
+  removeBtn.style.color = '#fff';
+  removeBtn.style.border = 'none';
+  removeBtn.style.borderRadius = '6px';
+  removeBtn.style.padding = '8px 18px';
+  removeBtn.style.fontWeight = '700';
+  removeBtn.style.cursor = 'pointer';
+  removeBtn.style.transition = 'background-color 0.3s ease';
+  removeBtn.onmouseenter = () => (removeBtn.style.backgroundColor = '#a82727');
+  removeBtn.onmouseleave = () => (removeBtn.style.backgroundColor = '#e04545');
+  removeBtn.onclick = () => tableWrapper.remove();
+
+  tableWrapper.appendChild(titleTextarea);
+  tableWrapper.appendChild(configDiv);
+  tableWrapper.appendChild(table);
+  tableWrapper.appendChild(removeBtn);
+
+  container.appendChild(tableWrapper);
+}
+
+
+
+</script>
