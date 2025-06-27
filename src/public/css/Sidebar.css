@@ -9,6 +9,10 @@ body {
   display: none;
 }
 
+.layout-container {
+  display: flex;
+}
+
 .menu {
   position: fixed;
   top: 0;
@@ -23,6 +27,7 @@ body {
   padding: 20px 5px 5px 0;
   backdrop-filter: blur(5px);
   box-shadow: 8px 0px 9px 0px rgba(0, 0, 0, 0.0784313725);
+  z-index: 1000;
 }
 
 .menu:hover {

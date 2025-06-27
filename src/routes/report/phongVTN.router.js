@@ -11,15 +11,16 @@ router.get('/pvt/create', phongVTNController.showCreateForm);
 router.get('/pvt/detail/:id', phongVTNController.viewDetail);
 
 // API routes (JSON)
-router.get('/pvt', phongVTNController.getAllReports);
-router.post('/pvt', phongVTNController.createReport);
-router.get('/pvt/:id', phongVTNController.getReportById);
-router.put('/pvt/:id', phongVTNController.updateReport);
-router.delete('/pvt/:id', phongVTNController.deleteReport);
 router.get('/pvt/department/:department', phongVTNController.getReportsByDepartment);
 router.get('/pvt/date-range', phongVTNController.getReportsByDateRange);
+router.get('/pvt/:id', phongVTNController.getReportById);
+router.get('/pvt', phongVTNController.getAllReports);
+router.post('/pvt', phongVTNController.createReport);
+router.put('/pvt/:id', phongVTNController.updateReport);
+router.delete('/pvt/:id', phongVTNController.deleteReport);
 
 router.get('/', reportController.index);
+
 
 
 module.exports = router;

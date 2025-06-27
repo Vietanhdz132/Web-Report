@@ -1,174 +1,96 @@
-const reportPVTN = require('../../models/report/phongVTN');
 const { ObjectId } = require('mongodb');
+const { getCollection } = require('../../../config/db/mongoClient');
 
-class PhongVTNController {
-  /**
-   * [POST] /report/create - Tạo báo cáo mới
-   */
-  async createReport(req, res) {
-    try {
-      const body = req.body;
+/**
+ * Thêm báo cáo mới
+ * @param {Object} reportData - Dữ liệu báo cáo đầy đủ
+ * @returns {ObjectId} ID của báo cáo vừa thêm
+ */
+async function insertReport(reportData) {
+  const col = getCollection('Report');
 
-      // Gộp và chuẩn hóa dữ liệu nếu cần
-      const report = {
-        week: parseInt(body.week),
-        number: body.number,
-        createdAt: body.createdAt ? new Date(body.createdAt) : new Date(),
-        department: 'Phòng Vô Tuyến',
-        sections: body.sections || {},
-        receivers: body.receivers || '',
-        signer: body.signer || '',
-        position: body.position || ''
-      };
+  const newReport = {
+    reportName: reportData.reportName || 'Chưa đặt tên',
+    number: reportData.number || '',
+    createdAt: reportData.createdAt ? new Date(reportData.createdAt) : new Date(),
+    department: reportData.department ,
+    sections: reportData.sections || {},
+    receivers: reportData.receivers || '',
+    signer: reportData.signer || '',
+    position: reportData.position || ''
+  };
 
-      const insertedId = await reportPVTN.insertReport(report);
-      res.status(201).json({ success: true, insertedId });
-    } catch (err) {
-      console.error('❌ Error creating report:', err);
-      res.status(500).json({ success: false, message: 'Server error' });
-    }
-  }
-
-  /**
-   * [GET] /report - Lấy tất cả báo cáo
-   */
-  async getAllReports(req, res) {
-    try {
-      const reports = await reportPVTN.getAllReports();
-      res.json(reports);
-    } catch (err) {
-      console.error('❌ Error fetching reports:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [GET] /report/:id - Lấy báo cáo theo ID
-   */
-  async getReportById(req, res) {
-    try {
-      const id = req.params.id;
-      if (!ObjectId.isValid(id)) {
-        return res.status(400).json({ success: false, message: 'Invalid ID' });
-      }
-
-      const report = await reportPVTN.getReportById(id);
-      if (!report) {
-        return res.status(404).json({ success: false, message: 'Report not found' });
-      }
-
-      res.json(report);
-    } catch (err) {
-      console.error('❌ Error fetching report by ID:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [PUT] /report/:id - Cập nhật báo cáo
-   */
-  async updateReport(req, res) {
-    try {
-      const id = req.params.id;
-      const update = req.body;
-
-      const count = await reportPVTN.updateReport(id, update);
-      res.json({ success: count > 0 });
-    } catch (err) {
-      console.error('❌ Error updating report:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [DELETE] /report/:id - Xóa báo cáo
-   */
-  async deleteReport(req, res) {
-    try {
-      const id = req.params.id;
-      const count = await reportPVTN.deleteReport(id);
-      res.json({ success: count > 0 });
-    } catch (err) {
-      console.error('❌ Error deleting report:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [GET] /report/department/:department
-   */
-  async getReportsByDepartment(req, res) {
-    try {
-      const { department } = req.params;
-      const reports = await reportPVTN.getReportsByDepartment(department);
-      res.json(reports);
-    } catch (err) {
-      console.error('❌ Error fetching by department:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [GET] /report/range?start=yyyy-mm-dd&end=yyyy-mm-dd
-   */
-  async getReportsByDateRange(req, res) {
-    try {
-      const { start, end } = req.query;
-
-      if (!start || !end) {
-        return res.status(400).json({ success: false, message: 'Missing date range' });
-      }
-
-      const reports = await reportPVTN.getReportsByDateRange(start, end);
-      res.json(reports);
-    } catch (err) {
-      console.error('❌ Error fetching by date range:', err);
-      res.status(500).json({ success: false });
-    }
-  }
-
-  /**
-   * [GET] /report/view - Giao diện danh sách HTML
-   */
-  async viewAll(req, res) {
-    try {
-      res.render('report/pvtn', {
-        layout: 'reportLayout',
-        title: 'Báo cáo tuần Phòng Vô Tuyến'
-      });
-    } catch (err) {
-      console.error('Render error:', err);
-      res.status(500).render('404', { layout: 'reportLayout' });
-    }
-  }
-
-  /**
-   * [GET] /report/detail/:id - Giao diện chi tiết báo cáo
-   */
-  async viewDetail(req, res) {
-    try {
-      const report = await reportPVTN.getReportById(req.params.id);
-      if (!report) return res.status(404).send('Không tìm thấy báo cáo');
-      res.render('report/detail', { report });
-    } catch (err) {
-      res.status(500).send('Lỗi khi xem chi tiết');
-    }
-  }
-
-  /**
-   * [GET] /report/create - Giao diện tạo báo cáo
-   */
-  async showCreateForm(req, res) {
-    try {
-      res.render('report/create', {
-        layout: 'reportLayout',
-        title: 'Tạo Báo Cáo Tuần - Phòng Vô Tuyến'
-      });
-    } catch (err) {
-      console.error('Render error:', err);
-      res.status(500).render('404', { layout: 'reportLayout' });
-    }
-  }
+  const result = await col.insertOne(newReport);
+  return result.insertedId;
 }
 
-module.exports = new PhongVTNController();
+/**
+ * Lấy toàn bộ báo cáo, mới nhất trước
+ */
+async function getAllReports() {
+  const col = getCollection('Report');
+  return await col.find({}).sort({ createdAt: -1 }).toArray();
+}
+
+/**
+ * Lấy báo cáo theo ID
+ */
+async function getReportById(id) {
+  if (!ObjectId.isValid(id)) return null;
+  const col = getCollection('Report');
+  return await col.findOne({ _id: new ObjectId(id) });
+}
+
+/**
+ * Cập nhật báo cáo
+ */
+async function updateReport(id, updatedFields) {
+  if (!ObjectId.isValid(id)) return 0;
+  const col = getCollection('Report');
+  const result = await col.updateOne(
+    { _id: new ObjectId(id) },
+    { $set: updatedFields }
+  );
+  return result.modifiedCount;
+}
+
+/**
+ * Xoá báo cáo
+ */
+async function deleteReport(id) {
+  if (!ObjectId.isValid(id)) return 0;
+  const col = getCollection('Report');
+  const result = await col.deleteOne({ _id: new ObjectId(id) });
+  return result.deletedCount;
+}
+
+/**
+ * Lấy báo cáo theo phòng ban
+ */
+async function getReportsByDepartment(department) {
+  const col = getCollection('Report');
+  return await col.find({ department }).sort({ createdAt: -1 }).toArray();
+}
+
+/**
+ * Lấy báo cáo theo khoảng ngày (start, end là string 'YYYY-MM-DD')
+ */
+async function getReportsByDateRange(start, end) {
+  const col = getCollection('Report');
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  return await col.find({
+    createdAt: { $gte: startDate, $lte: endDate }
+  }).sort({ createdAt: -1 }).toArray();
+}
+
+module.exports = {
+  insertReport,
+  getAllReports,
+  getReportById,
+  updateReport,
+  deleteReport,
+  getReportsByDepartment,
+  getReportsByDateRange,
+};
