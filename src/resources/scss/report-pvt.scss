@@ -38,10 +38,18 @@
 
 /* ==== Bảng bọc cuộn ==== */
 .report-pvt__table-wrapper {
-  max-height: 450px;
+  max-height: 550px;
   overflow-y: auto;
   border-radius: 10px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+
+  /* Ẩn scrollbar nhưng vẫn cho cuộn */
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE và Edge cũ */
+}
+
+.report-pvt__table-wrapper::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari, Edge mới */
 }
 
 /* ==== Bảng báo cáo ==== */
@@ -77,11 +85,14 @@
 
 /* Hover row */
 .report-pvt__table tbody tr {
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.15s ease;
   cursor: pointer;
+  will-change: background-color, transform;
 }
+
 .report-pvt__table tbody tr:hover {
   background-color: #2c2f33;
+  transform: scale(1.01);
 }
 
 .report-pvt__table tbody tr:hover td {
@@ -118,7 +129,6 @@
   background: none;
   border: none;
   color: #ef5350;
-  font-size: 1.1rem;
   cursor: pointer;
   padding: 6px 14px;
   border-radius: 6px;
