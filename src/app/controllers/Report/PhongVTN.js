@@ -193,11 +193,15 @@ class PhongVTNController {
       }
 
       const report = await reportPVTN.getReportById(id);
+      
       if (!report) return res.status(404).send('Không tìm thấy báo cáo');
 
-      res.render('report/detail', { report });
+      res.render('report/viewreport', {
+        layout: 'reportLayout',
+        report
+      });
     } catch (err) {
-      console.error('Error khi xem chi tiết:', err);
+      console.error('❌ Error khi xem chi tiết:', err);
       res.status(500).send('Lỗi khi xem chi tiết');
     }
   }

@@ -4,9 +4,11 @@ const morgan = require('morgan');
 const cookieParser = require("cookie-parser");
 const axios = require('axios');
 const cron = require('node-cron');
-const { writeLog } = require('./ulti/logger')
+const { writeLog } = require('./ulti/logger');
+const moment = require('moment');
 const os = require('os');
 const { engine } = require('express-handlebars');
+
 const app = express();
 const port = 3000;
 
@@ -33,11 +35,21 @@ app.engine(
   'hbs',
   engine({
     extname: '.hbs',
+    partialsDir: path.join(__dirname, 'resources', 'views', 'partials'), // thư mục partials
     helpers: {
       eq: (a, b) => a === b,
+      splitLines: (text) => {
+        if (!text) return [];
+        return text.split('\n').map(line => line.replace(/^-/, '').trim());
+      },
+      formatDate: (date) => {
+        if (!date) return '';
+        return moment(date).format('DD/MM/YYYY');
+      }
     }
   }),
 );
+
 
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'));

@@ -63,7 +63,7 @@
         <td>${report.date}</td>
         <td>${report.department || 'Phòng Vô Tuyến'}</td>
         <td class="report-pvt__actions">
-          <a href="/report/view/${report._id}" class="report-pvt__action-link">📄 Xem</a>
+          <a href="/report/pvt/detail/${report._id}" class="report-pvt__action-link">📄 Xem</a>
           <a href="/report/edit/${report._id}" class="report-pvt__action-link">✏️ Sửa</a>
           <form action="/report/${report._id}" method="POST" class="report-pvt__action-form" style="display:inline;">
             <input type="hidden" name="_method" value="DELETE">
