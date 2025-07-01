@@ -8,75 +8,96 @@
 
   <!-- Danh sách báo cáo -->
   <section class="report-pvt__list">
-  <h2 class="report-pvt__list-title">📋 Danh sách báo cáo</h2>
-<div class="report-pvt__table-wrapper">
-  <table id="reportTable" class="report-pvt__table" style="display:none;">
-    <thead>
-      <tr>
-        <th>Tên báo cáo</th>
-        <th>Số hiệu</th>
-        <th>Ngày tạo</th>
-        <th>Phòng</th>
-        <th>Hành động</th>
-      </tr>
-    </thead>
-    <tbody id="reportTableBody"></tbody>
-  </table>
-</div>
-  <p id="noReports" class="report-pvt__no-data" style="display:none;">Chưa có báo cáo nào.</p>
-</section>
-
+    <h2 class="report-pvt__list-title">📋 Danh sách báo cáo</h2>
+    <div class="report-pvt__table-wrapper">
+      <table id="reportTable" class="report-pvt__table" style="display:none;">
+        <thead>
+          <tr>
+            <th>Tên báo cáo</th>
+            <th>Số hiệu</th>
+            <th>Ngày tạo</th>
+            <th>Phòng</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody id="reportTableBody"></tbody>
+      </table>
+    </div>
+    <p id="noReports" class="report-pvt__no-data" style="display:none;">Chưa có báo cáo nào.</p>
+  </section>
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-  const tbody = document.getElementById('reportTableBody');
-  const noDataMsg = document.getElementById('noReports');
-  const reportTable = document.getElementById('reportTable');
+  document.addEventListener('DOMContentLoaded', () => {
+    loadReports();
+  });
 
-  if (!tbody || !noDataMsg || !reportTable) {
-    console.error('❌ Thiếu phần tử trong DOM, kiểm tra lại HTML!');
-    return;
-  }
+  async function loadReports() {
+    const tbody = document.getElementById('reportTableBody');
+    const noDataMsg = document.getElementById('noReports');
+    const reportTable = document.getElementById('reportTable');
 
-  try {
-    const res = await fetch('/report/pvt');
-    const { success, reports } = await res.json();
-
-    if (!success || !reports.length) {
-      noDataMsg.style.display = 'block';
-      reportTable.style.display = 'none';
+    if (!tbody || !noDataMsg || !reportTable) {
+      console.error('❌ Thiếu phần tử trong DOM, kiểm tra lại HTML!');
       return;
     }
 
-    noDataMsg.style.display = 'none';
-    reportTable.style.display = 'table';
+    try {
+      const res = await fetch('/report/pvt');
+      const { success, reports } = await res.json();
 
-    // Xóa hết các dòng cũ (nếu có)
-    tbody.innerHTML = '';
+      if (!success || !reports.length) {
+        noDataMsg.style.display = 'block';
+        reportTable.style.display = 'none';
+        tbody.innerHTML = '';
+        return;
+      }
 
-    reports.forEach(report => {
-      const tr = document.createElement('tr');
-      tr.innerHTML = `
-        <td>${report.reportName}</td>
-        <td>${report.number}</td>
-        <td>${report.date}</td>
-        <td>${report.department || 'Phòng Vô Tuyến'}</td>
-        <td class="report-pvt__actions">
-          <a href="/report/pvt/detail/${report._id}" class="report-pvt__action-link">📄 Xem</a>
-          <a href="/report/edit/${report._id}" class="report-pvt__action-link">✏️ Sửa</a>
-          <form action="/report/${report._id}" method="POST" class="report-pvt__action-form" style="display:inline;">
-            <input type="hidden" name="_method" value="DELETE">
-            <button type="submit" onclick="return confirm('Xoá báo cáo này?')" class="report-pvt__action-delete">🗑️ Xóa</button>
-          </form>
-        </td>
-      `;
-      tbody.appendChild(tr);
-    });
-  } catch (err) {
-    console.error('❌ Error loading reports:', err);
-    alert('Không thể tải danh sách báo cáo.');
+      noDataMsg.style.display = 'none';
+      reportTable.style.display = 'table';
+
+      tbody.innerHTML = '';
+
+      reports.forEach(report => {
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-id', report._id);
+        tr.innerHTML = `
+          <td>${report.reportName}</td>
+          <td>${report.number}</td>
+          <td>${report.date}</td>
+          <td>${report.department || 'Phòng Vô Tuyến'}</td>
+          <td class="report-pvt__actions">
+            <a href="/report/pvt/detail/${report._id}" class="report-pvt__action-link">📄 Xem</a>
+            <a href="/report/edit/${report._id}" class="report-pvt__action-link">✏️ Sửa</a>
+            <button class="report-pvt__action-delete" onclick="deleteReport('${report._id}')">🗑️ Xóa</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error('❌ Error loading reports:', err);
+      alert('Không thể tải danh sách báo cáo.');
+    }
   }
-});
+
+  async function deleteReport(id) {
+    if (!confirm('Xoá báo cáo này?')) return;
+
+    try {
+      const res = await fetch(`/report/pvt/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        showAlert(' Xóa báo cáo thành công !', 'success');
+        loadReports(); // Load lại danh sách báo cáo sau khi xóa
+      } else {
+        showAlert('Xóa thất bại: ' + (data.message || 'Lỗi không xác định'), 'danger');
+      }
+    } catch (err) {
+      showAlert('Lỗi khi xóa báo cáo: ' + err.message, 'danger');
+    }
+  }
 
 </script>

@@ -11,6 +11,7 @@ async function insertReport(reportData) {
 
   const newReport = {
     reportName: reportData.reportName || 'Chưa đặt tên',
+    recipient: reportData.recipient|| 'Chưa có',
     number: reportData.number || '',
     createdAt: reportData.createdAt ? new Date(reportData.createdAt) : new Date(),
     department: reportData.department ,
@@ -59,10 +60,16 @@ async function updateReport(id, updatedFields) {
  */
 async function deleteReport(id) {
   if (!ObjectId.isValid(id)) return 0;
-  const col = getCollection('Report');
-  const result = await col.deleteOne({ _id: new ObjectId(id) });
-  return result.deletedCount;
+  try {
+    const col = getCollection('Report');
+    const result = await col.deleteOne({ _id: new ObjectId(id) });
+    return result.deletedCount;
+  } catch (error) {
+    console.error('Error deleting report:', error);
+    return 0;
+  }
 }
+
 
 /**
  * Lấy báo cáo theo phòng ban

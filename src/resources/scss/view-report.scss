@@ -138,3 +138,89 @@ hr {
   line-height: 1;   /* giảm độ cao dòng nếu cần */
 }
 
+.report-pvt-view__header {
+  margin-bottom: 20px;
+  font-family: 'Times New Roman', serif;
+}
+
+.report-header__top {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+}
+
+.report-header__left,
+.report-header__right {
+  width: 48%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.report-header__right {
+  text-align: right;
+}
+
+.report-header__date {
+  margin-top: -20px;
+  margin-right: 50px;
+  display: flex;
+  justify-content: flex-end;
+  font-style: italic;
+}
+
+.report-header__title {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 25px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.report-header__recipient {
+  margin-top: 10px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: space-between; /* đẩy 2 nút về 2 đầu */
+  align-items: center;
+  margin: 20px 0; /* khoảng cách trên dưới */
+}
+
+
+.report-footer-container {
+  display: flex;
+  gap: 40px; /* khoảng cách 2 cột */
+  justify-content: space-between; /* đẩy 2 phần về 2 đầu */
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+/* Có thể đặt width cụ thể hoặc flex-grow nếu muốn */
+.report-receivers,
+.report-signer-info {
+  flex: 1;
+}
+
+/* Nếu muốn giới hạn chiều rộng tối đa cho mỗi phần */
+.report-receivers {
+  max-width: 55%;
+}
+
+.report-signer-info {
+  max-width: 40%;
+}
+
+.signer-info p {
+  text-align: center;
+}

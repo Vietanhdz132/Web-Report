@@ -7,7 +7,9 @@ const cron = require('node-cron');
 const { writeLog } = require('./ulti/logger');
 const moment = require('moment');
 const os = require('os');
+const methodOverride = require('method-override');
 const { engine } = require('express-handlebars');
+
 
 const app = express();
 const port = 3000;
@@ -20,13 +22,17 @@ const mongoDB = require('./config/db/mongoClient');
 db.connect();
 mongoDB.connect();
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
-app.use(express.urlencoded());
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // Đọc form data
+app.use(methodOverride('_method'));  
 
-
+// app.use((req, res, next) => {
+//   console.log('🛰️ Request:', req.method, req.url);
+//   next();
+// });
 //HTTP logger
 //app.use(morgan('combined'))
 
@@ -98,3 +104,5 @@ app.listen(port, () => {
     timezone: 'Asia/Ho_Chi_Minh'
   });
 });
+
+require('./helpers/handlebars');

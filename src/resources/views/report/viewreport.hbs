@@ -1,266 +1,63 @@
 <div class="report-pvt-view">
-  <h1 class="report-pvt-view__title">📄 Báo Cáo Tuần - {{report.reportName}}</h1>
-  <p><strong>Số hiệu:</strong> {{report.number}}</p>
-  <p><strong>Ngày tạo:</strong> {{formatDate report.createdAt}}</p>
-  <p><strong>Người ký:</strong> {{report.signer}} ({{report.position}})</p>
+ <div class="report-pvt-view__header">
+  <div class="report-header__top">
+    <div class="report-header__left">
+      TRUNG TÂM MẠNG LƯỚI MOBIFONE MIỀN BẮC<br />
+      <span class="underline">PHÒNG VÔ TUYẾN</span>
+      <div><strong>Số:</strong> {{report.number}} /BC-VTN</div>
+    </div>
+    <div class="report-header__right">
+      CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br />
+      <span class="underline">Độc lập - Tự do - Hạnh phúc</span>
+    </div>
+  </div>
 
-  <hr />
+  <div class="report-header__date" id="vietnamDate"></div>
+
+
+  <h1 class="report-header__title">{{report.reportName}}</h1>
+
+  <p class="report-header__recipient">Kính gửi: {{report.recipient}}</p>
+</div>
+
 
   <!-- Nhóm 1: I. ĐÁNH GIÁ KẾT QUẢ TRIỂN KHAI -->
   <h2>I. ĐÁNH GIÁ KẾT QUẢ TRIỂN KHAI</h2>
   {{!-- Kết quả thực hiện BSC-KPI --}}
   <div class="report-pvt-view__section">
     <h3>1. Kết quả thực hiện BSC-KPI</h3>
-    {{#each report.sections.bscKpi}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-            <p class="report-line">- {{this}}</p>
-          {{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
-  </div>
-
+{{{renderSectionItems report.sections.bscKpi}}}
   
 
   {{!-- Công tác TUH --}}
   <div class="report-pvt-view__section">
     <h3>2. Công việc trọng tâm</h3>
     <h3>Công tác TUH</h3>
-    {{#each report.sections.tuh}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{{renderSectionItems report.sections.tuh}}}
   </div>
 
   {{!-- Công tác PTM --}}
   <div class="report-pvt-view__section">
     <h3>Công tác PTM</h3>
-    {{#each report.sections.ptm}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{{renderSectionItems report.sections.ptm}}}
   </div>
 
   {{!-- Công tác CNTT --}}
   <div class="report-pvt-view__section">
     <h3>Công tác CNTT</h3>
-    {{#each report.sections.cntt}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{{renderSectionItems report.sections.cntt}}}
   </div>
 
   {{!-- Công tác VHM --}}
   <div class="report-pvt-view__section">
     <h3>Công tác VHM</h3>
-    {{#each report.sections.vhm}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{{renderSectionItems report.sections.vhm}}}
   </div>
 
   {{!-- Công tác KHCP --}}
   <div class="report-pvt-view__section">
     <h3>Công tác KHCP</h3>
-    {{#each report.sections.khcp}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{{renderSectionItems report.sections.khcp}}}
   </div>
 
   <hr />
@@ -270,43 +67,8 @@
   <h2>II. THỰC HIỆN KẾT LUẬN, CHỈ ĐẠO</h2>
   <div class="report-pvt-view__section">
     <h3>Nội dung kết luận, chỉ đạo</h3>
-    {{#each report.sections.conclusion}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.conclusion}}
+      
   </div>
 
   <hr />
@@ -315,84 +77,14 @@
 
   <div class="report-pvt-view__section">
     <h3>1. Kiến nghị với LĐTT/TCT</h3>
-    {{#each report.sections.kientnghi_ldtt}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kientnghi_ldtt}}
+      
   </div>
 
   <div class="report-pvt-view__section">
     <h3>2. Kiến nghị với đơn vị khác</h3>
-    {{#each report.sections.kientnghi_dvkhac}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kientnghi_dvkhac}}
+      
   </div>
 
   <hr />
@@ -402,223 +94,154 @@
   {{!-- Kế hoạch TUH --}}
   <div class="report-pvt-view__section">
     <h3>Công tác TUH</h3>
-    {{#each report.sections.kehoach_tuh}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kehoach_tuh}}
+      
   </div>
 
   {{!-- Kế hoạch PTM --}}
   <div class="report-pvt-view__section">
     <h3>Công tác PTM</h3>
-    {{#each report.sections.kehoach_ptm}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kehoach_ptm}}
+      
   </div>
 
   {{!-- Kế hoạch CNTT --}}
   <div class="report-pvt-view__section">
     <h3>Công tác CNTT</h3>
-    {{#each report.sections.kehoach_cntt}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kehoach_cntt}}
+      
   </div>
 
   {{!-- Kế hoạch VHM --}}
   <div class="report-pvt-view__section">
     <h3>Công tác VHM</h3>
-    {{#each report.sections.kehoach_vhm}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kehoach_vhm}}
+      
   </div>
 
   {{!-- Kế hoạch KHCP --}}
   <div class="report-pvt-view__section">
     <h3>Công tác KHCP</h3>
-    {{#each report.sections.kehoach_khcp}}
-      {{#if (eq this.type "text")}}
-        <div class="report-subitem-view">
-          <h4>{{this.title}}</h4>
-          {{#each (splitLines this.content) }}
-  <p class="report-line">- {{this}}</p>
-{{/each}}
-
-        </div>
-      {{/if}}
-      {{#if (eq this.type "table")}}
-        <div class="report-subtable-view">
-  <h4>{{this.title}}</h4>
-  <table>
-    <thead>
-      <tr>
-        {{#each this.cells.[0]}}
-          <th>{{this}}</th>
-        {{/each}}
-      </tr>
-    </thead>
-    <tbody>
-      {{#each this.cells}}
-        {{#if @index}}
-          <tr>
-            {{#each this}}
-              <td>{{this}}</td>
-            {{/each}}
-          </tr>
-        {{/if}}
-      {{/each}}
-    </tbody>
-  </table>
-</div>
-
-      {{/if}}
-    {{/each}}
+    {{renderSectionItems report.sections.kehoach_khcp}}
+      
   </div>
 
   <hr />
 
-  <h2>NƠI NHẬN</h2>
-  <pre class="report-pvt-view__receivers">{{report.receivers}}</pre>
+  <div class="report-footer-container">
+    <div class="report-receivers">
+      <h2>NƠI NHẬN</h2>
+      <pre class="report-pvt-view__receivers">{{report.receivers}}</pre>
+    </div>
 
-  <hr />
+    <div class="report-signer-info">
+      <h2>Thông tin ký báo cáo</h2>
+      <div class="signer-info">
+        <p style="margin-bottom: 60px;">{{report.position}}</p>
+        <p>{{report.signer}}</p>
+      </div>
 
-  <h2>Thông tin ký báo cáo</h2>
-  <p><strong>Người ký:</strong> {{report.signer}}</p>
-  <p><strong>Chức vụ:</strong> {{report.position}}</p>
 
-  <a href="/report/pvt/view" class="btn-back">⬅️ Quay lại danh sách</a>
+  </div>
 </div>
+  <div class="button-container">
+    <a href="/report/pvt/view" class="btn-back">⬅️ Quay lại danh sách</a>
+    <button id="exportWordBtn" class="btn-back">Xuất báo cáo Word</button>
+  </div>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.min.js"></script>
+
+<script>
+  document.getElementById('exportWordBtn').addEventListener('click', () => {
+    const reportContent = document.querySelector('.report-pvt-view');
+
+    if (!reportContent) {
+      alert('Không tìm thấy nội dung báo cáo!');
+      return;
+    }
+
+    const html = `
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <style>
+            /* Dán toàn bộ CSS bạn có vào đây */
+            .report-pvt-view {
+              max-width: 900px;
+              margin: 30px auto;
+              padding: 30px 40px;
+              font-family: 'Times New Roman', serif;
+              font-size: 16px;
+              color: #222;
+              background: #fff;
+              border: 1px solid #ffffff;
+              box-shadow: 0 0 10px #0f0f0f;
+              line-height: 1.6;
+            }
+            /* ... copy hết css bạn gửi ở trên ... */
+            .btn-back {
+              display: inline-block;
+              padding: 10px 18px;
+              margin-top: 15px;
+              background-color: #004080;
+              color: white;
+              text-decoration: none;
+              border-radius: 4px;
+              font-weight: bold;
+              transition: background-color 0.3s ease;
+              cursor: pointer;
+              border: none;
+              font-family: inherit;
+            }
+            .btn-back:hover {
+              background-color: #0066cc;
+            }
+            .button-container {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin: 20px 0;
+            }
+            /* Các style khác bạn có tiếp tục dán vào đây */
+          </style>
+        </head>
+        <body>
+          ${reportContent.innerHTML}
+        </body>
+      </html>
+    `;
+
+    const converted = window.htmlDocx.asBlob(html);
+
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(converted);
+    link.download = 'bao-cao.docx';
+    document.body.appendChild(link);
+    link.click();
+
+    setTimeout(() => {
+      URL.revokeObjectURL(link.href);
+      link.remove();
+    }, 100);
+  });
+</script>
+
+
+<script>
+  // Giả sử bạn đã có ngày tạo trong biến JavaScript
+  const createdAt = '{{report.createdAt}}'; // Handlebars sẽ render giá trị thật
+
+  function formatVietnamDate(dateStr) {
+    const d = new Date(dateStr);
+    const day = d.getDate();
+    const month = d.getMonth() + 1;
+    const year = d.getFullYear();
+    return `Hà Nội, ngày ${day} tháng ${month} năm ${year}`;
+  }
+
+  // Hiển thị lên HTML
+  document.getElementById('vietnamDate').textContent = formatVietnamDate(createdAt);
+</script>

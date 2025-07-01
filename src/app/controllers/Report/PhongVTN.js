@@ -12,6 +12,7 @@ class PhongVTNController {
       // Chuẩn hóa dữ liệu đầu vào nếu cần
       const report = {
         reportName: body.reportName || '',
+        recipient: body.recipient || '',
         number: body.number || '',
         createdAt: body.createdAt ? new Date(body.createdAt) : new Date(),
         department: 'Phòng Vô Tuyến',
@@ -107,6 +108,7 @@ class PhongVTNController {
    * [DELETE] /report/:id - Xóa báo cáo
    */
   async deleteReport(req, res) {
+
     try {
       const id = req.params.id;
       if (!ObjectId.isValid(id)) {
@@ -115,15 +117,16 @@ class PhongVTNController {
 
       const count = await reportPVTN.deleteReport(id);
       if (count > 0) {
-        res.json({ success: true });
+        return res.json({ success: true, message: 'Xóa báo cáo thành công' });
       } else {
-        res.status(404).json({ success: false, message: 'Không tìm thấy báo cáo để xóa' });
+        return res.status(404).json({ success: false, message: 'Không tìm thấy báo cáo để xóa' });
       }
     } catch (err) {
       console.error('❌ Error deleting report:', err);
-      res.status(500).json({ success: false });
+      return res.status(500).json({ success: false, message: 'Lỗi server khi xóa báo cáo' });
     }
   }
+
 
   /**
    * [GET] /report/department/:department - Lấy báo cáo theo phòng ban
@@ -195,6 +198,7 @@ class PhongVTNController {
       const report = await reportPVTN.getReportById(id);
       
       if (!report) return res.status(404).send('Không tìm thấy báo cáo');
+      // console.log('📝 Dữ liệu báo cáo:', JSON.stringify(report, null, 2));
 
       res.render('report/viewreport', {
         layout: 'reportLayout',

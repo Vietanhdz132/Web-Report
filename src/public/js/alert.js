@@ -1,8 +1,25 @@
-function showAlert(message, type, title = "⚠️Warning") {
+function showAlert(message, type) {
     // Xóa alert cũ nếu có
     const existingAlert = document.getElementById("customAlert");
     if (existingAlert) {
         existingAlert.remove();
+    }
+
+    // Icon theo type
+    let icon = "";
+    switch(type) {
+        case "success":
+            icon = "✔️";  // Tích xanh
+            break;
+        case "warning":
+            icon = "⚠️";  // Tam giác chấm than
+            break;
+        case "danger":
+        case "error":
+            icon = "❗";  // Đèn cảnh báo hoặc chấm than to
+            break;
+        default:
+            icon = "";    // Không có icon
     }
 
     // Tạo alert mới
@@ -18,21 +35,41 @@ function showAlert(message, type, title = "⚠️Warning") {
         zIndex: "1050",
         minWidth: "300px",
         maxWidth: "400px",
-        padding: "15px",
+        padding: "15px 15px 15px 45px", // thêm padding trái cho icon
         fontSize: "16px",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
         borderRadius: "8px",
-        backgroundColor: type === "success" ? "#d1e7dd" : "#f8d7da",
-        color: type === "success" ? "#0f5132" : "#842029",
+        backgroundColor: type === "success" ? "#d1e7dd" : (type === "warning" ? "#fff3cd" : "#f8d7da"),
+        color: type === "success" ? "#0f5132" : (type === "warning" ? "#664d03" : "#842029"),
         transition: "right 0.5s ease-in-out, opacity 0.5s ease-in-out",
+        position: "fixed",
+        display: "flex",
+        alignItems: "center",
     });
 
-    // Thêm nội dung cho alert
-    alertDiv.innerHTML = `
-        <div style="font-weight: bold; font-size: 18px; margin-bottom: 5px;">${title} !!!!</div>
-        <div>${message}</div>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    `;
+    // Tạo span chứa icon với style riêng
+    const iconSpan = document.createElement("span");
+    iconSpan.textContent = icon;
+    Object.assign(iconSpan.style, {
+        position: "absolute",
+        left: "15px",
+        fontSize: "22px",
+        lineHeight: "1",
+    });
+    alertDiv.appendChild(iconSpan);
+
+    // Thêm nội dung cho alert (bỏ phần title)
+    const messageDiv = document.createElement("div");
+    messageDiv.textContent = message;
+    alertDiv.appendChild(messageDiv);
+
+    // Nút đóng
+    const closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "btn-close";
+    closeBtn.setAttribute("aria-label", "Close");
+    closeBtn.onclick = () => alertDiv.remove();
+    alertDiv.appendChild(closeBtn);
 
     // Thêm vào body
     document.body.appendChild(alertDiv);
