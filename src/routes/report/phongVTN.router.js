@@ -9,6 +9,7 @@ const reportController = require('../../app/controllers/ReportController');
 router.get('/pvt/view', phongVTNController.viewAll);
 router.get('/pvt/create', phongVTNController.showCreateForm);
 router.get('/pvt/detail/:id', phongVTNController.viewDetail);
+router.get('/pvt/exportpdf/:id/:reportName', phongVTNController.exportPdf);
 
 // API routes (JSON)
 router.get('/pvt/department/:department', phongVTNController.getReportsByDepartment);

@@ -130,15 +130,14 @@
 
   <div class="report-footer-container">
     <div class="report-receivers">
-      <h2>NƠI NHẬN</h2>
+      <Strong style="margin-left: 60px;">Nơi nhận:</Strong>
       <pre class="report-pvt-view__receivers">{{report.receivers}}</pre>
     </div>
 
     <div class="report-signer-info">
-      <h2>Thông tin ký báo cáo</h2>
       <div class="signer-info">
-        <p style="margin-bottom: 60px;">{{report.position}}</p>
-        <p>{{report.signer}}</p>
+        <p style="margin-bottom: 100px;"><strong>{{report.position}}</strong></p>
+        <p><strong>{{report.signer}}</strong></p>
       </div>
 
 
@@ -146,88 +145,17 @@
 </div>
   <div class="button-container">
     <a href="/report/pvt/view" class="btn-back">⬅️ Quay lại danh sách</a>
-    <button id="exportWordBtn" class="btn-back">Xuất báo cáo Word</button>
+
+    <a href="/report/pvt/exportpdf/{{report._id}}/{{report.reportName}}" class="btn-back" target="_blank">📄 Xuất báo cáo PDF</a>
+
   </div>
 
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/html-docx-js/dist/html-docx.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-<script>
-  document.getElementById('exportWordBtn').addEventListener('click', () => {
-    const reportContent = document.querySelector('.report-pvt-view');
 
-    if (!reportContent) {
-      alert('Không tìm thấy nội dung báo cáo!');
-      return;
-    }
-
-    const html = `
-      <html>
-        <head>
-          <meta charset="utf-8" />
-          <style>
-            /* Dán toàn bộ CSS bạn có vào đây */
-            .report-pvt-view {
-              max-width: 900px;
-              margin: 30px auto;
-              padding: 30px 40px;
-              font-family: 'Times New Roman', serif;
-              font-size: 16px;
-              color: #222;
-              background: #fff;
-              border: 1px solid #ffffff;
-              box-shadow: 0 0 10px #0f0f0f;
-              line-height: 1.6;
-            }
-            /* ... copy hết css bạn gửi ở trên ... */
-            .btn-back {
-              display: inline-block;
-              padding: 10px 18px;
-              margin-top: 15px;
-              background-color: #004080;
-              color: white;
-              text-decoration: none;
-              border-radius: 4px;
-              font-weight: bold;
-              transition: background-color 0.3s ease;
-              cursor: pointer;
-              border: none;
-              font-family: inherit;
-            }
-            .btn-back:hover {
-              background-color: #0066cc;
-            }
-            .button-container {
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-              margin: 20px 0;
-            }
-            /* Các style khác bạn có tiếp tục dán vào đây */
-          </style>
-        </head>
-        <body>
-          ${reportContent.innerHTML}
-        </body>
-      </html>
-    `;
-
-    const converted = window.htmlDocx.asBlob(html);
-
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(converted);
-    link.download = 'bao-cao.docx';
-    document.body.appendChild(link);
-    link.click();
-
-    setTimeout(() => {
-      URL.revokeObjectURL(link.href);
-      link.remove();
-    }, 100);
-  });
-</script>
 
 
 <script>

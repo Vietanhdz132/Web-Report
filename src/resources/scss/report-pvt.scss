@@ -490,3 +490,17 @@
   background-color: #005ea8;
   box-shadow: 0 4px 10px rgba(0, 95, 158, 0.3);
 }
+
+.table-cell-wrapper {
+  position: relative;
+}
+
+.table-cell-checkbox {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  z-index: 1;
+  display: none; /* Ẩn mặc định */
+}
+
+
