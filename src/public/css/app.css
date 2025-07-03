@@ -57,6 +57,10 @@
   width: 80%;
 }
 
+.nav {
+  padding-top: 20px;
+}
+
 header {
   position: fixed !important;
 }
@@ -439,11 +443,6 @@ ul {
   transition: top 0.3s;
 }
 
-body {
-  margin-top: 30px;
-  /* Đẩy nội dung xuống dưới header */
-}
-
 .tp_banner_main {
   padding-top: 50px;
   /* Để tạo khoảng trống phía trên slider */
@@ -531,37 +530,6 @@ body {
   color: white;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-}
-
-/* Input trong modal */
-#UserRegister input {
-  width: 100%;
-  padding: 10px;
-  margin: 8px 0;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  transition: all 0.3s ease-in-out;
-}
-
-#UserRegister input:focus {
-  border-color: #5f84ff;
-  box-shadow: 0px 0px 5px rgba(84, 103, 243, 0.5);
-}
-
-/* Nút đăng ký */
-#UserRegister .htmlBtn {
-  background: #3483eb;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  width: 100%;
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-#UserRegister .htmlBtn:hover {
-  background: #054c92;
 }
 
 .alert {
@@ -742,7 +710,6 @@ body {
 
 .container {
   max-width: 90vw !important;
-  margin-left: 5vw;
 }
 
 .footer .column {

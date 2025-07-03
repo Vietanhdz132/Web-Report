@@ -20,6 +20,7 @@ router.post('/login', authController.login);
 router.post("/refresh-token", authController.refreshToken);
 router.get('/protected', authController.verifyToken, authController.protectedRoute);
 router.post('/register', authController.register)
-router.get('/', authController.loginPage)
+// router.get('/', authController.loginPage)
+router.get('/login', authController.loginPage);
 
 module.exports = router;

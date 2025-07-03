@@ -200,7 +200,7 @@ class PhongVTNController {
 
       const report = await reportPVTN.getReportById(id);
       
-      if (!report) return res.status(404).send('Không tìm thấy báo cáo');
+      if (!report) return res.status(404).send('Không tìm thấy báo cáo  aaa');
       // console.log('📝 Dữ liệu báo cáo:', JSON.stringify(report, null, 2));
 
       res.render('report/viewreport', {

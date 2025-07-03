@@ -1,154 +1,92 @@
-<div class="layout-account">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-6 col-xs-12 wrapbox-heading-page">
-                <div class="header-page clearfix">
-                    <h1>Đăng nhập</h1>
-                </div>
-            </div>
-            <div class="col-md-6 col-xs-12 wrapbox-content-page">
-                <div id="customer-login">
-                    <div id="login" class="userbox">
-                        <div class="accounttype">
-                            <h2 class="title"></h2>
-                        </div>
-                        <div id="customer_login">
-                            <div id="loginMessage" class="alert d-none" role="alert"></div> <!-- Hiển thị thông báo -->
-                            <form name="UserSignin" class="f" id="UserSignin">
-                                <ul style="list-style-type: none;">
-                                    <li>
-                                        <input name="username" type="text" class="tb validate[required]" id="username"
-                                            placeholder="Email" required>
-                                    </li>
-                                    <li>
-                                        <input name="password" type="password" class="tb validate[required]"
-                                            id="password" placeholder="Mật khẩu" required>
-                                    </li>
+<link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
 
-                                    <li class="btns"><input name="submit" type="submit" id="btnSubmit"
-                                            class="htmlBtn first" value="Đăng nhập"></li>
+<div id="container" class="container">
+	<!-- FORM SECTION -->
+	<div class="row">
 
-                                </ul>
-                            </form>
-                            <div class="clearfix action_account_custommer">
-                                <div class="req_pass">
-                                    {{!-- <a href="/user/getpassword" style="display: block">Quên mật khẩu?</a> --}}
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal"
-                                        style="display: block">Đăng ký</a>
+		<div class="col align-items-center flex-col">	
+		</div>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="col align-items-center flex-col sign-in">
+			<div class="form-wrapper align-items-center">
+				<div class="form sign-in">
+					<div class="input-group">
+						<i class='bx bxs-user'></i>
+						<input type="text" placeholder="Username">
+					</div>
+					<div class="input-group">
+						<i class='bx bxs-lock-alt'></i>
+						<input type="password" placeholder="Password">
+					</div>
+					<button>
+						Sign in
+					</button>
+					<p>
+						<b>
+							Forgot password?
+						</b>
+					</p>
+					<p>
+						<span>
+							Don't have an account?
+						</span>
+						<b onclick="toggle()" class="pointer">
+							Sign up here
+						</b>
+					</p>
+				</div>
+			</div>
+			<div class="form-wrapper">
+				<div class="social-list align-items-center sign-in">
+					<div class="align-items-center facebook-bg">
+						<i class='bx bxl-facebook'></i>
+					</div>
+					<div class="align-items-center google-bg">
+						<i class='bx bxl-google'></i>
+					</div>
+					<div class="align-items-center twitter-bg">
+						<i class='bx bxl-twitter'></i>
+					</div>
+					<div class="align-items-center insta-bg">
+						<i class='bx bxl-instagram-alt'></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END SIGN IN -->
+
+	</div>
+	<!-- END FORM SECTION -->
+	<!-- CONTENT SECTION -->
+	<div class="row content-row">
+		<!-- SIGN IN CONTENT -->
+		<div class="col align-items-center flex-col ">
+			<div class="text sign-in">
+				<h2>
+					Have a good day Mobier!!
+				</h2>
+				<p>
+					
+				</p>
+			</div>
+			<div class="img sign-in">
+				<img src="https://raw.githubusercontent.com/trananhtuat/animated-login-registration/353a7bb31a0e21f6344af06868805656476d26d3/assets/undraw_creative_team_r90h.svg" alt="welcome">
+			</div>
+		</div>
+		<!-- END SIGN IN CONTENT -->
+		<!-- SIGN UP CONTENT -->
+		<div class="col align-items-center flex-col">
+			
+		</div>
+		<!-- END SIGN UP CONTENT -->
+	</div>
+	<!-- END CONTENT SECTION -->
 </div>
 
-<script>
-    document.getElementById("UserSignin").addEventListener("submit", async function (event) {
-        event.preventDefault();
 
-        const username = document.getElementById("username").value.trim();
-        const password = document.getElementById("password").value.trim();
-
-        if (!username || !password) {
-            showAlert("⚠ Vui lòng nhập đầy đủ thông tin!", "warning");
-            return;
-        }
-
-        try {
-            const response = await fetch("/auth/login", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-                throw new Error(data.message || "❌ Đăng nhập thất bại!");
-            }
-
-            showAlert("Đăng nhập thành công!", "success", "✅Thông báo");
-
-            // Lưu accessToken và refreshToken vào localStorage
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
-
-            setTimeout(() => {
-                window.location.href = "/";
-            }, 1000);
-
-        } catch (error) {
-            showAlert(error.message || "⚠ Lỗi hệ thống! Vui lòng thử lại.", "danger");
-        }
-    });
-
-</script>
-
-
-
-
-
-
-<!-- Modal Đăng Ký -->
-<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="registerModalLabel">Đăng ký tài khoản</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div id="registerMessage" class="alert d-none" role="alert"></div>
-                <form id="UserRegister">
-                    <input type="text" id="regUsername" class="form-control mb-3" placeholder="Tên đăng nhập" required>
-                    <input type="password" id="regPassword" class="form-control mb-3" placeholder="Mật khẩu" required>
-                    <input type="password" id="confirmPassword" class="form-control mb-3"
-                        placeholder="Xác nhận mật khẩu" required>
-                    <button type="submit" class="btn btn-success w-100">Đăng ký</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    document.getElementById("UserRegister").addEventListener("submit", async function (event) {
-        event.preventDefault();
-
-        const username = document.getElementById("regUsername").value;
-        const password = document.getElementById("regPassword").value;
-        const confirmPassword = document.getElementById("confirmPassword").value;
-        const registerMessage = document.getElementById("registerMessage");
-
-        if (password !== confirmPassword) {
-            showAlert("Mật khẩu xác nhận không khớp!", "danger");
-            return;
-        }
-
-        try {
-            const response = await fetch("/auth/register", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
-                showAlert("Đăng ký thành công! Đang chuyển hướng...", "success", "✅Thông báo");
-                setTimeout(() => {
-                    window.location.href = "/"; // Chuyển đến trang đăng nhập
-                }, 2000);
-            } else {
-                showAlert(data.message, "danger");
-            }
-        } catch (error) {
-            showAlert("Lỗi máy chủ, vui lòng thử lại!", "danger");
-        }
-    });
-
-</script>
+ <script>
+    let container = document.getElementById("container");
+    setTimeout(() => {
+      container.classList.add("sign-in");
+    }, 200);
+  </script>

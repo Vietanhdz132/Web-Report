@@ -17,7 +17,7 @@
             <th>Số hiệu</th>
             <th>Ngày tạo</th>
             <th>Phòng</th>
-            <th>Hành động</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="reportTableBody"></tbody>
@@ -63,15 +63,22 @@
         tr.setAttribute('data-id', report._id);
         tr.innerHTML = `
           <td>${report.reportName}</td>
-          <td>${report.number}</td>
+          <td>${report.number} /BC-VTN</td>
           <td>${report.date}</td>
           <td>${report.department || 'Phòng Vô Tuyến'}</td>
           <td class="report-pvt__actions">
-            <a href="/report/pvt/detail/${report._id}" class="report-pvt__action-link">📄 Xem</a>
+   
             <a href="/report/edit/${report._id}" class="report-pvt__action-link">✏️ Sửa</a>
             <button class="report-pvt__action-delete" onclick="deleteReport('${report._id}')">🗑️ Xóa</button>
           </td>
         `;
+        // Khi click vào hàng (tr), mở trang xem chi tiết
+        tr.addEventListener('click', (e) => {
+          // Nếu click vào nút ... hoặc menu thì không mở chi tiết
+          if (e.target.closest('.report-pvt__actions')) return;
+          window.location.href = `/report/pvt/detail/${report._id}`;
+        });
+
         tbody.appendChild(tr);
       });
     } catch (err) {

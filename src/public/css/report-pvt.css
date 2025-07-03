@@ -169,6 +169,7 @@
 .report-pvt__table td:nth-child(1) {
   width: 30%;
   max-width: 30%;
+  padding-left: 60px;
 }
 
 .report-pvt__table th:nth-child(2),
@@ -225,7 +226,6 @@
 
 /* Label */
 .report-pvt-create__group label {
-  margin-bottom: 8px;
   font-weight: 600;
   color: #555;
   font-size: 1rem;
@@ -298,7 +298,6 @@
   font-size: 1rem;
   box-shadow: 0 0 5px rgba(233, 78, 78, 0.6666666667);
   transition: background-color 0.3s ease;
-  margin-top: 5px;
   user-select: none;
   /* căn giữa nút */
   margin-right: 0;
@@ -332,7 +331,6 @@
 
 /* Phần chọn hàng & cột */
 .report-subtable > div {
-  margin-bottom: 12px;
   font-size: 0.95rem;
   color: #444;
   display: flex;
@@ -342,6 +340,8 @@
 
 .report-subtable label {
   font-weight: 600;
+  display: flex;
+  align-items: center;
 }
 
 .report-subtable input[type=number] {
@@ -481,10 +481,9 @@
 
 .table-cell-checkbox {
   position: absolute;
-  top: 2px;
-  left: 2px;
   z-index: 1;
-  display: none; /* Ẩn mặc định */
+  display: none;
+  bottom: 2px;
 }
 
 /*# sourceMappingURL=report-pvt.css.map */

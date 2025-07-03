@@ -1,4 +1,3 @@
-const Item = require('../models/Item');
 
 
 class SiteController {
@@ -8,8 +7,7 @@ class SiteController {
   
       
         res.render('404')
-      
-   
+       
   }
 
   // [GET] /search
