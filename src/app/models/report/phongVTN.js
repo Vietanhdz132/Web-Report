@@ -7,7 +7,7 @@ const { getCollection } = require('../../../config/db/mongoClient');
  * @returns {ObjectId} ID của báo cáo vừa thêm
  */
 async function insertReport(reportData) {
-  const col = getCollection('Report');
+  const col = getCollection('reports');
 
   const newReport = {
     reportName: reportData.reportName || 'Chưa đặt tên',
@@ -29,7 +29,7 @@ async function insertReport(reportData) {
  * Lấy toàn bộ báo cáo, mới nhất trước
  */
 async function getAllReports() {
-  const col = getCollection('Report');
+  const col = getCollection('reports');
   return await col.find({}).sort({ createdAt: -1 }).toArray();
 }
 
@@ -38,7 +38,7 @@ async function getAllReports() {
  */
 async function getReportById(id) {
   if (!ObjectId.isValid(id)) return null;
-  const col = getCollection('Report');
+  const col = getCollection('reports');
   return await col.findOne({ _id: new ObjectId(id) });
 }
 
@@ -47,7 +47,7 @@ async function getReportById(id) {
  */
 async function updateReport(id, updatedFields) {
   if (!ObjectId.isValid(id)) return 0;
-  const col = getCollection('Report');
+  const col = getCollection('reports');
   const result = await col.updateOne(
     { _id: new ObjectId(id) },
     { $set: updatedFields }
@@ -61,7 +61,7 @@ async function updateReport(id, updatedFields) {
 async function deleteReport(id) {
   if (!ObjectId.isValid(id)) return 0;
   try {
-    const col = getCollection('Report');
+    const col = getCollection('reports');
     const result = await col.deleteOne({ _id: new ObjectId(id) });
     return result.deletedCount;
   } catch (error) {
@@ -75,7 +75,7 @@ async function deleteReport(id) {
  * Lấy báo cáo theo phòng ban
  */
 async function getReportsByDepartment(department) {
-  const col = getCollection('Report');
+  const col = getCollection('reports');
   return await col.find({ department }).sort({ createdAt: -1 }).toArray();
 }
 
@@ -83,7 +83,7 @@ async function getReportsByDepartment(department) {
  * Lấy báo cáo theo khoảng ngày (start, end là string 'YYYY-MM-DD')
  */
 async function getReportsByDateRange(start, end) {
-  const col = getCollection('Report');
+  const col = getCollection('reports');
   const startDate = new Date(start);
   const endDate = new Date(end);
 

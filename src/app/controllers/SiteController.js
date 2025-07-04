@@ -4,11 +4,11 @@ class SiteController {
 
   // [GET] /
   index(req, res, next) {
-  
-      
-        res.render('404')
-       
-  }
+  res.render('404', {
+    layout: 'homeLayout' 
+  });
+}
+
 
   // [GET] /search
   search(req, res) {

@@ -16,10 +16,10 @@ router.post('/receive-token', (req, res) => {
     // Trả về thông báo thành công
     res.status(200).json({ message: 'Token đã nhận thành công' });
 });
-router.post('/login', authController.login);
-router.post("/refresh-token", authController.refreshToken);
-router.get('/protected', authController.verifyToken, authController.protectedRoute);
-router.post('/register', authController.register)
+// router.post('/login', authController.login);
+// router.post('/refresh-token', authController.refreshToken);
+// router.get('/protected', authController.verifyToken, authController.protectedRoute);
+// router.post('/register', authController.register)
 // router.get('/', authController.loginPage)
 router.get('/login', authController.loginPage);
 
