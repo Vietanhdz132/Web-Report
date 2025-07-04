@@ -65,7 +65,7 @@ function getPermissions(role, customPermissions = {}) {
 async function createUser(userData, currentUser) {
   if (!isSuperAdmin(currentUser)) throw new Error('Only super admin can create users');
 
-  const col = getCollection('User');
+  const col = getCollection('users');
   const now = new Date();
 
   // Kiểm tra username đã tồn tại chưa
@@ -98,7 +98,7 @@ async function createUser(userData, currentUser) {
 async function updateUser(id, updateData, currentUser) {
   if (!isAdminOrManager(currentUser)) throw new Error('Only admin or manager can update users');
 
-  const col = getCollection('User');
+  const col = getCollection('users');
   if (!ObjectId.isValid(id)) throw new Error('Invalid user id');
 
   const userToUpdate = await col.findOne({ _id: new ObjectId(id) });
@@ -145,7 +145,7 @@ async function updateUser(id, updateData, currentUser) {
 async function deleteUser(id, currentUser) {
   if (!isAdminOrManager(currentUser)) throw new Error('Only admin or manager can delete users');
 
-  const col = getCollection('User');
+  const col = getCollection('users');
   if (!ObjectId.isValid(id)) throw new Error('Invalid user id');
 
   const userToDelete = await col.findOne({ _id: new ObjectId(id) });
@@ -163,7 +163,7 @@ async function deleteUser(id, currentUser) {
  * Tìm user theo username
  */
 async function getUserByUsername(username) {
-  const col = getCollection('User');
+  const col = getCollection('users');
   return await col.findOne({ username });
 }
 
@@ -171,7 +171,7 @@ async function getUserByUsername(username) {
  * Tìm user theo ID
  */
 async function getUserById(id) {
-  const col = getCollection('User');
+  const col = getCollection('users');
   if (!ObjectId.isValid(id)) return null;
   return await col.findOne({ _id: new ObjectId(id) });
 }
@@ -206,6 +206,16 @@ async function initDefaultAdmin() {
   }
 }
 
+/**
+ * Lấy thông tin user hiện tại theo userId
+ * @param {string} userId
+ * @returns {Object|null}
+ */
+async function getCurrentUser(userId) {
+  if (!userId || !ObjectId.isValid(userId)) return null;
+  const col = getCollection('User');
+  return await col.findOne({ _id: new ObjectId(userId) });
+}
 
 module.exports = {
   createUser,
@@ -215,4 +225,5 @@ module.exports = {
   getUserById,
   verifyPassword,
   initDefaultAdmin,
+  getCurrentUser,
 };

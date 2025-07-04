@@ -4,7 +4,8 @@ const {
   createUser,
   updateUser,
   deleteUser,
-  verifyPassword
+  verifyPassword,
+  getCurrentUser
 } = require('../models/userModel');
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '1h';
@@ -49,14 +50,14 @@ class AuthController {
 
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production', // true chỉ khi deploy HTTPS
         sameSite: 'Strict',
         maxAge: 60 * 60 * 1000
       });
 
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production', // true chỉ khi deploy HTTPS
         sameSite: 'Strict',
         maxAge: 10 * 365 * 24 * 60 * 60 * 1000
       });
@@ -71,6 +72,24 @@ class AuthController {
       res.status(500).json({ message: 'Lỗi server' });
     }
   }
+
+    // Đăng xuất
+    logout(req, res) {
+    // Xoá cookies chứa token
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    // (Tuỳ chọn) Xoá token khỏi tokenList nếu đang lưu
+    const refreshToken = req.cookies?.refreshToken || req.body.refreshToken;
+    if (refreshToken && tokenList[refreshToken]) {
+        delete tokenList[refreshToken];
+    }
+
+    // Tuỳ chọn chuyển về trang login hoặc trả JSON
+    res.redirect('/auth/login'); // Nếu dùng giao diện
+    // res.json({ message: 'Đăng xuất thành công' }); // Nếu dùng API
+    }
+
 
   // Làm mới accessToken từ refreshToken
   async refreshToken(req, res) {
@@ -140,6 +159,31 @@ class AuthController {
   protected(req, res) {
     res.json({ message: 'Xác thực thành công!', user: req.user });
   }
+
+  async getProfile(req, res) {
+  try {
+    const userId = req.session?.userId || req.user?.id || req.headers['x-user-id'];
+
+    if (!userId) {
+      return res.status(401).json({ error: 'Bạn chưa đăng nhập hoặc thiếu userId' });
+    }
+
+    const user = await getCurrentUser(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: 'Không tìm thấy người dùng' });
+    }
+
+    // Không trả về mật khẩu
+    const { password, ...safeUser } = user;
+
+    res.json({ user: safeUser });
+  } catch (error) {
+    console.error('Lỗi khi lấy thông tin người dùng hiện tại:', error);
+    res.status(500).json({ error: 'Lỗi server' });
+  }
 }
+}
+
 
 module.exports = new AuthController();

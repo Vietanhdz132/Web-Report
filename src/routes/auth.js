@@ -2,25 +2,31 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../app/controllers/AuthController');
 
+const { verifyToken, requireAdmin, requireRole } = require('../middleware/AuthMiddleware');
 
-router.post('/receive-token', (req, res) => {
-    const { token } = req.body;  // Lấy token từ body request
 
-    if (!token) {
-        return res.status(400).json({ message: 'Không có token trong yêu cầu' });
-    }
 
-    // Bạn có thể lưu token vào cơ sở dữ liệu hoặc xử lý thêm nếu cần
-    console.log('Đã nhận được Token');  // In token ra console hoặc xử lý theo nhu cầu của bạn
-
-    // Trả về thông báo thành công
-    res.status(200).json({ message: 'Token đã nhận thành công' });
-});
-// router.post('/login', authController.login);
-// router.post('/refresh-token', authController.refreshToken);
-// router.get('/protected', authController.verifyToken, authController.protectedRoute);
-// router.post('/register', authController.register)
-// router.get('/', authController.loginPage)
+// Trang đăng nhập
 router.get('/login', authController.loginPage);
+
+// Xử lý đăng nhập (POST)
+router.post('/login', authController.login);
+
+// Đăng xuất (nếu bạn muốn)
+router.post('/logout', authController.logout);
+
+
+
+// Tạo user mới (admin)
+router.post('/users',verifyToken, authController.createUser);
+
+// Sửa user (admin)
+router.put('/users/:id',verifyToken, authController.updateUser);
+
+// Xóa user (admin)
+router.delete('/users/:id',verifyToken, authController.deleteUser);
+
+// Lấy thông tin user hiện tại
+router.get('/me',verifyToken, authController.getProfile);
 
 module.exports = router;

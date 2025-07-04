@@ -27,62 +27,70 @@ function showAlert(message, type) {
     alertDiv.id = "customAlert";
     alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
 
-    // Thiết lập CSS
     Object.assign(alertDiv.style, {
         position: "fixed",
         top: "20px",
-        right: "-400px", // Bắt đầu ngoài màn hình
+        right: "-400px", // bắt đầu ngoài màn hình
         zIndex: "1050",
-        minWidth: "300px",
-        maxWidth: "400px",
-        padding: "15px 15px 15px 45px", // thêm padding trái cho icon
+        minWidth: "320px",
+        maxWidth: "420px",
+        padding: "15px 15px 15px 15px", // đủ padding để icon và nút đóng
         fontSize: "16px",
-        boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
         borderRadius: "8px",
         backgroundColor: type === "success" ? "#d1e7dd" : (type === "warning" ? "#fff3cd" : "#f8d7da"),
         color: type === "success" ? "#0f5132" : (type === "warning" ? "#664d03" : "#842029"),
         transition: "right 0.5s ease-in-out, opacity 0.5s ease-in-out",
-        position: "fixed",
         display: "flex",
         alignItems: "center",
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        boxSizing: "border-box",
+        userSelect: "none",
     });
 
-    // Tạo span chứa icon với style riêng
+    // Icon nằm bên trái cố định
     const iconSpan = document.createElement("span");
     iconSpan.textContent = icon;
     Object.assign(iconSpan.style, {
         position: "absolute",
-        left: "15px",
-        fontSize: "22px",
+        left: "20px",
+        fontSize: "24px",
         lineHeight: "1",
+        userSelect: "none",
     });
     alertDiv.appendChild(iconSpan);
 
-    // Thêm nội dung cho alert (bỏ phần title)
+    // Nội dung message với margin-left cách icon
     const messageDiv = document.createElement("div");
     messageDiv.textContent = message;
+    Object.assign(messageDiv.style, {
+        marginLeft: "40px",
+        flex: "1",
+        lineHeight: "1.4",
+    });
     alertDiv.appendChild(messageDiv);
 
-    // Nút đóng
-    const closeBtn = document.createElement("button");
-    closeBtn.type = "button";
-    closeBtn.className = "btn-close";
-    closeBtn.setAttribute("aria-label", "Close");
-    closeBtn.onclick = () => alertDiv.remove();
-    alertDiv.appendChild(closeBtn);
+    // Nút đóng nhỏ gọn góc phải trên
+    // const closeBtn = document.createElement("button");
+    // closeBtn.type = "button";
+    // closeBtn.className = "btn-close";
+    // closeBtn.setAttribute("aria-label", "Close");
+    // closeBtn.onclick = () => alertDiv.remove();
+    // alertDiv.appendChild(closeBtn);
 
-    // Thêm vào body
     document.body.appendChild(alertDiv);
 
-    // Kích hoạt hiệu ứng trượt vào màn hình
+    // Hiệu ứng trượt vào
     setTimeout(() => {
-        alertDiv.style.right = "20px"; // Trượt vào vị trí mong muốn
+        alertDiv.style.right = "20px";
+        alertDiv.style.opacity = "1";
     }, 50);
 
-    // Tự động ẩn sau 3 giây
+    // Tự động ẩn sau 3s
     setTimeout(() => {
-        alertDiv.style.right = "-400px"; // Trượt ra ngoài
+        alertDiv.style.right = "-400px";
         alertDiv.style.opacity = "0";
         setTimeout(() => alertDiv.remove(), 500);
     }, 3000);
 }
+
