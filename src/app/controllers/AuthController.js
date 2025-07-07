@@ -22,6 +22,7 @@ class AuthController {
   }
 
   // Đăng nhập
+  
   async login(req, res) {
     try {
       const { username, password } = req.body;
@@ -30,48 +31,55 @@ class AuthController {
       }
 
       const user = await getUserByUsername(username);
-      const valid = await verifyPassword(user, password);
+      if (!user) {
+        return res.status(401).json({ message: 'Sai tên đăng nhập hoặc mật khẩu.' });
+      }
 
-      if (!user || !valid) {
+      const valid = await verifyPassword(user, password);
+      if (!valid) {
         return res.status(401).json({ message: 'Sai tên đăng nhập hoặc mật khẩu.' });
       }
 
       const payload = {
-        id: user._id,
+        _id: user._id,
         username: user.username,
         role: user.role,
-        permissions: user.permissions
-      };
+        permissions: user.permissions, // lấy thẳng
+        };
 
-      const accessToken = await jwtHelper.generateToken({ data: payload }, accessTokenSecret, accessTokenLife);
-      const refreshToken = await jwtHelper.generateToken({ data: payload }, refreshTokenSecret, refreshTokenLife);
+
+
+      const accessToken = await jwtHelper.generateToken(payload, accessTokenSecret, accessTokenLife);
+      const refreshToken = await jwtHelper.generateToken(payload, refreshTokenSecret, refreshTokenLife);
 
       tokenList[refreshToken] = { accessToken, refreshToken };
 
       res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // true chỉ khi deploy HTTPS
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict',
-        maxAge: 60 * 60 * 1000
+        maxAge: 60 * 60 * 1000, // 1h
       });
 
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // true chỉ khi deploy HTTPS
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'Strict',
-        maxAge: 10 * 365 * 24 * 60 * 60 * 1000
+        maxAge: 10 * 365 * 24 * 60 * 60 * 1000, // 10 năm
       });
 
       res.status(200).json({
         accessToken,
         refreshToken,
-        user: payload
+        user: payload,
       });
     } catch (err) {
       console.error('❌ Login error:', err);
       res.status(500).json({ message: 'Lỗi server' });
     }
   }
+
+  
 
     // Đăng xuất
     logout(req, res) {

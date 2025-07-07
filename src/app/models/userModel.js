@@ -22,9 +22,7 @@ function isSuperAdmin(user) {
  * @param {Object} user 
  * @returns {Boolean}
  */
-function isAdminOrManager(user) {
-  return user && (user.role === 'admin' || user.role === 'manager');
-}
+
 
 /**
  * Lấy quyền mặc định theo role
@@ -63,7 +61,13 @@ function getPermissions(role, customPermissions = {}) {
  * Tạo user mới (chỉ admin toàn hệ thống được tạo user)
  */
 async function createUser(userData, currentUser) {
-  if (!isSuperAdmin(currentUser)) throw new Error('Only super admin can create users');
+  if (!currentUser?.permissions?.canManageUsers) {
+    throw new Error('Bạn không có quyền tạo người dùng');
+    }
+    if (!isSuperAdmin(currentUser)) {
+    throw new Error('Chỉ super admin mới có thể tạo người dùng');
+    }
+
 
   const col = getCollection('users');
   const now = new Date();
@@ -96,7 +100,10 @@ async function createUser(userData, currentUser) {
  * - manager chỉ sửa được user cùng phòng
  */
 async function updateUser(id, updateData, currentUser) {
-  if (!isAdminOrManager(currentUser)) throw new Error('Only admin or manager can update users');
+  if (!currentUser?.permissions?.canManageUsers) {
+    throw new Error('Bạn không có quyền cập nhật người dùng');
+    }
+
 
   const col = getCollection('users');
   if (!ObjectId.isValid(id)) throw new Error('Invalid user id');
@@ -143,7 +150,10 @@ async function updateUser(id, updateData, currentUser) {
  * - manager chỉ xóa được user cùng phòng
  */
 async function deleteUser(id, currentUser) {
-  if (!isAdminOrManager(currentUser)) throw new Error('Only admin or manager can delete users');
+  if (!currentUser?.permissions?.canManageUsers) {
+    throw new Error('Bạn không có quyền xoá người dùng');
+    }
+
 
   const col = getCollection('users');
   if (!ObjectId.isValid(id)) throw new Error('Invalid user id');
@@ -213,7 +223,7 @@ async function initDefaultAdmin() {
  */
 async function getCurrentUser(userId) {
   if (!userId || !ObjectId.isValid(userId)) return null;
-  const col = getCollection('User');
+  const col = getCollection('users');
   return await col.findOne({ _id: new ObjectId(userId) });
 }
 

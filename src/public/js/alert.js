@@ -91,6 +91,6 @@ function showAlert(message, type) {
         alertDiv.style.right = "-400px";
         alertDiv.style.opacity = "0";
         setTimeout(() => alertDiv.remove(), 500);
-    }, 3000);
+    }, 2000);
 }
 

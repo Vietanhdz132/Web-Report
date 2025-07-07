@@ -1,25 +1,18 @@
-/**
- * src/controllers/auth.js
- */
 const jwt = require("jsonwebtoken");
 
 /**
- * private function generateToken
- * @param user 
- * @param secretSignature 
- * @param tokenLife 
+ * Tạo token JWT với payload đã có sẵn
+ * @param {Object} payload Dữ liệu sẽ được gói trong token dưới key 'data'
+ * @param {string} secretSignature Khóa bí mật ký token
+ * @param {string|number} tokenLife Thời gian sống của token, ví dụ '1h', '7d'
+ * @returns {Promise<string>} Token JWT
  */
-let generateToken = (user, secretSignature, tokenLife) => {
+const generateToken = (payload, secretSignature, tokenLife) => {
   return new Promise((resolve, reject) => {
-    // Định nghĩa những thông tin của user mà bạn muốn lưu vào token ở đây
-    const userData = {
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    }
-    // Thực hiện ký và tạo token
+
+
     jwt.sign(
-      { data: userData },
+      { data: payload },
       secretSignature,
       {
         algorithm: "HS256",
@@ -30,16 +23,18 @@ let generateToken = (user, secretSignature, tokenLife) => {
           return reject(error);
         }
         resolve(token);
-      });
+      }
+    );
   });
-}
+};
 
 /**
- * This module used for verify jwt token
- * @param {*} token 
- * @param {*} secretKey 
+ * Giải mã và xác thực token JWT
+ * @param {string} token Token JWT
+ * @param {string} secretKey Khóa bí mật ký token
+ * @returns {Promise<Object>} Dữ liệu decode được
  */
-let verifyToken = (token, secretKey) => {
+const verifyToken = (token, secretKey) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secretKey, (error, decoded) => {
       if (error) {
@@ -48,9 +43,9 @@ let verifyToken = (token, secretKey) => {
       resolve(decoded);
     });
   });
-}
+};
 
 module.exports = {
-  generateToken: generateToken,
-  verifyToken: verifyToken,
+  generateToken,
+  verifyToken,
 };

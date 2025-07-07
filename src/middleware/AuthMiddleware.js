@@ -11,19 +11,17 @@ const verifyToken = async (req, res, next) => {
 
   if (!token) {
     debug("❌ Không có token.");
-    return res.redirect('/auth'); // Web: redirect về trang đăng nhập
-    // return res.status(401).json({ message: "Bạn chưa đăng nhập." }); // API mode
+    return res.redirect('/auth/login'); // Web: redirect về trang đăng nhập
   }
 
   try {
     const decoded = await jwtHelper.verifyToken(token, accessTokenSecret);
-    debug("✅ Token hợp lệ:", decoded);
-    req.user = decoded.data;
+    // debug("✅ Token hợp lệ:", decoded);
+    req.user = decoded.data; // chứa: _id, username, role, permissions, ...
     next();
   } catch (err) {
-    debug("❌ Token không hợp lệ:", err.message);
-    return res.redirect('/auth');
-    // return res.status(401).json({ message: "Token không hợp lệ hoặc đã hết hạn." });
+    // debug("❌ Token không hợp lệ:", err.message);
+    return res.redirect('/auth/login');
   }
 };
 
@@ -32,7 +30,7 @@ const verifyToken = async (req, res, next) => {
  */
 const requireAdmin = (req, res, next) => {
   if (!req.user) {
-    return res.redirect('/auth');
+    return res.redirect('/auth/login');
   }
 
   if (req.user.role !== 'admin') {
@@ -43,13 +41,29 @@ const requireAdmin = (req, res, next) => {
 };
 
 /**
- * Middleware: Cho phép kiểm tra theo vai trò tùy chỉnh
- * Ví dụ: requireRole('editor'), requireRole('manager')
+ * Middleware: Kiểm tra quyền cụ thể trong user.permissions
+ */
+const requirePermission = (permission) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.redirect('/auth/login');
+    }
+
+    if (!req.user.permissions || !req.user.permissions[permission]) {
+      return res.status(403).json({ message: `Bạn không có quyền: ${permission}` });
+    }
+
+    next();
+  };
+};
+
+/**
+ * Middleware: Kiểm tra role cụ thể (nếu bạn vẫn cần)
  */
 const requireRole = (role) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.redirect('/auth');
+      return res.redirect('/auth/login');
     }
 
     if (req.user.role !== role) {
@@ -64,4 +78,5 @@ module.exports = {
   verifyToken,
   requireAdmin,
   requireRole,
+  requirePermission,
 };

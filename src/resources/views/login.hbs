@@ -115,21 +115,24 @@ async function handleLogin() {
     const result = await response.json();
 
     if (response.ok) {
-      alert('Đăng nhập thành công!');
+      showAlert('Đăng nhập thành công! Đang chuyển hướng ...','success');
       console.log('User:', result.user);
 
       // Chuyển hướng dựa trên vai trò
+	  
+	setTimeout(() => {
       if (result.user.role === 'admin') {
-        window.location.href = '/admin/dashboard';
+        window.location.href = '/';
       } else {
-        window.location.href = '/user/home';
+        window.location.href = '/';
       }
+	  }, 2100);
     } else {
-      alert(result.message || 'Đăng nhập thất bại');
+      showAlert(result.message || 'Đăng nhập thất bại', 'error');
     }
   } catch (error) {
     console.error('Lỗi khi gửi request:', error);
-    alert('Có lỗi xảy ra khi đăng nhập');
+    showAlert('Có lỗi xảy ra khi đăng nhập','error');
   }
 }
 </script>

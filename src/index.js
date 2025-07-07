@@ -23,7 +23,7 @@ async function startServer() {
     // Kết nối DB
     db.connect();  
     await mongoDB.connect(); 
-    await userModel.initDefaultAdmin();  // Tạo admin mặc định nếu chưa có
+    await userModel.initDefaultAdmin();  // Tạo admin mặc định 
 
     // Middleware & cài đặt ứng dụng
     app.use(express.static(path.join(__dirname, 'public')));
