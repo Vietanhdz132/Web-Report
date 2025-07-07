@@ -1,0 +1,111 @@
+<div class="account">
+  <h1 class="account__title">Quản lý tài khoản</h1>
+
+  <!-- Nút Tạo mới -->
+  <div class="account__create-wrapper">
+    <a href="/user/pvt/create" class="account__button-create">➕ Tạo tài khoản
+      mới</a>
+  </div>
+
+  <!-- Danh sách báo cáo -->
+  <section class="account__list">
+    <h2 class="account__list-title">📋 Danh sách tài khoản</h2>
+    <div class="account__table-wrapper">
+      <table id="accountTable" class="account__table" style="display:none;">
+        <thead>
+          <tr>
+            <th>Họ và tên</th>
+            <th>Tên tài khoản</th>
+            <th>email</th>
+            <th>Role</th>
+            <th>Phòng</th>
+            <th>Ngày tạo</th>
+            <th>Ngày cập nhật</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="accountTableBody"></tbody>
+      </table>
+    </div>
+    <p id="noAccount" class="account__no-data" style="display:none;">Chưa có tài
+      khoản nào.</p>
+  </section>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    loadUsers();
+  });
+
+  async function loadUsers() {
+    const tbody = document.getElementById('accountTableBody');
+    const noDataMsg = document.getElementById('noAccount');
+    const userTable = document.getElementById('accountTable');
+
+    if (!tbody || !noDataMsg || !userTable) {
+      console.error('❌ Thiếu phần tử trong DOM, kiểm tra lại HTML!');
+      return;
+    }
+
+    try {
+      const res = await fetch('/auth/account/getAllUsers');
+      const { success, users } = await res.json(); // ✅ phải là `users` đúng với API trả về
+
+      if (!success || !users.length) {
+        noDataMsg.style.display = 'block';
+        userTable.style.display = 'none';
+        tbody.innerHTML = '';
+        return;
+      }
+
+      noDataMsg.style.display = 'none';
+      userTable.style.display = 'table';
+      tbody.innerHTML = '';
+
+      users.forEach(user => {
+        const tr = document.createElement('tr');
+        tr.setAttribute('data-id', user._id);
+        tr.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.username}</td>
+          <td>${user.email}</td>
+          <td>${user.role}</td>
+          <td>${user.department || ''}</td>
+          <td>${new Date(user.createdAt).toLocaleDateString('vi-VN')}</td>
+          <td>${new Date(user.updatedAt).toLocaleDateString('vi-VN')}</td>
+          <td>
+          <div class = "account__actions">
+            <a href="/user/edit/${user._id}" class="account__action-link">✏️ Sửa</a>
+            <button class="account__action-delete" onclick="deleteUser('${user._id}')">🗑️ Xóa</button>
+          </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    } catch (err) {
+      console.error('❌ Error loading users:', err);
+      alert('Không thể tải danh sách tài khoản.');
+    }
+  }
+
+  async function deleteUser(id) {
+    if (!confirm('Bạn có chắc muốn xoá tài khoản này?')) return;
+
+    try {
+      const res = await fetch(`/user/pvt/${id}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+
+      if (data.success) {
+        alert('✅ Đã xoá tài khoản thành công!');
+        loadUsers(); // Reload lại danh sách
+      } else {
+        alert('❌ Xoá thất bại: ' + (data.message || 'Lỗi không xác định'));
+      }
+    } catch (err) {
+      console.log(err);
+      alert('❌ Lỗi khi xoá tài khoản: ' + err.message);
+    }
+  }
+</script>

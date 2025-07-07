@@ -3,7 +3,8 @@
 
   <!-- Nút Tạo mới -->
   <div class="report-pvt__create-wrapper">
-    <a href="/report/pvt/create" class="report-pvt__button-create">➕ Tạo báo cáo mới</a>
+    <a href="/report/pvt/create" class="report-pvt__button-create">➕ Tạo báo cáo
+      mới</a>
   </div>
 
   <!-- Danh sách báo cáo -->
@@ -23,7 +24,8 @@
         <tbody id="reportTableBody"></tbody>
       </table>
     </div>
-    <p id="noReports" class="report-pvt__no-data" style="display:none;">Chưa có báo cáo nào.</p>
+    <p id="noReports" class="report-pvt__no-data" style="display:none;">Chưa có
+      báo cáo nào.</p>
   </section>
 </div>
 
@@ -66,10 +68,11 @@
           <td>${report.number} /BC-VTN</td>
           <td>${report.date}</td>
           <td>${report.department || 'Phòng Vô Tuyến'}</td>
-          <td class="report-pvt__actions">
-   
+          <td >
+          <div class="report-pvt__actions">
             <a href="/report/edit/${report._id}" class="report-pvt__action-link">✏️ Sửa</a>
             <button class="report-pvt__action-delete" onclick="deleteReport('${report._id}')">🗑️ Xóa</button>
+          </div>
           </td>
         `;
         // Khi click vào hàng (tr), mở trang xem chi tiết

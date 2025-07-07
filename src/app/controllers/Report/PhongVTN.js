@@ -45,7 +45,7 @@ class PhongVTNController {
       const processedReports = reports.map((r, i) => ({
         _id: r._id,
         number: r.number || '',
-        reportName: r.reportName || `Báo cáo tuần ${r.week || ''}`,
+        reportName: r.reportName || '',
         date: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
         department: r.department ,
         stt: i + 1,

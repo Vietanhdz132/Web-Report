@@ -1,0 +1,513 @@
+@charset "UTF-8";
+.account {
+  font-family: "Segoe UI", sans-serif;
+  color: #ffffff;
+  padding-top: 2rem;
+}
+
+/* ==== Tiêu đề ==== */
+.account__title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  padding-left: 16px;
+  border-left: 5px solid #ffffff;
+}
+
+/* ==== Nút tạo mới ==== */
+.account__create-wrapper {
+  margin-bottom: 2rem;
+}
+
+.account__button-create {
+  display: inline-block;
+  background: linear-gradient(145deg, #00c4cc, #0097a7);
+  color: #ffffff;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0, 188, 212, 0.25);
+  transition: all 0.3s ease;
+}
+
+.account__button-create:hover {
+  background: #00838f;
+  box-shadow: 0 6px 12px rgba(0, 188, 212, 0.3);
+}
+
+/* ==== Bảng bọc cuộn ==== */
+.account__table-wrapper {
+  max-height: 550px;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  /* Ẩn scrollbar nhưng vẫn cho cuộn */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE và Edge cũ */
+}
+
+.account__table-wrapper::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge mới */
+}
+
+/* ==== Bảng báo cáo ==== */
+.account__table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e1e1e;
+  font-size: 0.95rem;
+  color: #ddd;
+}
+
+/* Header cố định */
+.account__table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background-color: #263238;
+  color: #00bcd4;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  box-shadow: inset 0 -2px 0 #00bcd4;
+  padding: 14px 18px;
+}
+
+/* Cell thường */
+.account__table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #333;
+  color: #ccc;
+  word-break: break-word;
+}
+
+/* Hover row */
+.account__table tbody tr {
+  transition: background-color 0.3s ease, transform 0.15s ease;
+  cursor: pointer;
+  will-change: background-color, transform;
+}
+
+.account__table tbody tr:hover {
+  background-color: #2c2f33;
+  transform: scale(1.01);
+}
+
+.account__table tbody tr:hover td {
+  color: #ffffff;
+}
+
+/* ==== Hành động ==== */
+.account__actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.account__action-link {
+  color: #81d4fa;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  background-color: transparent;
+  transition: 0.3s ease;
+}
+
+.account__action-link:hover {
+  color: #29b6f6;
+  background-color: rgba(41, 182, 246, 0.2);
+  box-shadow: 0 0 8px rgba(41, 182, 246, 0.4);
+}
+
+.account__action-delete {
+  background: none;
+  border: none;
+  color: #ef5350;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.account__action-delete:hover {
+  color: #f44336;
+  background-color: rgba(244, 67, 54, 0.25);
+  box-shadow: 0 0 10px rgba(244, 67, 54, 0.5);
+}
+
+/* ==== Không có dữ liệu ==== */
+.account__no-data {
+  margin-top: 3rem;
+  font-style: italic;
+  color: #999999;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+/* ==== Responsive ==== */
+@media (max-width: 768px) {
+  .account__table-wrapper {
+    max-height: none;
+    overflow-x: auto;
+  }
+  .account__table {
+    min-width: 600px;
+  }
+  .account__table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #263238;
+    z-index: 10;
+  }
+}
+.account__table th:nth-child(1),
+.account__table td:nth-child(1) {
+  width: 13%;
+  max-width: 13%;
+  padding-left: 30px;
+}
+
+.account__table th:nth-child(2),
+.account__table td:nth-child(2) {
+  width: 12%;
+  max-width: 12%;
+}
+
+.account__table th:nth-child(3),
+.account__table td:nth-child(3) {
+  width: 15%;
+  max-width: 15%;
+}
+
+.account__table th:nth-child(4),
+.account__table td:nth-child(4) {
+  width: 5%;
+  max-width: 5%;
+}
+
+.account__table th:nth-child(4),
+.account__table td:nth-child(4) {
+  width: 10%;
+  max-width: 10%;
+}
+
+.account__table th:nth-child(5),
+.account__table td:nth-child(5) {
+  width: 10%;
+  max-width: 10%;
+}
+
+.account__table th:nth-child(6),
+.account__table td:nth-child(6) {
+  width: 10%;
+  max-width: 10%;
+}
+
+.account__table th:nth-child(7),
+.account__table td:nth-child(7) {
+  width: 12%;
+  max-width: 12%;
+}
+
+.account__table th:nth-child(8),
+.account__table td:nth-child(8) {
+  width: 8%;
+  max-width: 8%;
+}
+
+/* Container chính */
+.account-create {
+  max-width: 1000px;
+  margin: 30px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề lớn */
+.account-create__title {
+  color: #007acc;
+  font-weight: 700;
+  margin-bottom: 25px;
+  font-size: 2.4rem;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Nhóm input và textarea */
+.account-create__group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Label */
+.account-create__group label {
+  font-weight: 600;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Input & textarea chung */
+.account-create__group input,
+.account-create__group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #222;
+  transition: border-color 0.3s ease;
+  resize: vertical;
+  font-family: inherit;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Textarea ban đầu cao hơn */
+.account-create__group textarea {
+  min-height: 80px;
+  overflow: hidden;
+}
+
+/* Input/textarea khi focus */
+.account-create__group input:focus,
+.account-create__group textarea:focus {
+  outline: none;
+  border-color: #007acc;
+  box-shadow: 0 0 6px rgba(0, 122, 204, 0.4);
+  background-color: #fff;
+}
+
+/* Các section con (mục con, bảng) */
+.account-subitem,
+.account-subtable {
+  position: relative;
+  margin-top: 15px;
+  padding: 10px; /* tăng padding-bottom để chứa nút xóa dưới */
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 122, 204, 0.15);
+  border: 1px solid #c3d7f0;
+  transition: box-shadow 0.3s ease;
+}
+
+/* Hover nhẹ */
+.account-subitem:hover,
+.account-subtable:hover {
+  box-shadow: 0 0 12px rgba(0, 122, 204, 0.3);
+}
+
+/* Nút xóa (đặt dưới cùng, không dùng position absolute) */
+.account-subitem button,
+.account-subtable button {
+  position: static; /* bỏ position absolute */
+  display: inline-block;
+  background: #e94e4e;
+  border: none;
+  color: white;
+  font-weight: 700;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  box-shadow: 0 0 5px rgba(233, 78, 78, 0.6666666667);
+  transition: background-color 0.3s ease;
+  user-select: none;
+  /* căn giữa nút */
+  margin-right: 0;
+  display: block; /* cho xuống dòng riêng */
+  width: max-content;
+}
+
+.account-subitem button:hover,
+.account-subtable button:hover {
+  background-color: #b03030;
+  box-shadow: 0 0 10px rgba(176, 48, 48, 0.8);
+}
+
+/* Tiêu đề mục con, bảng (textarea) */
+.child-title,
+.table-title {
+  width: 100%;
+  box-sizing: border-box;
+  font-weight: 600;
+  font-size: 1.1rem;
+  border: 1.5px solid #007acc;
+  border-radius: 5px;
+  padding: 6px 10px;
+  resize: vertical;
+  color: #007acc;
+  background-color: #f0f8ff;
+  margin-bottom: 12px;
+  font-family: inherit;
+  box-shadow: inset 0 1px 2px rgba(0, 122, 204, 0.2);
+}
+
+/* Phần chọn hàng & cột */
+.account-subtable > div {
+  font-size: 0.95rem;
+  color: #444;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-subtable label {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.account-subtable input[type=number] {
+  padding: 6px 10px;
+  font-size: 1rem;
+  border: 1.5px solid #007acc;
+  border-radius: 5px;
+  width: 60px;
+  background-color: #fff;
+  color: #222;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease;
+}
+
+.account-subtable input[type=number]:focus {
+  outline: none;
+  border-color: #005f9e;
+  box-shadow: 0 0 5px rgba(0, 95, 158, 0.6666666667);
+}
+
+/* Nút tạo bảng (vẫn nằm cạnh input số hàng/cột) */
+.account-subtable > div > button {
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.account-subtable > div > button:hover {
+  background-color: #005f9e;
+}
+
+/* Bảng editable */
+.editable-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 6px;
+}
+
+.editable-table td {
+  border: 1px solid #ccc;
+  padding: 6px 8px;
+  background-color: #fff;
+}
+
+/* Textarea trong bảng */
+.editable-table textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #007acc;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 36px;
+  color: #222;
+  background-color: #f9fbff;
+  transition: border-color 0.3s ease;
+}
+
+.editable-table textarea:focus {
+  outline: none;
+  border-color: #005f9e;
+  box-shadow: 0 0 6px rgba(0, 95, 158, 0.6666666667);
+}
+
+/* Các nút lưu, hủy dưới form */
+.account-create__actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.account-create__actions button,
+.account-create__actions .btn-cancel {
+  cursor: pointer;
+  background-color: #007acc;
+  border: none;
+  color: #fff;
+  font-weight: 700;
+  padding: 12px 36px;
+  border-radius: 8px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 122, 204, 0.3);
+}
+
+.account-create__actions button:hover,
+.account-create__actions .btn-cancel:hover {
+  background-color: #005f9e;
+  box-shadow: 0 4px 14px rgba(0, 95, 158, 0.6);
+}
+
+.account-section__tools {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-add-subitem,
+.btn-add-table {
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 122, 204, 0.2);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-add-subitem:hover,
+.btn-add-table:hover {
+  background-color: #005ea8;
+  box-shadow: 0 4px 10px rgba(0, 95, 158, 0.3);
+}
+
+.table-cell-wrapper {
+  position: relative;
+}
+
+.table-cell-checkbox {
+  position: absolute;
+  z-index: 1;
+  display: none;
+  bottom: 2px;
+}
+
+/*# sourceMappingURL=account.css.map */
