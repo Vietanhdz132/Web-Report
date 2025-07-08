@@ -3,7 +3,7 @@
 
   <!-- Nút Tạo mới -->
   <div class="account__create-wrapper">
-    <a href="/user/pvt/create" class="account__button-create">➕ Tạo tài khoản
+    <a href="/auth/account/create" class="account__button-create">➕ Tạo tài khoản
       mới</a>
   </div>
 
@@ -92,20 +92,35 @@
     if (!confirm('Bạn có chắc muốn xoá tài khoản này?')) return;
 
     try {
-      const res = await fetch(`/user/pvt/${id}`, {
+      const res = await fetch(`/auth/user/${id}`, {
         method: 'DELETE',
       });
-      const data = await res.json();
 
+      if (!res.ok) {
+        // Cố gắng parse JSON lỗi
+        let errData = null;
+        try {
+          errData = await res.json();
+        } catch {
+          // Nếu không parse được JSON, báo lỗi chung
+          showAlert(`Lỗi ${res.status}: ${res.statusText}`, 'error');
+          return;
+        }
+        showAlert('Xóa thất bại: ' + (errData.message || `Lỗi ${res.status}`), 'warning');
+        return;
+      }
+
+      const data = await res.json();
       if (data.success) {
-        alert('✅ Đã xoá tài khoản thành công!');
+        showAlert('Đã xoá tài khoản thành công!', 'success');
         loadUsers(); // Reload lại danh sách
       } else {
-        alert('❌ Xoá thất bại: ' + (data.message || 'Lỗi không xác định'));
+        showAlert('Xóa thất bại: ' + (data.message || 'Lỗi không xác định'), 'warning');
       }
     } catch (err) {
       console.log(err);
-      alert('❌ Lỗi khi xoá tài khoản: ' + err.message);
+      showAlert('Lỗi khi xoá tài khoản: ' + err.message, 'error');
     }
   }
+
 </script>

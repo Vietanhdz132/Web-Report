@@ -1,7 +1,7 @@
 <div class="report-pvt-create">
-  <h1 class="report-pvt-create__title">Tạo Báo Cáo Tuần Mới - Phòng Vô Tuyến</h1>
+  <h1 class="report-pvt-create__title">Sửa báo cáo - Phòng Vô Tuyến</h1>
 
-  <form id="createReportForm"  class="report-pvt-create__form">
+  <form id="editReportForm" class="report-pvt-create__form">
     <!-- Thông tin chung -->
     <div class="report-pvt-create__group">
       <label for="reportName">Tên báo cáo</label>
@@ -178,10 +178,6 @@
     <div class="report-pvt-create__group">
       <label for="receivers">Nơi nhận</label>
       <textarea id="receivers" name="receivers" rows="4" required>
-        - Như trên;
-        - Ban GĐTT;
-        - Tổng hợp, TCHC;
-        - Lưu VTN.
       </textarea>
     </div>
 
@@ -190,11 +186,11 @@
     <h2>Thông tin ký báo cáo</h2>
     <div class="report-pvt-create__group">
       <label for="signer">Người ký</label>
-      <input id="signer" name="signer" type="text" value="Đỗ Duy Bình" required />
+      <input id="signer" name="signer" type="text"  required />
     </div>
     <div class="report-pvt-create__group">
       <label for="position">Chức vụ</label>
-      <input id="position" name="position" type="text" value="TRƯỞNG PHÒNG" required />
+      <input id="position" name="position" type="text"  required />
     </div>
 
     <div class="report-pvt-create__actions">
@@ -203,7 +199,6 @@
     </div>
   </form>
 </div>
-
 
 <script>
   document.querySelector('.btn-cancel').addEventListener('click', function (e) {
@@ -220,8 +215,6 @@
     document.getElementById('createdAt').value = today;
   });
 </script>
-
-
 <script>
   
   function autoResizeTextarea(textarea) {
@@ -1013,46 +1006,392 @@ function collectSectionChildren(container) {
   return results;
 }
 
+async function loadReportData(reportId) {
+    console.log(reportId)
+  try {
+    const res = await fetch(`/report/pvt/${reportId}`);
+    if (!res.ok) throw new Error('Lấy dữ liệu thất bại');
+
+    const data1 = await res.json();
+    const data = data1.data;
+    console.log(data)
+
+     // Điền thông tin chung
+    document.querySelector('[name="reportName"]').value = data.reportName || '';
+    document.querySelector('[name="number"]').value = data.number || '';
+    document.querySelector('[name="recipient"]').value = data.recipient || '';
+    document.querySelector('[name="createdAt"]').value = data.createdAt?.slice(0, 10) || '';
+    document.querySelector('[name="receivers"]').value = data.receivers || '';
+    document.querySelector('[name="signer"]').value = data.signer || '';
+    document.querySelector('[name="position"]').value = data.position || '';
+
+    // Giả sử data.sections là object chứa các section với tên section
+    for (const sectionName in data.sections) {
+      const items = data.sections[sectionName];
+
+      // Tìm container của section trên trang, chứa các mục con (theo chuẩn bạn có)
+      const container = document.querySelector(`[data-section="${sectionName}"] .report-section__children`);
+      if (container) {
+        renderSectionItems(container, items);
+      }
+    }
+  } catch (error) {
+    console.error('Lỗi khi load báo cáo:', error);
+  }
+}
 
 
-  // Gửi dữ liệu
-    document.getElementById('createReportForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+function renderSectionItems(container, items) {
+  container.innerHTML = ''; // Clear old data
 
-      const form = e.target;
-      const data = {
-        reportName: form.reportName.value,
-        number: form.number.value,
-        recipient: form.recipient.value,
-        createdAt: form.createdAt.value,
-        receivers: form.receivers.value,
-        signer: form.signer.value,
-        position: form.position.value,
-        sections: {}
-      };
-
-      const sectionKeys = ['bscKpi', 'tuh', 'ptm', 'cntt', 'vhm', 'khcp', 'conclusion', 'kientnghi_ldtt', 'kientnghi_dvkhac', 'kehoach_tuh', 'kehoach_ptm', 'kehoach_cntt', 'kehoach_vhm', 'kehoach_khcp'];
-
-      sectionKeys.forEach(section => {
-        data.sections[section] = collectSectionData(section);
+  items.forEach(item => {
+    if (item.type === 'text') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'report-subitem';
+      Object.assign(wrapper.style, {
+        marginBottom: '10px',
+        border: '1px solid #ccc',
+        padding: '10px',
+        borderRadius: '8px',
+        borderLeft: '3px dashed #aaa',
+        backgroundColor: '#fffff',
       });
 
-      {{!-- console.log('Dữ liệu :', data); --}}
+      // Tiêu đề
+      const title = document.createElement('textarea');
+      title.rows = 1;
+      title.value = item.title || '';
+      title.placeholder = 'Tiêu đề mục con';
+      Object.assign(title.style, {
+        width: '100%',
+        marginBottom: '6px',
+        fontWeight: '600',
+        backgroundColor: '#fffff',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        padding: '4px 8px',
+        boxSizing: 'border-box',
+      });
+      title.addEventListener('input', () => autoResizeTextarea(title));
+      autoResizeTextarea(title);
 
-      fetch('/report/pvt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      }).then(res => res.json())
-        .then(result => {
-          if (result.success) {
-            showAlert('Lưu báo cáo thành công!','success');
-            setTimeout(() => window.location.href = '/report/pvt/view', 1000);
-          }
-          else showAlert('Lỗi lưu báo cáo','error');
-        }).catch(() => showAlert('Lỗi kết nối server','error'));
+      // ─── Container chứa nội dung và children ───
+    const itemsContainer = document.createElement('div');
+    itemsContainer.className = 'report-section__children';
+    Object.assign(itemsContainer.style, {
+    marginTop: '10px',
+    borderLeft: '2px dashed #aaa',
+    paddingLeft: '10px',
+    backgroundColor: '#fafafa',
     });
+
+    // ─── Ô nội dung và nút xoá nằm theo cột ───
+    const contentWrapper = document.createElement('div');
+    Object.assign(contentWrapper.style, {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '6px',
+    marginBottom: '10px',
+    });
+
+    const content = document.createElement('textarea');
+    content.rows = 2;
+    content.value = item.content || '';
+    content.placeholder = 'Nội dung';
+    Object.assign(content.style, {
+    width: '100%',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    boxSizing: 'border-box',
+    });
+    content.addEventListener('input', () => autoResizeTextarea(content));
+    autoResizeTextarea(content);
+
+    const deleteContentBtn = document.createElement('button');
+    deleteContentBtn.type = 'button';
+    deleteContentBtn.textContent = '❌ Xoá nội dung';
+    Object.assign(deleteContentBtn.style, {
+    backgroundColor: '#e94e4e',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    alignSelf: 'flex-end', // đẩy sang phải
+    });
+    deleteContentBtn.onmouseenter = () => (deleteContentBtn.style.backgroundColor = '#c43c3c');
+    deleteContentBtn.onmouseleave = () => (deleteContentBtn.style.backgroundColor = '#e94e4e');
+    deleteContentBtn.onclick = () => {
+    if (confirm('Bạn có chắc chắn muốn xoá nội dung này không?')) {
+        contentWrapper.remove();
+    }
+    };
+
+    contentWrapper.appendChild(content);
+    contentWrapper.appendChild(deleteContentBtn);
+    itemsContainer.appendChild(contentWrapper);
+
+      // Nếu có con thì render tiếp
+      if (item.children && item.children.length) {
+        renderSectionItems(itemsContainer, item.children);
+      }
+
+      // Button group
+      const buttonGroup = document.createElement('div');
+      Object.assign(buttonGroup.style, {
+        display: 'flex',
+        justifyContent: 'space-between',
+        gap: '10px',
+        marginTop: '10px',
+      });
+
+      // Thêm nội dung
+      const addExtraBtn = document.createElement('button');
+      addExtraBtn.type = 'button';
+      addExtraBtn.textContent = '➕ Thêm nội dung';
+      Object.assign(addExtraBtn.style, {
+        backgroundColor: '#007acc',
+        color: '#fff',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+      addExtraBtn.onmouseenter = () => (addExtraBtn.style.backgroundColor = '#005fa3');
+      addExtraBtn.onmouseleave = () => (addExtraBtn.style.backgroundColor = '#007acc');
+      addExtraBtn.onclick = () => addExtraContent(addExtraBtn, itemsContainer);
+
+      // Thêm bảng
+      const addTableBtn = document.createElement('button');
+      addTableBtn.type = 'button';
+      addTableBtn.textContent = '📊 Thêm bảng';
+      Object.assign(addTableBtn.style, {
+        backgroundColor: '#007acc',
+        color: '#fff',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+      addTableBtn.onmouseenter = () => (addTableBtn.style.backgroundColor = '#005fa3');
+      addTableBtn.onmouseleave = () => (addTableBtn.style.backgroundColor = '#007acc');
+      addTableBtn.onclick = () => addTable(addTableBtn, null, itemsContainer);
+
+      // Xoá mục con
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.textContent = '❌ Xoá mục con';
+      Object.assign(removeBtn.style, {
+        backgroundColor: '#e94e4e',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+      removeBtn.onmouseenter = () => (removeBtn.style.backgroundColor = '#c43c3c');
+      removeBtn.onmouseleave = () => (removeBtn.style.backgroundColor = '#e94e4e');
+      removeBtn.onclick = () => {
+        if (confirm('Bạn có chắc chắn muốn xoá mục này không?')) {
+          wrapper.remove();
+        }
+      };
+
+      buttonGroup.appendChild(addExtraBtn);
+      buttonGroup.appendChild(addTableBtn);
+      buttonGroup.appendChild(removeBtn);
+
+      wrapper.appendChild(title);
+      wrapper.appendChild(itemsContainer);
+      wrapper.appendChild(buttonGroup);
+      container.appendChild(wrapper);
+    }
+
+    // -------------------- TABLE --------------------
+    else if (item.type === 'table') {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'report-subtable';
+
+      const title = document.createElement('textarea');
+      title.rows = 1;
+      title.value = item.title || '';
+      title.placeholder = 'Tiêu đề bảng';
+      Object.assign(title.style, {
+        width: '100%',
+        marginBottom: '10px',
+        fontWeight: '600',
+        backgroundColor: '#fffff',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        padding: '4px 8px',
+        boxSizing: 'border-box',
+      });
+      title.addEventListener('input', () => autoResizeTextarea(title));
+      autoResizeTextarea(title);
+
+      const table = document.createElement('table');
+      table.className = 'editable-table';
+      Object.assign(table.style, {
+        width: '100%',
+        borderCollapse: 'collapse',
+      });
+
+      const cells = item.cells || [];
+      for (let r = 0; r < cells.length; r++) {
+        const row = document.createElement('tr');
+        for (let c = 0; c < cells[r].length; c++) {
+          const cellData = cells[r][c];
+          const td = document.createElement('td');
+          Object.assign(td.style, {
+            border: '1px solid #ccc',
+            padding: '4px',
+          });
+
+          td.rowSpan = cellData.rowSpan || 1;
+          td.colSpan = cellData.colSpan || 1;
+
+          const wrapperDiv = document.createElement('div');
+          wrapperDiv.className = 'table-cell-wrapper';
+          wrapperDiv.style.position = 'relative';
+
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'table-cell-checkbox';
+          Object.assign(checkbox.style, {
+            position: 'absolute',
+            top: '0px',
+            right: '0px',
+            width: '30px',
+            height: '14px',
+            zIndex: '1',
+            display: 'none',
+          });
+
+          const textarea = document.createElement('textarea');
+          textarea.rows = 1;
+          textarea.value = cellData.text || '';
+          Object.assign(textarea.style, {
+            width: '100%',
+            boxSizing: 'border-box',
+            resize: 'vertical',
+            fontFamily: 'inherit',
+          });
+
+         
+
+          textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+          autoResizeTextarea(textarea);
+
+          wrapperDiv.appendChild(checkbox);
+          wrapperDiv.appendChild(textarea);
+          td.appendChild(wrapperDiv);
+          row.appendChild(td);
+        }
+        table.appendChild(row);
+      }
+
+      const deleteTableBtn = document.createElement('button');
+      deleteTableBtn.type = 'button';
+      deleteTableBtn.textContent = '❌ Xoá bảng';
+      Object.assign(deleteTableBtn.style, {
+        backgroundColor: '#e94e4e',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+      deleteTableBtn.onmouseenter = () => (deleteTableBtn.style.backgroundColor = '#c43c3c');
+      deleteTableBtn.onmouseleave = () => (deleteTableBtn.style.backgroundColor = '#e94e4e');
+      deleteTableBtn.onclick = () => {
+        if (confirm('Bạn có chắc chắn muốn xoá bảng này không?')) {
+          wrapper.remove();
+        }
+      };
+
+      const tableFooter = document.createElement('div');
+      Object.assign(tableFooter.style, {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: '10px',
+      });
+      tableFooter.appendChild(deleteTableBtn);
+
+      wrapper.appendChild(title);
+      wrapper.appendChild(table);
+      wrapper.appendChild(tableFooter);
+      container.appendChild(wrapper);
+
+      
+    }
+  });
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  const pathParts = window.location.pathname.split('/');
+  const reportId = pathParts[pathParts.length - 1];
+  if (reportId) {
+    loadReportData(reportId);
+  }
+});
+
+
+document.getElementById('editReportForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const pathParts = window.location.pathname.split('/');
+  const reportId = pathParts[pathParts.length - 1];
+
+  if (!reportId) {
+    alert('Không xác định được báo cáo để cập nhật');
+    return;
+  }
+
+  const data = {
+    reportName: form.reportName.value,
+    recipient: form.recipient.value,
+    number: form.number.value,
+    createdAt: form.createdAt.value,
+    receivers: form.receivers.value,
+    signer: form.signer.value,
+    position: form.position.value,
+    sections: {}
+  };
+
+  const sectionKeys = ['bscKpi', 'tuh', 'ptm', 'cntt', 'vhm', 'khcp', 'conclusion', 'kientnghi_ldtt', 'kientnghi_dvkhac', 'kehoach_tuh', 'kehoach_ptm', 'kehoach_cntt', 'kehoach_vhm', 'kehoach_khcp'];
+
+  sectionKeys.forEach(section => {
+    data.sections[section] = collectSectionData(section);
+  });
+
+  try {
+    const res = await fetch(`/report/pvt/${reportId}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+    if (result.success) {
+      alert('Cập nhật báo cáo thành công!');
+      window.location.href = '/report/pvt/view';
+    } else {
+      alert('Lỗi cập nhật báo cáo');
+    }
+  } catch (error) {
+    alert('Lỗi kết nối server');
+  }
+});
 
 
 </script>
+
 

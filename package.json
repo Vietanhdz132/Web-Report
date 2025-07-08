@@ -43,6 +43,7 @@
     "moment": "^2.30.1",
     "mongoose": "^8.16.0",
     "node-cron": "^4.1.0",
+    "node-fetch": "^3.3.2",
     "oracledb": "^6.8.0",
     "puppeteer": "^24.11.2",
     "sass": "^1.89.0",

@@ -1,7 +1,7 @@
 const jwtHelper = require('../../helpers/jwt.helper');
 const userModel = require('../models/userModel');
 
-const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '1h';
+const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '10h';
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'access-token-cntt@811@';
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || '3650d';
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'refresh-token-cntt@811@';
@@ -18,7 +18,19 @@ class AuthController {
         try {
         res.render('person/account', {
             layout: 'accountLayout',
-            title: 'Báo cáo tuần Phòng Vô Tuyến'
+            title: 'Quản lý tài khoản'
+        });
+        } catch (err) {
+        console.error('Render error:', err);
+        res.status(500).render('404', { layout: 'accountLayout' });
+        }
+    }
+
+    async createUserView(req, res) {
+        try {
+        res.render('person/create', {
+            layout: 'accountLayout',
+            title: 'Tạo tào khoản mới'
         });
         } catch (err) {
         console.error('Render error:', err);
@@ -83,7 +95,7 @@ class AuthController {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict',
-            maxAge: 60 * 60 * 1000, // 1h
+            maxAge: 10 * 365 * 24 * 60 * 60 * 1000, // 10 năm
         });
 
         res.cookie('refreshToken', refreshToken, {
@@ -108,7 +120,7 @@ class AuthController {
 
     // Đăng xuất
     logout(req, res) {
-        // Xoá cookies chứa token
+    // Xoá cookies chứa token
         res.clearCookie('accessToken');
         res.clearCookie('refreshToken');
 
@@ -118,10 +130,10 @@ class AuthController {
             delete tokenList[refreshToken];
         }
 
-        // Tuỳ chọn chuyển về trang login hoặc trả JSON
-        res.redirect('/auth/login'); // Nếu dùng giao diện
-        // res.json({ message: 'Đăng xuất thành công' }); // Nếu dùng API
-        }
+        // ✅ Trả về phản hồi để client biết thành công
+        res.status(200).json({ success: true, message: 'Đã đăng xuất' });
+    }
+
 
 
     // Làm mới accessToken từ refreshToken
@@ -146,15 +158,22 @@ class AuthController {
 
     // Tạo user mới (chỉ admin)
     async createUser(req, res) {
-        try {
+    try {
         const currentUser = req.user;
         const userData = req.body;
 
         const insertedId = await userModel.createUser(userData, currentUser);
-        res.status(201).json({ message: 'Tạo người dùng thành công', insertedId });
-        } catch (err) {
-        res.status(400).json({ message: err.message });
-        }
+        res.status(201).json({
+        success: true,
+        message: 'Tạo người dùng thành công',
+        insertedId,
+        });
+    } catch (err) {
+        res.status(400).json({
+        success: false,
+        message: err.message,
+        });
+    }
     }
 
     // Sửa thông tin user (chỉ admin)
@@ -176,17 +195,40 @@ class AuthController {
     // Xoá user (chỉ admin)
     async deleteUser(req, res) {
         try {
-        const currentUser = req.user;
-        const id = req.params.id;
+            const currentUser = req.user;
 
-        const success = await userModel.deleteUser(id, currentUser);
-        if (!success) return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+            // Kiểm tra quyền tại đây luôn
+            if (!currentUser?.permissions?.canManageUsers) {
+            return res.status(403).json({ 
+                success: false, 
+                message: 'Bạn không có quyền thực hiện thao tác này' 
+            });
+            }
 
-        res.json({ message: 'Xoá thành công' });
+            const id = req.params.id;
+            const success = await userModel.deleteUser(id, currentUser);
+
+            if (!success) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Không tìm thấy người dùng' 
+            });
+            }
+
+            res.json({ 
+            success: true, 
+            message: 'Xoá thành công' 
+            });
         } catch (err) {
-        res.status(400).json({ message: err.message });
+            res.status(400).json({ 
+            success: false, 
+            message: err.message 
+            });
         }
-    }
+        }
+
+
+
 
     // Route test
     protected(req, res) {

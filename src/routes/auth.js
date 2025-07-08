@@ -11,7 +11,11 @@ router.get('/login', authController.loginPage);
 
 router.get('/account/manager',authMiddleWare.verifyToken,authController.viewAll )
 
+router.get('/account/create',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'),authController.createUserView )
+
 router.get('/account/getAllUsers',authMiddleWare.verifyToken,authController.getAllUsers )
+
+
 
 
 // Xử lý đăng nhập (POST)
@@ -21,13 +25,13 @@ router.post('/login', authController.login);
 router.post('/logout', authController.logout);
 
 // Tạo user mới (admin)
-router.post('/users',authMiddleWare.verifyToken, authController.createUser);
+router.post('/user/create',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.createUser);
 
 // Sửa user (admin)
-router.put('/users/:id',authMiddleWare.verifyToken, authController.updateUser);
+router.put('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.updateUser);
 
 // Xóa user (admin)
-router.delete('/users/:id',authMiddleWare.verifyToken, authController.deleteUser);
+router.delete('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.deleteUser);
 
 // Lấy thông tin user hiện tại
 router.get('/me',authMiddleWare.verifyToken, authController.getProfile);

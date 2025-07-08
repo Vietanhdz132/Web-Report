@@ -1,0 +1,106 @@
+<div class="account-create">
+  <h1 class="account-create__title">➕ Tạo tài khoản mới</h1>
+
+  <form id="createUserForm">
+    <!-- Họ tên -->
+    <div class="account-create__group">
+      <label for="name">Họ và tên</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+
+    <!-- Tên tài khoản -->
+    <div class="account-create__group">
+      <label for="username">Tên tài khoản</label>
+      <input type="text" id="username" name="username" required>
+    </div>
+
+    <!-- Email -->
+    <div class="account-create__group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+
+    <!-- Mật khẩu -->
+    <div class="account-create__group">
+      <label for="password">Mật khẩu</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+
+    <!-- Vai trò -->
+    <div class="account-create__group">
+      <label for="role">Vai trò</label>
+      <select id="role" name="role" required>
+        <option value="">-- Chọn vai trò --</option>
+        {{!-- <option value="admin">Admin</option> --}}
+        <option value="manager">Manager</option>
+        <option value="view">Viewer</option>
+      </select>
+    </div>
+
+    <!-- Phòng ban -->
+    <div class="account-create__group">
+        <label for="department">Phòng ban</label>
+        <select id="department" name="department" required>
+            <option value="">-- Chọn phòng ban --</option>
+            <option value="Phòng Vô Tuyến">Phòng Vô Tuyến</option>
+            <option value="Phòng Kế Toán">Phòng Kế Toán</option>
+            <option value="Phòng Hạ Tầng">Phòng Hạ Tầng</option>
+            <option value="Phòng Truyền Dẫn">Phòng Truyền Dẫn</option>
+            <option value="Nhóm BO Tập Trung">Nhóm BO Tập Trung</option>
+            <option value="Phòng Tổ Chức Hành Chính">Phòng Tổ Chức Hành Chính</option>
+        </select>
+        </div>
+
+
+    <!-- Chức vụ -->
+    <div class="account-create__group">
+      <label for="position">Chức vụ</label>
+      <input type="text" id="position" name="position" required>
+    </div>
+
+    <!-- Nút -->
+    <div class="account-create__actions">
+      <button type="submit">Tạo tài khoản</button>
+      <a href="/auth/account/manager" class="btn-cancel" onclick="return confirm('Bạn có chắc chắn muốn hủy? Mọi thay đổi sẽ không được lưu.')">Hủy</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('createUserForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+
+    const userData = {
+      name: form.name.value.trim(),
+      username: form.username.value.trim(),
+      email: form.email.value.trim(),
+      password: form.password.value,
+      role: form.role.value,
+      department: form.department.value.trim(),
+      position: form.position.value.trim()
+      // ✅ Không cần gửi permissions, backend sẽ dùng getPermissions(role)
+    };
+
+    try {
+      const res = await fetch('/auth/user/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userData)
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        showAlert('Tạo tài khoản thành công!','success');
+        setTimeout(() => window.location.href = '/auth/account/manager', 1500);
+        
+      } else {
+        alert('❌ ' + (result.message || 'Tạo tài khoản thất bại'));
+      }
+    } catch (err) {
+      console.error('❌ Error:', err);
+      alert('Lỗi khi gửi dữ liệu tạo tài khoản.');
+    }
+  });
+</script>

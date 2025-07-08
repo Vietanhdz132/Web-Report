@@ -3,6 +3,7 @@ const { ObjectId } = require('mongodb');
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
+const fetch = require('node-fetch');
 
 class PhongVTNController {
   /**
@@ -75,12 +76,13 @@ class PhongVTNController {
         return res.status(404).json({ success: false, message: 'Không tìm thấy báo cáo' });
       }
 
-      res.json(report);
+      return res.json({ success: true, data: report });
     } catch (err) {
       console.error('❌ Error fetching report by ID:', err);
-      res.status(500).json({ success: false });
+      return res.status(500).json({ success: false });
     }
   }
+
 
   /**
    * [PUT] /report/:id - Cập nhật báo cáo
@@ -330,6 +332,18 @@ class PhongVTNController {
       res.render('report/create', {
         layout: 'reportLayout',
         title: 'Tạo Báo Cáo Tuần - Phòng Vô Tuyến'
+      });
+    } catch (err) {
+      console.error('Render error:', err);
+      res.status(500).render('404', { layout: 'reportLayout' });
+    }
+  }
+
+  async showEditForm(req, res) {
+    try {
+      res.render('report/edit', {
+        layout: 'reportLayout',
+        title: 'Sửa Báo Cáo Tuần - Phòng Vô Tuyến'
       });
     } catch (err) {
       console.error('Render error:', err);

@@ -46,16 +46,15 @@ const requireAdmin = (req, res, next) => {
 const requirePermission = (permission) => {
   return (req, res, next) => {
     if (!req.user) {
-      return res.redirect('/auth/login');
+      return res.status(401).json({ message: 'Chưa đăng nhập' });
     }
-
     if (!req.user.permissions || !req.user.permissions[permission]) {
-      return res.status(403).json({ message: `Bạn không có quyền: ${permission}` });
+      return res.status(403).json({ message: `Bạn không có quyền !!!` });
     }
-
     next();
   };
 };
+
 
 /**
  * Middleware: Kiểm tra role cụ thể (nếu bạn vẫn cần)

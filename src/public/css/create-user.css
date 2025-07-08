@@ -1,0 +1,104 @@
+@charset "UTF-8";
+.account-create {
+  max-width: 800px;
+  margin: 40px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+  color: #333;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Tiêu đề */
+.account-create__title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #007acc;
+  margin-bottom: 30px;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Group input */
+.account-create__group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.account-create__group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Input và select */
+.account-create__group input,
+.account-create__group select {
+  padding: 10px 12px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #222;
+  transition: border-color 0.3s ease;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.account-create__group input:focus,
+.account-create__group select:focus {
+  outline: none;
+  border-color: #007acc;
+  box-shadow: 0 0 6px rgba(0, 122, 204, 0.4);
+}
+
+/* Hành động */
+.account-create__actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.account-create__actions button,
+.account-create__actions .btn-cancel {
+  background-color: #007acc;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0, 122, 204, 0.25);
+}
+
+.account-create__actions button:hover,
+.account-create__actions .btn-cancel:hover {
+  background-color: #005f9e;
+  box-shadow: 0 4px 12px rgba(0, 95, 158, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .account-create {
+    padding: 20px;
+  }
+  .account-create__title {
+    font-size: 1.8rem;
+  }
+  .account-create__actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .account-create__actions button,
+  .account-create__actions .btn-cancel {
+    width: 100%;
+  }
+}
+
+/*# sourceMappingURL=create-user.css.map */
