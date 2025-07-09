@@ -54,8 +54,9 @@ async function startServer() {
           formatDate: (date) => {
             if (!date) return '';
             return moment(date).format('DD/MM/YYYY');
-          }
-        }
+          },
+          json: (context) => JSON.stringify(context), // <-- thêm helper này
+        },
       }),
     );
     app.set('view engine', 'hbs');
@@ -102,6 +103,8 @@ async function startServer() {
     });
 
     require('./helpers/handlebars');
+    require('dotenv').config();
+
 
   } catch (error) {
     console.error('Failed to start server:', error);

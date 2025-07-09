@@ -25,9 +25,11 @@ body {
 }
 
 .container {
-  position: relative;
+  max-width: 100vw !important;
+  width: 100vw;
   min-height: 100vh;
   overflow: hidden;
+  position: relative;
 }
 
 .row {

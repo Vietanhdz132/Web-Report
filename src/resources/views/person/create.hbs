@@ -5,7 +5,7 @@
     <!-- Họ tên -->
     <div class="account-create__group">
       <label for="name">Họ và tên</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" placeholder="Nhập họ tên đầy đủ" required>
     </div>
 
     <!-- Tên tài khoản -->
@@ -55,7 +55,10 @@
     <!-- Chức vụ -->
     <div class="account-create__group">
       <label for="position">Chức vụ</label>
-      <input type="text" id="position" name="position" required>
+      <select id="position" name="position" required>
+            <option value="">-- Chọn chức vụ --</option>
+            <option value="Phòng Vô Tuyến">Chuyên viên</option>
+      </select>   
     </div>
 
     <!-- Nút -->

@@ -1,50 +1,34 @@
 <style>
-
   .custom-tab {
     margin-left: 80px;
     margin-right: 80px;
   }
 
   .custom-tab .nav-link {
-    color: white !important;
+    color: #004275 !important;;
+    text-decoration: none; /* Bỏ gạch chân mặc định */
 
+    transition: border-color 0.2s;
+    font-size: 20px;
   }
 
+
+  .custom-tab .nav-link:focus {
+    border-bottom: 2px solid #004275; /* Gạch chân màu xanh đậm */
+  }
+
+
   .custom-tab .nav-link.active {
-  color: white !important;
-  background-color: #21252900;
-  border: 1px solid white; /* viền trắng khi active */
-  border-bottom: none; /* nếu muốn không có viền dưới khi tab đang được chọn */
-}
-
-  /* Khi hover vào .dropdown, dropdown-menu sẽ hiện ra */
-.nav-item.dropdown:hover > .dropdown-menu {
-  display: block;
-  margin-top: 0; /* bỏ khoảng cách mặc định nếu có */
-  opacity: 1;
-  visibility: visible;
-}
-
-/* Ẩn dropdown-menu mặc định */
-.dropdown-menu {
-  display: none;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease;
-}
-
-.dropdown-menu a {
-  color: black !important;
-}
-
-.dropdown-menu a:hover {
-  background-color: #f8f9fa; /* màu nền khi hover, bạn có thể đổi nếu muốn */
-  color: rgb(255, 255, 255) !important;
-}
-
+    color:  #004275 !important;
+    background-color: #21252900;
+    border: 1px solid #004275; /* viền trắng khi active */
+    font-weight: 600;
+    position: relative;
+  }
 
 
 </style>
+
 
 <nav>
   <ul class="nav nav-tabs custom-tab" id="nav-tab" role="tablist">

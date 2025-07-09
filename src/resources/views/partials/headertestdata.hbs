@@ -5,14 +5,27 @@
   }
 
   .custom-tab .nav-link {
-    color: white !important;
-
+    color: #004275 !important;;
+    text-decoration: none; /* Bỏ gạch chân mặc định */
+    transition: border-color 0.2s;
+    font-size: 20px;
+    font-weight: 550;
   }
+
+
+  .custom-tab .nav-link:focus {
+    border-bottom: 2px solid #004275; /* Gạch chân màu xanh đậm */
+  }
+
 
   .custom-tab .nav-link.active {
-    color: white !important;  /* ép màu trắng cho tab đang active */
-    background-color: #495057; /* màu nền cho tab active nếu muốn khác */
+    color:  #004275 !important;
+    background-color: #21252900;
+    border: 1px solid #004275; /* viền trắng khi active */
+    font-weight: 600;
+    position: relative;
   }
+
 
   /* Khi hover vào .dropdown, dropdown-menu sẽ hiện ra */
 .nav-item.dropdown:hover > .dropdown-menu {
@@ -90,6 +103,11 @@
   </div>
 </nav>
 
+<script>
 
+  if (window.location.pathname === "/testdata") {
+    window.location.href = "/testdata/mllmb/view";
+  }
+</script>
 
 

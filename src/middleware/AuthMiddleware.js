@@ -73,9 +73,18 @@ const requireRole = (role) => {
   };
 };
 
+function checkExportToken(req, res, next) {
+  const token = req.headers['x-export-token'];
+  if (token !== process.env.EXPORT_PDF_SECRET) {
+    return res.status(403).send('❌ Token xuất PDF không hợp lệ');
+  }
+  next();
+};
+
 module.exports = {
   verifyToken,
   requireAdmin,
   requireRole,
   requirePermission,
+  checkExportToken
 };

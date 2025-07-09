@@ -8,7 +8,10 @@ const authMiddleWare = require('../../middleware/AuthMiddleware');
 router.get('/pvt/view', authMiddleWare.verifyToken, authMiddleWare.requirePermission('canViewReports'), phongVTNController.viewAll);
 router.get('/pvt/create',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'), phongVTNController.showCreateForm);
 router.get('/pvt/edit/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'), phongVTNController.showEditForm);
-router.get('/pvt/detail/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canViewReports'),phongVTNController.viewDetail);
+router.get('/pvt/detail/:id',(req, res, next) => {if (req.headers['x-export-token']) return authMiddleWare.checkExportToken(req, res, next);
+    return authMiddleWare.verifyToken(req, res, () =>authMiddleWare.requirePermission('canViewReports')(req, res, next));},
+    phongVTNController.viewDetail
+);
 router.get('/pvt/exportpdf/:id/:reportName',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canViewReports'),phongVTNController.exportPdf);
 
 // API routes (JSON)

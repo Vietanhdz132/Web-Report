@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const testdataController = require('../../app/controllers/TestdataController');
+const authMiddleWare = require('../../middleware/AuthMiddleware');
 
 const MLLMB = require('../testdata/mllmb');
 const tramMLL = require('../testdata/trammll');
@@ -21,32 +22,27 @@ const dvtHTMTMONTH = require('../dvtHTMT/dvtHTMTmonth');
 const dvtHTMTWEEK = require('../dvtHTMT/dvtHTMTweek');
 const dvtHTMTDAY = require('../dvtHTMT/dvtHTMTday');
 
-
 // Route chính
 router.get('/', testdataController.index);
 
 // Các router con
-router.use('/mllmb', MLLMB);
-router.use('/trammll', tramMLL);
-router.use('/trammlldvt', tramMLLDVT);
-router.use('/trammlltvt', tramMLLTVT);
-router.use('/trammlltinh', tramMLLTINH);
-router.use('/trammllhuyen', tramMLLHUYEN);
+router.use('/mllmb',authMiddleWare.verifyToken, MLLMB);
+router.use('/trammll',authMiddleWare.verifyToken, tramMLL);
+router.use('/trammlldvt',authMiddleWare.verifyToken, tramMLLDVT);
+router.use('/trammlltvt',authMiddleWare.verifyToken, tramMLLTVT);
+router.use('/trammlltinh',authMiddleWare.verifyToken, tramMLLTINH);
+router.use('/trammllhuyen',authMiddleWare.verifyToken, tramMLLHUYEN);
 
-router.use('/quanhuyenHTMTyear', quanhuyenHTMTYEAR);
-router.use('/quanhuyenHTMTquarter', quanhuyenHTMTQUARTER);
-router.use('/quanhuyenHTMTmonth', quanhuyenHTMTMONTH);
-router.use('/quanhuyenHTMTweek', quanhuyenHTMTWEEK);
-router.use('/quanhuyenHTMTday', quanhuyenHTMTDAY);
+router.use('/quanhuyenHTMTyear',authMiddleWare.verifyToken, quanhuyenHTMTYEAR);
+router.use('/quanhuyenHTMTquarter',authMiddleWare.verifyToken, quanhuyenHTMTQUARTER);
+router.use('/quanhuyenHTMTmonth',authMiddleWare.verifyToken, quanhuyenHTMTMONTH);
+router.use('/quanhuyenHTMTweek',authMiddleWare.verifyToken, quanhuyenHTMTWEEK);
+router.use('/quanhuyenHTMTday',authMiddleWare.verifyToken, quanhuyenHTMTDAY);
 
-router.use('/dvtHTMTyear', dvtHTMTYEAR);
-router.use('/dvtHTMTquarter', dvtHTMTQUARTER);
-router.use('/dvtHTMTmonth', dvtHTMTMONTH);
-router.use('/dvtHTMTweek', dvtHTMTWEEK);
-router.use('/dvtHTMTday', dvtHTMTDAY);
-
-
-
-
+router.use('/dvtHTMTyear',authMiddleWare.verifyToken, dvtHTMTYEAR);
+router.use('/dvtHTMTquarter',authMiddleWare.verifyToken, dvtHTMTQUARTER);
+router.use('/dvtHTMTmonth',authMiddleWare.verifyToken, dvtHTMTMONTH);
+router.use('/dvtHTMTweek',authMiddleWare.verifyToken, dvtHTMTWEEK);
+router.use('/dvtHTMTday',authMiddleWare.verifyToken, dvtHTMTDAY);
 
 module.exports = router;

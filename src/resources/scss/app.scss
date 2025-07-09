@@ -49,7 +49,7 @@
   bottom: 10px;
   width: 0;
   height: 1px;
-  background-color: #ffffff;
+  background-color:  #004275;
   transition: width 0.3s;
   transform: translateX(-50%);
   /* Căn giữa gạch chân */
@@ -726,7 +726,7 @@ body {
 }
 
 .footer {
-  background-color: #e0e0e0;
+  background-color: #dce7f72f;
   color: #333;
   font-size: 14px;
   padding: 20px 0;
@@ -741,6 +741,7 @@ body {
 }
 .container {
   max-width: 90vw !important;
+  margin-left: 5vw;
 
   
 }

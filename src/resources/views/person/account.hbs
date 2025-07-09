@@ -3,8 +3,7 @@
 
   <!-- Nút Tạo mới -->
   <div class="account__create-wrapper">
-    <a href="/auth/account/create" class="account__button-create">➕ Tạo tài khoản
-      mới</a>
+    <a href="#" id="createAccountBtn" class="account__button-create">➕ Tạo tài khoản mới</a>
   </div>
 
   <!-- Danh sách báo cáo -->
@@ -32,7 +31,24 @@
   </section>
 </div>
 
+
 <script>
+  window.user = {{{json user}}};
+</script>
+
+<script>
+
+  document.getElementById('createAccountBtn').addEventListener('click', function () {
+    const hasPermission = window.user?.permissions?.canManageUsers;
+
+    if (hasPermission) {
+      window.location.href = '/auth/account/create';
+    } else {
+      showAlert('Bạn không có quyền tạo báo cáo !!!', 'warning');
+    }
+  });
+  
+
   document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
   });
@@ -124,3 +140,4 @@
   }
 
 </script>
+

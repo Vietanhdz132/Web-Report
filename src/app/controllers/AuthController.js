@@ -1,7 +1,7 @@
 const jwtHelper = require('../../helpers/jwt.helper');
 const userModel = require('../models/userModel');
 
-const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '10h';
+const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '3650d';
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'access-token-cntt@811@';
 const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || '3650d';
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'refresh-token-cntt@811@';
@@ -18,7 +18,8 @@ class AuthController {
         try {
         res.render('person/account', {
             layout: 'accountLayout',
-            title: 'Quản lý tài khoản'
+            title: 'Quản lý tài khoản',
+            user: req.user,
         });
         } catch (err) {
         console.error('Render error:', err);
@@ -80,9 +81,13 @@ class AuthController {
 
         const payload = {
             _id: user._id,
+            name:user.name,
             username: user.username,
+            email:user.email,
             role: user.role,
-            permissions: user.permissions, // lấy thẳng
+            department:user.department,
+            position:user.position,
+            permissions: user.permissions,
             };
 
 

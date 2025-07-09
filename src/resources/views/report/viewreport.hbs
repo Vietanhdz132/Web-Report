@@ -1,162 +1,149 @@
+
 <div class="report-pvt-view">
- <div class="report-pvt-view__header">
-  <div class="report-header__top">
-    <div class="report-header__left">
-      TRUNG TÂM MẠNG LƯỚI MOBIFONE MIỀN BẮC<br />
-      <span class="underline">PHÒNG VÔ TUYẾN</span>
-      <div><strong>Số:</strong> {{report.number}} /BC-VTN</div>
+  <div class="report-pvt-view__header">
+    <div class="report-header__top">
+      <div class="report-header__left">
+        TRUNG TÂM MẠNG LƯỚI MOBIFONE MIỀN BẮC<br />
+        <span class="underline">PHÒNG VÔ TUYẾN</span>
+        <div><strong>Số:</strong> {{report.number}} /BC-VTN</div>
+      </div>
+      <div class="report-header__right">
+        CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br />
+        <span class="underline">Độc lập - Tự do - Hạnh phúc</span>
+      </div>
     </div>
-    <div class="report-header__right">
-      CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM<br />
-      <span class="underline">Độc lập - Tự do - Hạnh phúc</span>
-    </div>
+
+    <div class="report-header__date" id="vietnamDate"></div>
+
+    <h1 class="report-header__title">{{report.reportName}}</h1>
+
+    <p class="report-header__recipient">Kính gửi: {{report.recipient}}</p>
   </div>
 
-  <div class="report-header__date" id="vietnamDate"></div>
-
-
-  <h1 class="report-header__title">{{report.reportName}}</h1>
-
-  <p class="report-header__recipient">Kính gửi: {{report.recipient}}</p>
-</div>
-
-
-  
   <h2>I. ĐÁNH GIÁ KẾT QUẢ TRIỂN KHAI</h2>
   {{!-- Kết quả thực hiện BSC-KPI --}}
   <div class="report-pvt-view__section">
     <h3>1. Kết quả thực hiện BSC-KPI</h3>
-{{{renderSectionItems report.sections.bscKpi}}}
-  
+    {{{renderSectionItems report.sections.bscKpi}}}
 
-  {{!-- Công tác TUH --}}
-  <div class="report-pvt-view__section">
-    <h3>2. Công việc trọng tâm</h3>
-    <h3>Công tác TUH</h3>
-    {{{renderSectionItems report.sections.tuh}}}
-  </div>
-
-  {{!-- Công tác PTM --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác PTM</h3>
-    {{{renderSectionItems report.sections.ptm}}}
-  </div>
-
-  {{!-- Công tác CNTT --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác CNTT</h3>
-    {{{renderSectionItems report.sections.cntt}}}
-  </div>
-
-  {{!-- Công tác VHM --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác VHM</h3>
-    {{{renderSectionItems report.sections.vhm}}}
-  </div>
-
-  {{!-- Công tác KHCP --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác KHCP</h3>
-    {{{renderSectionItems report.sections.khcp}}}
-  </div>
-
-  <hr />
-
-  <!-- Các nhóm còn lại bạn cũng làm tương tự, ví dụ Conclusion, Kiến nghị, Kế hoạch -->
-
-  <h2>II. THỰC HIỆN KẾT LUẬN, CHỈ ĐẠO</h2>
-  <div class="report-pvt-view__section">
-    <h3>Nội dung kết luận, chỉ đạo</h3>
-    {{renderSectionItems report.sections.conclusion}}
-      
-  </div>
-
-  <hr />
-
-  <h2>III. TỒN TẠI, KIẾN NGHỊ</h2>
-
-  <div class="report-pvt-view__section">
-    <h3>1. Kiến nghị với LĐTT/TCT</h3>
-    {{renderSectionItems report.sections.kientnghi_ldtt}}
-      
-  </div>
-
-  <div class="report-pvt-view__section">
-    <h3>2. Kiến nghị với đơn vị khác</h3>
-    {{renderSectionItems report.sections.kientnghi_dvkhac}}
-      
-  </div>
-
-  <hr />
-
-  <h2>IV. KẾ HOẠCH TUẦN TỚI</h2>
-
-  {{!-- Kế hoạch TUH --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác TUH</h3>
-    {{renderSectionItems report.sections.kehoach_tuh}}
-      
-  </div>
-
-  {{!-- Kế hoạch PTM --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác PTM</h3>
-    {{renderSectionItems report.sections.kehoach_ptm}}
-      
-  </div>
-
-  {{!-- Kế hoạch CNTT --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác CNTT</h3>
-    {{renderSectionItems report.sections.kehoach_cntt}}
-      
-  </div>
-
-  {{!-- Kế hoạch VHM --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác VHM</h3>
-    {{renderSectionItems report.sections.kehoach_vhm}}
-      
-  </div>
-
-  {{!-- Kế hoạch KHCP --}}
-  <div class="report-pvt-view__section">
-    <h3>Công tác KHCP</h3>
-    {{renderSectionItems report.sections.kehoach_khcp}}
-      
-  </div>
-
-  <hr />
-
-  <div class="report-footer-container">
-    <div class="report-receivers">
-      <Strong style="margin-left: 60px;">Nơi nhận:</Strong>
-      <pre class="report-pvt-view__receivers">{{report.receivers}}</pre>
+    {{!-- Công tác TUH --}}
+    <div class="report-pvt-view__section">
+      <h3>2. Công việc trọng tâm</h3>
+      <h3>Công tác TUH</h3>
+      {{{renderSectionItems report.sections.tuh}}}
     </div>
 
-    <div class="report-signer-info">
-      <div class="signer-info">
-        <p style="margin-bottom: 100px;"><strong>{{report.position}}</strong></p>
-        <p><strong>{{report.signer}}</strong></p>
+    {{!-- Công tác PTM --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác PTM</h3>
+      {{{renderSectionItems report.sections.ptm}}}
+    </div>
+
+    {{!-- Công tác CNTT --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác CNTT</h3>
+      {{{renderSectionItems report.sections.cntt}}}
+    </div>
+
+    {{!-- Công tác VHM --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác VHM</h3>
+      {{{renderSectionItems report.sections.vhm}}}
+    </div>
+
+    {{!-- Công tác KHCP --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác KHCP</h3>
+      {{{renderSectionItems report.sections.khcp}}}
+    </div>
+
+    <!-- Các nhóm còn lại bạn cũng làm tương tự, ví dụ Conclusion, Kiến nghị, Kế hoạch -->
+
+    <h2>II. THỰC HIỆN KẾT LUẬN, CHỈ ĐẠO</h2>
+    <div class="report-pvt-view__section">
+      <h3>Nội dung kết luận, chỉ đạo</h3>
+      {{renderSectionItems report.sections.conclusion}}
+
+    </div>
+
+    <h2>III. TỒN TẠI, KIẾN NGHỊ</h2>
+
+    <div class="report-pvt-view__section">
+      <h3>1. Kiến nghị với LĐTT/TCT</h3>
+      {{renderSectionItems report.sections.kientnghi_ldtt}}
+
+    </div>
+
+    <div class="report-pvt-view__section">
+      <h3>2. Kiến nghị với đơn vị khác</h3>
+      {{renderSectionItems report.sections.kientnghi_dvkhac}}
+
+    </div>
+
+    <h2>IV. KẾ HOẠCH TUẦN TỚI</h2>
+
+    {{!-- Kế hoạch TUH --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác TUH</h3>
+      {{renderSectionItems report.sections.kehoach_tuh}}
+
+    </div>
+
+    {{!-- Kế hoạch PTM --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác PTM</h3>
+      {{renderSectionItems report.sections.kehoach_ptm}}
+
+    </div>
+
+    {{!-- Kế hoạch CNTT --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác CNTT</h3>
+      {{renderSectionItems report.sections.kehoach_cntt}}
+
+    </div>
+
+    {{!-- Kế hoạch VHM --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác VHM</h3>
+      {{renderSectionItems report.sections.kehoach_vhm}}
+
+    </div>
+
+    {{!-- Kế hoạch KHCP --}}
+    <div class="report-pvt-view__section">
+      <h3>Công tác KHCP</h3>
+      {{renderSectionItems report.sections.kehoach_khcp}}
+
+    </div>
+
+    <div class="report-footer-container">
+      <div class="report-receivers">
+        <strong style="margin-left: 60px;">Nơi nhận:</strong>
+        <pre class="report-pvt-view__receivers">{{report.receivers}}</pre>
       </div>
 
+      <div class="report-signer-info">
+        <div class="signer-info">
+          <p
+            style="margin-bottom: 100px;"><strong>{{report.position}}</strong></p>
+          <p><strong>{{report.signer}}</strong></p>
+        </div>
 
+      </div>
+    </div>
+    <div class="button-container">
+      <a href="/report/pvt/view" class="btn-back">⬅️ Quay lại danh sách</a>
+
+      <a href="/report/pvt/exportpdf/{{report._id}}/{{report.reportName}}"
+        class="btn-back" target="_blank">📄 Xuất báo cáo PDF</a>
+
+    </div>
   </div>
 </div>
-  <div class="button-container">
-    <a href="/report/pvt/view" class="btn-back">⬅️ Quay lại danh sách</a>
 
-    <a href="/report/pvt/exportpdf/{{report._id}}/{{report.reportName}}" class="btn-back" target="_blank">📄 Xuất báo cáo PDF</a>
-
-  </div>
-
-
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
-
-
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
 <script>
   

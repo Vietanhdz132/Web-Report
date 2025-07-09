@@ -182,7 +182,8 @@ class PhongVTNController {
     try {
       res.render('report/pvtn', {
         layout: 'reportLayout',
-        title: 'Báo cáo tuần Phòng Vô Tuyến'
+        title: 'Báo cáo tuần Phòng Vô Tuyến',
+        user: req.user
       });
     } catch (err) {
       console.error('Render error:', err);
@@ -202,7 +203,7 @@ class PhongVTNController {
 
       const report = await reportPVTN.getReportById(id);
       
-      if (!report) return res.status(404).send('Không tìm thấy báo cáo  aaa');
+      if (!report) return res.status(404).send('Không tìm thấy báo cáo');
       // console.log('📝 Dữ liệu báo cáo:', JSON.stringify(report, null, 2));
 
       res.render('report/viewreport', {
@@ -221,10 +222,10 @@ class PhongVTNController {
         const rawReportName = decodeURIComponent(req.params.reportName || '');
         const safeReportName = rawReportName
           .normalize("NFD").replace(/[\u0300-\u036f]/g, '') // bỏ dấu tiếng Việt
-          .replace(/[^a-zA-Z0-9-_ ]/g, '') // bỏ ký tự đặc biệt
-          .replace(/\s+/g, '_')            // thay khoảng trắng = _
-          .toUpperCase();                  // viết hoa nếu bạn thích
-          // thay dấu cách bằng "_"
+          .replace(/[^a-zA-Z0-9-_ ]/g, '')                 // bỏ ký tự đặc biệt
+          .replace(/\s+/g, '_')                            // thay khoảng trắng bằng "_"
+          .toUpperCase();                                  // viết hoa nếu bạn thích
+
         if (!ObjectId.isValid(id)) {
           return res.status(400).send('ID không hợp lệ');
         }
@@ -236,23 +237,32 @@ class PhongVTNController {
         });
 
         const page = await browser.newPage();
-        await page.goto(reportUrl, { waitUntil: 'networkidle0' });
-        await new Promise(resolve => setTimeout(resolve, 1500));
 
+        // ✅ Gửi token xác thực đặc biệt qua header
+        await page.setExtraHTTPHeaders({
+          'x-export-token': process.env.EXPORT_PDF_SECRET
+        });
 
-        // Lấy full CSS link từ trang
+        console.log('📄 Puppeteer đang truy cập:', reportUrl);
+
+        // ✅ Truy cập trang chi tiết báo cáo với token đặc biệt
+        await page.goto(reportUrl, {
+          waitUntil: 'networkidle0',
+          timeout: 0 // không timeout giới hạn (tùy chọn)
+        });
+
+        // Lấy CSS từ trang
         const cssHrefs = await page.$$eval('link[rel="stylesheet"]', links =>
           links.map(link => link.href)
         );
 
-        // Lấy phần nội dung cần in
+        // Lấy phần nội dung báo cáo
         const reportHtml = await page.$eval('.report-pvt-view', el => el.outerHTML);
 
+        // Tạo trang in
         const printPage = await browser.newPage();
 
-        // Gắn lại CSS frontend và override style
         const cssLinksHtml = cssHrefs.map(href => `<link rel="stylesheet" href="${href}">`).join('\n');
-
         const overrideStyle = `
           <style>
             .report-pvt-view {
@@ -261,30 +271,24 @@ class PhongVTNController {
               margin: 0 !important;
               padding: 0 !important;
             }
-
             body {
               margin: 0;
               padding: 0;
               background: white;
             }
-
             .report-footer-container {
               break-inside: avoid;
               page-break-inside: avoid;
               -webkit-column-break-inside: avoid;
-              page-break-before: always; /* Nếu bị đẩy, thì đẩy nguyên khối sang trang mới */
-            }
               
+            }
             .button-container {
               display: none !important;
             }
-
-            
           </style>
         `;
 
-
-        // Render lại nội dung mới với CSS
+        // Load HTML để in
         await printPage.setContent(`
           <html>
             <head>
@@ -297,6 +301,7 @@ class PhongVTNController {
           </html>
         `, { waitUntil: 'networkidle0' });
 
+        // Xuất PDF
         const pdfBuffer = await printPage.pdf({
           format: 'A4',
           landscape: true,
@@ -307,11 +312,12 @@ class PhongVTNController {
 
         await browser.close();
 
-        // Lưu và gửi file
+        // Lưu tạm file debug (nếu cần)
         const debugFolder = path.resolve(__dirname, '../debug');
         if (!fs.existsSync(debugFolder)) fs.mkdirSync(debugFolder);
         fs.writeFileSync(path.join(debugFolder, `report-${id}.pdf`), pdfBuffer);
 
+        // Gửi file về client
         res.writeHead(200, {
           'Content-Type': 'application/pdf',
           'Content-Disposition': `attachment; filename="${safeReportName}_PVTN.pdf"`,
@@ -324,6 +330,7 @@ class PhongVTNController {
         res.status(500).send('Lỗi khi xuất PDF');
       }
     }
+
   /**
    * [GET] /report/create - Giao diện tạo báo cáo
    */

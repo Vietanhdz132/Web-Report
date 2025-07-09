@@ -4,8 +4,6 @@ const authController = require('../app/controllers/AuthController');
 const authMiddleWare = require('../middleware/AuthMiddleware');
 
 
-
-
 // Trang đăng nhập
 router.get('/login', authController.loginPage);
 

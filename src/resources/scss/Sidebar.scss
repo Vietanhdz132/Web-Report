@@ -2,7 +2,7 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(#051f30, #000000);
+    background: linear-gradient(#f4f6f9, #bad2f7);
 }
 
 .menu::-webkit-scrollbar {
@@ -22,7 +22,7 @@ body {
     transition: .3s;
     scrollbar-width: none;
     overflow: hidden scroll;
-    background: #141414dc;
+    background: #012d5a;
     -ms-overflow-style: none;
     padding: 20px 5px 5px 0;
     backdrop-filter: blur(5px);
@@ -46,9 +46,19 @@ body {
     padding-left: 10px;
 }
 
-.menu-content li:hover {
-    background: #0c0c0c;
+
+
+.menu-content li {
+  transition: background 0.3s ease, font-weight 0.3s ease;
 }
+
+.menu-content li:hover {
+  background: #0c0c0c80;
+  font-weight: 800;
+  transform: scale(1.1);
+  
+}
+
 
 .menu-content li span:nth-child(2) {
     display: none;
@@ -67,7 +77,7 @@ a {
     font-size: 20px;
     margin-right: 10px;
     border-radius: 50%;
-    background: #0c0c0c;
+
 }
 
 .logo-wrapper {
