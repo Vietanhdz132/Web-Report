@@ -12,7 +12,7 @@ class PhongVTNController {
   async createReport(req, res) {
     try {
       const body = req.body;
-
+      const currentUser = req.user || {};
       // Chuẩn hóa dữ liệu đầu vào nếu cần
       const report = {
         reportName: body.reportName || '',
@@ -23,10 +23,14 @@ class PhongVTNController {
         sections: body.sections || {}, // phần này bạn cần đảm bảo frontend gửi đúng
         receivers: body.receivers || '',
         signer: body.signer || '',
-        position: body.position || ''
+        position: body.position || '',
+        createdBy: {
+          name: currentUser.name || 'Unknown',
+          email: currentUser.email || '',
+          _id: currentUser._id || null,
+      }
       };
 
-      
 
       const insertedId = await reportPVTN.insertReport(report);
       res.status(201).json({ success: true, insertedId });
@@ -208,7 +212,8 @@ class PhongVTNController {
 
       res.render('report/viewreport', {
         layout: 'reportLayout',
-        report
+        report,
+      
       });
     } catch (err) {
       console.error('❌ Error khi xem chi tiết:', err);
@@ -350,7 +355,8 @@ class PhongVTNController {
     try {
       res.render('report/edit', {
         layout: 'reportLayout',
-        title: 'Sửa Báo Cáo Tuần - Phòng Vô Tuyến'
+        title: 'Sửa Báo Cáo Tuần - Phòng Vô Tuyến',
+        user: req.user
       });
     } catch (err) {
       console.error('Render error:', err);

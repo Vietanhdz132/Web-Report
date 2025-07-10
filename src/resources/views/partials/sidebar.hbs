@@ -1,33 +1,59 @@
 
 <div class="layout-container">
-    <div class="menu">
-    
-        <ul class="menu-content">
-            
-            <li><a  class="logo-wrapper"><span class="fa-brands fa-uikit "></span><span class="brand-name">MLMB Report</span></a></li>
+  <div class="menu">
 
-            <li><a href="/"><span class="material-symbols-outlined">home</span><span>Home</span></a></li>
+    <ul class="menu-content">
 
-            <li><a href="/dashboard"><span class="material-symbols-outlined">dashboard</span><span>DashBoard</span></a></li>
+      <li><a class="logo-wrapper"><span class="fa-brands fa-uikit "></span><span
+            class="brand-name">MLMB Report</span></a></li>
 
-            <li><a href="/report"><span class="material-symbols-outlined">analytics</span><span>WeeklyReport</span></a></li>
+      <li><a href="/"><span
+            class="material-symbols-outlined">home</span><span>Home</span></a></li>
 
-            <li><a href="/testdata"><span class="material-symbols-outlined">report</span><span>Testdata</span></a></li>
+      <li><a href="/dashboard"><span
+            class="material-symbols-outlined">dashboard</span><span>DashBoard</span></a></li>
 
-            {{!-- <li><a href="#"><span class="material-symbols-outlined">explore</span><span>Explore</span></a></li> --}}
+      <li><a href="/report"><span
+            class="material-symbols-outlined">analytics</span><span>{{nonBreakingName 'Weekly Report'}}</span></a></li>
 
-            <li><a href="#"><span class="material-symbols-outlined">settings</span><span>Settings</span></a></li>
+      <li><a href="/testdata"><span
+            class="material-symbols-outlined">report</span><span>Testdata</span></a></li>
 
-            <li><a href="/auth/account/manager"><span class="material-symbols-outlined">person</span><span>Account</span></a></li>
+      {{!-- <li><a href="#"><span
+            class="material-symbols-outlined">explore</span><span>Explore</span></a></li>
+      --}}
 
-            </li><li><a href="/contact"><span class="material-symbols-outlined">email</span><span>Contact</span></a></li>
+      <li><a href="#"><span
+            class="material-symbols-outlined">settings</span><span>Settings</span></a></li>
 
-            <li><a href="#" onclick="handleLogout(event)"><span class="material-symbols-outlined">logout</span><span>Logout</span></a></li>
+      <li><a href="/auth/account/manager"><span
+            class="material-symbols-outlined">person</span><span>Account</span></a></li>
+
+      <li><a href="/contact"><span
+            class="material-symbols-outlined">email</span><span>Contact</span></a></li>
+
+      <li class="dropdown-hover user-info">
+        <a href="javascript:void(0)"
+          style="display: flex; align-items: center;">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span style="display: flex; flex-direction: column;">
+            <span class="user-name">{{nonBreakingName user.name}}</span>
+            <span class="user-role"
+              style="font-size: 0.75rem; color: #ccc;">{{user.role}}</span>
+          </span>
+        </a>
+
+        <ul class="dropdown-menu">
+          <li><a href="/profile">Thông tin cá nhân</a></li>
+          {{!-- <li><a href="/settings">Cài đặt</a></li> --}}
+          <li><a href="#" onclick="handleLogout(event)">Đăng xuất</a></li>
         </ul>
-    </div>
+      </li>
+
+    </ul>
+  </div>
 
 </div>
-
 
 <script>
   async function handleLogout(event) {
@@ -54,4 +80,8 @@
       showAlert('Lỗi khi đăng xuất','error');
     }
   }
+</script>
+
+<script>
+  window.user = {{{json user}}}
 </script>

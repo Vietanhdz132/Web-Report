@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const morgan = require('morgan');
+const { injectUserIfLoggedIn } = require('./middleware/AuthMiddleware');
 const cookieParser = require("cookie-parser");
 const axios = require('axios');
 const cron = require('node-cron');
@@ -30,7 +31,11 @@ async function startServer() {
     app.use(cookieParser());
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-    app.use(methodOverride('_method'));
+    app.use(injectUserIfLoggedIn);
+    app.use((req, res, next) => {
+      res.locals.user = req.user || null;
+      next();
+    });
 
     // app.use((req, res, next) => {
     //   console.log('🛰️ Request:', req.method, req.url);

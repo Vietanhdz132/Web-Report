@@ -31,7 +31,7 @@ body {
 }
 
 .menu:hover {
-  width: 180px;
+  width: 13vw;
 }
 
 .menu:hover li span:nth-child(2) {
@@ -52,8 +52,7 @@ body {
 
 .menu-content li:hover {
   background: rgba(12, 12, 12, 0.5019607843);
-  font-weight: 800;
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 
 .menu-content li span:nth-child(2) {
@@ -104,13 +103,13 @@ a {
   position: relative;
 }
 
-.dropdown-hover .dropdown-menu {
+.dropdown-menu {
   display: none;
   position: absolute;
   top: 100%;
-  left: 60px; /* hoặc 100% nếu bạn muốn hiển thị bên phải */
-  background: #1e1e1e;
-  padding: 10px;
+  left: 3vw; /* hoặc 100% nếu bạn muốn hiển thị bên phải */
+  background: rgba(30, 30, 30, 0.3490196078);
+  padding: 2px;
   border-radius: 8px;
   z-index: 1000;
   min-width: 150px;
@@ -133,12 +132,24 @@ a {
   text-decoration: none;
   font-size: 14px;
   display: block;
-  padding: 5px 10px;
+  padding: 5px;
   border-radius: 5px;
 }
 
-.dropdown-menu li a:hover {
-  background-color: #333;
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-content li.user-info {
+  margin-top: auto; /* Đẩy xuống dưới */
+  margin-bottom: 18vh; /* Khoảng cách phía dưới */
+  border-radius: 0 50px 50px 0;
+  padding-left: 10px;
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=Sidebar.css.map */

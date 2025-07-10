@@ -5,30 +5,32 @@
     <!-- Thông tin chung -->
     <div class="report-pvt-create__group">
       <label for="reportName">Tên báo cáo</label>
-      <input id="reportName" name="reportName" type="text" placeholder="VD: BÁO CÁO TUẦN 1" required />
+      <input id="reportName" name="reportName" type="text"
+        placeholder="VD: BÁO CÁO TUẦN 1" required />
     </div>
 
     <div class="report-pvt-create__group">
       <label for="recipient">Kính gửi</label>
-      <input id="recipient" name="recipient" type="text" placeholder="VD: Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc " required />
+      <input id="recipient" name="recipient" type="text"
+        placeholder="VD: Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc "
+        required />
     </div>
 
+    <div class="report-pvt-create__group">
+      <label for="number">Số hiệu</label>
+      <input id="number" name="number" type="text" placeholder="VD: 25">
+    </div>
 
-  <div class="report-pvt-create__group">
-    <label for="number">Số hiệu</label>
-    <input id="number" name="number" type="text" placeholder="VD: 25">
-  </div>
+    {{!-- <div class="report-pvt-create__group">
+      <label for="receivers">Kính gửi</label>
+      <textarea id="receivers" name="receivers" rows="3"
+        placeholder="Nhập danh sách người nhận" required></textarea>
+    </div> --}}
 
-  {{!-- <div class="report-pvt-create__group">
-    <label for="receivers">Kính gửi</label>
-    <textarea id="receivers" name="receivers" rows="3" placeholder="Nhập danh sách người nhận" required></textarea>
-  </div> --}}
-
-  <div class="report-pvt-create__group">
-    <label for="createdAt">Ngày tạo</label>
-    <input id="createdAt" name="createdAt" type="date" required />
-  </div>
-
+    <div class="report-pvt-create__group">
+      <label for="createdAt">Ngày tạo</label>
+      <input id="createdAt" name="createdAt" type="date" required />
+    </div>
 
     <!-- I. Đánh giá kết quả triển khai -->
     <hr />
@@ -38,8 +40,10 @@
       <h4>1. Kết quả thực hiện BSC-KPI</h4>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'bscKpi')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'bscKpi')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'bscKpi')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'bscKpi')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -49,8 +53,10 @@
       <label for="tuh">Công tác TUH</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'tuh')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'tuh')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'tuh')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'tuh')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -58,8 +64,10 @@
       <label for="ptm">Công tác PTM</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'ptm')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'ptm')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'ptm')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'ptm')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -67,8 +75,10 @@
       <label for="cntt">Công tác CNTT</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'cntt')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'cntt')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'cntt')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'cntt')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -76,8 +86,10 @@
       <label for="vhm">Công tác VHM</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'vhm')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'vhm')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'vhm')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'vhm')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -85,8 +97,10 @@
       <label for="khcp">Công tác KHCP</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'khcp')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'khcp')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'khcp')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'khcp')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -97,8 +111,10 @@
       <h4>Nội dung kết luận, chỉ đạo</h4>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'conclusion')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'conclusion')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'conclusion')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'conclusion')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -109,8 +125,10 @@
       <h4>1. Kiến nghị với LĐTT/TCT</h4>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kientnghi_ldtt')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kientnghi_ldtt')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kientnghi_ldtt')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kientnghi_ldtt')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -118,8 +136,10 @@
       <h4>2. Kiến nghị với đơn vị khác</h4>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kientnghi_dvkhac')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kientnghi_dvkhac')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kientnghi_dvkhac')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kientnghi_dvkhac')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -131,8 +151,10 @@
       <label>Công tác TUH</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kehoach_tuh')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kehoach_tuh')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kehoach_tuh')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kehoach_tuh')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -140,8 +162,10 @@
       <label>Công tác PTM</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kehoach_ptm')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kehoach_ptm')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kehoach_ptm')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kehoach_ptm')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -149,8 +173,10 @@
       <label>Công tác CNTT</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kehoach_cntt')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kehoach_cntt')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kehoach_cntt')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kehoach_cntt')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -158,8 +184,10 @@
       <label>Công tác VHM</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kehoach_vhm')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kehoach_vhm')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kehoach_vhm')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kehoach_vhm')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -167,8 +195,10 @@
       <label>Công tác KHCP</label>
       <div class="report-section__children"></div>
       <div class="report-section__tools">
-        <button type="button" class="btn-add-subitem" onclick="addChild(this, 'kehoach_khcp')">➕ Thêm mục con</button>
-        <button type="button" class="btn-add-table" onclick="addTable(this, 'kehoach_khcp')">📊 Thêm bảng</button>
+        <button type="button" class="btn-add-subitem"
+          onclick="addChild(this, 'kehoach_khcp')">➕ Thêm mục con</button>
+        <button type="button" class="btn-add-table"
+          onclick="addTable(this, 'kehoach_khcp')">📊 Thêm bảng</button>
       </div>
     </div>
 
@@ -186,15 +216,15 @@
     <h2>Thông tin ký báo cáo</h2>
     <div class="report-pvt-create__group">
       <label for="signer">Người ký</label>
-      <input id="signer" name="signer" type="text"  required />
+      <input id="signer" name="signer" type="text" required />
     </div>
     <div class="report-pvt-create__group">
       <label for="position">Chức vụ</label>
-      <input id="position" name="position" type="text"  required />
+      <input id="position" name="position" type="text" required />
     </div>
 
     <div class="report-pvt-create__actions">
-      <button  type="submit">💾 Lưu báo cáo</button>
+      <button type="submit">💾 Lưu báo cáo</button>
       <a href="/report" class="btn-cancel">Hủy</a>
     </div>
   </form>
@@ -225,6 +255,7 @@
 // Thêm mục con (chỉ có 1 cấp con thôi, không lồng tiếp)
 function addChild(button, section, containerOverride) {
   const container = containerOverride || button.closest('.report-pvt-create__group').querySelector('.report-section__children');
+
   const wrapper = document.createElement('div');
   wrapper.className = 'report-subitem';
   wrapper.style.marginBottom = '10px';
@@ -234,16 +265,18 @@ function addChild(button, section, containerOverride) {
   wrapper.style.borderLeft = '3px dashed #aaa';
   wrapper.style.backgroundColor = '#fafafa';
 
-  // Tiêu đề mục con
-  const title = document.createElement('textarea');
-  title.placeholder = 'Tiêu đề mục con';
-  title.rows = 1;
-  title.style.width = '100%';
-  title.style.marginBottom = '6px';
-  title.addEventListener('input', () => autoResizeTextarea(title));
-  autoResizeTextarea(title);
+  // **Thay textarea nội dung thành textarea "title"**
+  const titleTextarea = document.createElement('textarea');
+  titleTextarea.placeholder = 'Tiêu đề mục con';
+  titleTextarea.rows = 1;
+  titleTextarea.style.width = '100%';
+  titleTextarea.style.marginBottom = '6px';
+  titleTextarea.style.resize = 'vertical';
+  titleTextarea.style.fontWeight = '700';
+  titleTextarea.addEventListener('input', () => autoResizeTextarea(titleTextarea));
+  autoResizeTextarea(titleTextarea);
 
-  // Vùng chứa nội dung phụ và bảng
+  // Vùng chứa nội dung phụ (bảng, nội dung con)
   const itemsContainer = document.createElement('div');
   itemsContainer.className = 'report-section__children';
   itemsContainer.style.marginTop = '10px';
@@ -251,19 +284,18 @@ function addChild(button, section, containerOverride) {
   itemsContainer.style.paddingLeft = '10px';
   itemsContainer.style.backgroundColor = '#fafafa';
 
-  // Nhóm nút ở dưới cùng (3 nút cùng hàng)
+  // Nhóm nút dưới cùng (3 nút cùng hàng)
   const buttonGroup = document.createElement('div');
-    buttonGroup.style.display = 'flex';
-    buttonGroup.style.justifyContent = 'space-between';
-    buttonGroup.style.gap = '10px';
-    buttonGroup.style.marginTop = '10px';
-    buttonGroup.style.marginLeft = '0'; 
+  buttonGroup.style.display = 'flex';
+  buttonGroup.style.justifyContent = 'space-between';
+  buttonGroup.style.gap = '10px';
+  buttonGroup.style.marginTop = '10px';
+  buttonGroup.style.marginLeft = '0'; 
 
   // Nút Xoá mục con
   const removeBtn = document.createElement('button');
   removeBtn.type = 'button';
   removeBtn.textContent = '❌ Xoá mục con';
-  removeBtn.onclick = () => wrapper.remove();
   removeBtn.onclick = () => {
     if (confirm('Bạn có chắc chắn muốn xoá mục này không?')) {
       wrapper.remove();
@@ -272,40 +304,38 @@ function addChild(button, section, containerOverride) {
 
   // Nút Thêm bảng (màu xanh)
   const addTableBtn = document.createElement('button');
-    addTableBtn.type = 'button';
-    addTableBtn.textContent = '📊 Thêm bảng';
-    addTableBtn.style.backgroundColor = '#007acc';
-    addTableBtn.style.color = '#fff';
-    addTableBtn.style.border = 'none';
-    addTableBtn.style.padding = '6px 12px';
-    addTableBtn.style.borderRadius = '5px';
-    addTableBtn.style.cursor = 'pointer';
-    addTableBtn.style.fontWeight = '600';
-    addTableBtn.onclick = () => addTable(addTableBtn, section, itemsContainer);
+  addTableBtn.type = 'button';
+  addTableBtn.textContent = '📊 Thêm bảng';
+  addTableBtn.style.backgroundColor = '#007acc';
+  addTableBtn.style.color = '#fff';
+  addTableBtn.style.border = 'none';
+  addTableBtn.style.padding = '6px 12px';
+  addTableBtn.style.borderRadius = '5px';
+  addTableBtn.style.cursor = 'pointer';
+  addTableBtn.style.fontWeight = '600';
+  addTableBtn.onclick = () => addTable(addTableBtn, section, itemsContainer);
 
   // Nút Thêm nội dung 
   const addExtraBtn = document.createElement('button');
-    addExtraBtn.type = 'button';
-    addExtraBtn.textContent = '➕ Thêm nội dung';
-    addExtraBtn.style.backgroundColor = '#007acc';
-    addExtraBtn.style.color = '#fff';
-    addExtraBtn.style.border = 'none';
-    addExtraBtn.style.padding = '6px 12px';
-    addExtraBtn.style.borderRadius = '5px';
-    addExtraBtn.style.cursor = 'pointer';
-    addExtraBtn.style.fontWeight = '600';
-    addExtraBtn.onmouseenter = () => (addExtraBtn.style.backgroundColor = '#005fa3');
-    addExtraBtn.onmouseleave = () => (addExtraBtn.style.backgroundColor = '#007acc');
-    addExtraBtn.onclick = () => addExtraContent(addExtraBtn, itemsContainer);
+  addExtraBtn.type = 'button';
+  addExtraBtn.textContent = '➕ Thêm nội dung';
+  addExtraBtn.style.backgroundColor = '#007acc';
+  addExtraBtn.style.color = '#fff';
+  addExtraBtn.style.border = 'none';
+  addExtraBtn.style.padding = '6px 12px';
+  addExtraBtn.style.borderRadius = '5px';
+  addExtraBtn.style.cursor = 'pointer';
+  addExtraBtn.style.fontWeight = '600';
+  addExtraBtn.onmouseenter = () => (addExtraBtn.style.backgroundColor = '#005fa3');
+  addExtraBtn.onmouseleave = () => (addExtraBtn.style.backgroundColor = '#007acc');
+  addExtraBtn.onclick = () => addExtraContent(addExtraBtn, itemsContainer);
 
-
-  // Gộp vào nhóm
+  // Gộp vào nhóm nút
   buttonGroup.appendChild(addExtraBtn);
   buttonGroup.appendChild(addTableBtn);
   buttonGroup.appendChild(removeBtn);
 
-
-  wrapper.appendChild(title);
+  wrapper.appendChild(titleTextarea);
   wrapper.appendChild(itemsContainer);
   wrapper.appendChild(buttonGroup);
   container.appendChild(wrapper);
@@ -935,6 +965,7 @@ function collectTableData(tableEl) {
 
 
   // Thu thập dữ liệu đệ quy mục con + bảng, đúng thứ tự
+// Thu thập dữ liệu đệ quy mục con + bảng, đúng thứ tự
 function collectSectionData(section) {
   const group = document.querySelector(`[data-section="${section}"]`);
   if (!group) return [];
@@ -946,65 +977,59 @@ function collectSectionData(section) {
 
   Array.from(container.children).forEach(child => {
     if (child.classList.contains('report-subitem')) {
-      const textareas = child.querySelectorAll('textarea');
-      const title = textareas[0]?.value.trim() || '';
-      const content = textareas[1]?.value.trim() || '';
-      // Thu thập con lồng bên trong
+      const textarea = child.querySelector('textarea');
+      const content = textarea?.value.trim() || '';
       const subContainer = child.querySelector('.report-section__children');
       const children = subContainer ? collectSectionChildren(subContainer) : [];
+      results.push({ type: 'subitem', title: content, children });
+    }
 
-      results.push({ type: 'text', title, content, children });
-    } else if (child.classList.contains('report-subtable')) {
-  const title = child.querySelector('textarea')?.value.trim() || '';
-  const tableEl = child.querySelector('table');
+    else if (child.classList.contains('report-subitem-extra')) {
+      const textarea = child.querySelector('textarea');
+      const content = textarea?.value.trim() || '';
+      results.push({ type: 'text', content });
+    }
 
-  const cells = collectTableData(tableEl);
-
-  results.push({ type: 'table', title, cells });
-}
-
-  });
-
-  return results;
-}
-
-// Thu thập đệ quy con bên trong mục con (dùng cho children)
-function collectSectionChildren(container) {
-  const results = [];
-  Array.from(container.children).forEach(child => {
-    if (child.classList.contains('report-subitem')) {
-      const textareas = child.querySelectorAll('textarea');
-      const title = textareas[0]?.value.trim() || '';
-      const content = textareas[1]?.value.trim() || '';
-      const subContainer = child.querySelector('.report-section__children');
-      const children = subContainer ? collectSectionChildren(subContainer) : [];
-      results.push({ type: 'text', title, content, children });
-    } else if (child.classList.contains('report-subtable')) {
+    else if (child.classList.contains('report-subtable')) {
       const title = child.querySelector('textarea')?.value.trim() || '';
       const tableEl = child.querySelector('table');
-      const rows = tableEl?.rows || [];
-
-      const cells = [];
-      for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const rowData = [];
-        for (let j = 0; j < row.cells.length; j++) {
-          const cell = row.cells[j];
-          const textarea = cell.querySelector('textarea');
-          rowData.push({
-            text: textarea ? textarea.value.trim() : '',
-            rowSpan: cell.rowSpan || 1,
-            colSpan: cell.colSpan || 1
-          });
-        }
-        cells.push(rowData);
-      }
-
+      const cells = collectTableData(tableEl);
       results.push({ type: 'table', title, cells });
     }
   });
+
   return results;
 }
+
+function collectSectionChildren(container) {
+  const results = [];
+
+  Array.from(container.children).forEach(child => {
+    if (child.classList.contains('report-subitem')) {
+      const textarea = child.querySelector('textarea');
+      const content = textarea?.value.trim() || '';
+      const subContainer = child.querySelector('.report-section__children');
+      const children = subContainer ? collectSectionChildren(subContainer) : [];
+      results.push({ type: 'text', content, children });
+    }
+
+    else if (child.classList.contains('report-subitem-extra')) {
+      const textarea = child.querySelector('textarea');
+      const content = textarea?.value.trim() || '';
+      results.push({ type: 'text', content });
+    }
+
+    else if (child.classList.contains('report-subtable')) {
+      const title = child.querySelector('textarea')?.value.trim() || '';
+      const tableEl = child.querySelector('table');
+      const cells = collectTableData(tableEl);
+      results.push({ type: 'table', title, cells });
+    }
+  });
+
+  return results;
+}
+
 
 async function loadReportData(reportId) {
     console.log(reportId)
@@ -1042,10 +1067,11 @@ async function loadReportData(reportId) {
 
 
 function renderSectionItems(container, items) {
-  container.innerHTML = ''; // Clear old data
+  container.innerHTML = ''; // Xoá cũ
 
   items.forEach(item => {
-    if (item.type === 'text') {
+    if (item.type === 'subitem') {
+      // Render mục con có title + children
       const wrapper = document.createElement('div');
       wrapper.className = 'report-subitem';
       Object.assign(wrapper.style, {
@@ -1054,10 +1080,10 @@ function renderSectionItems(container, items) {
         padding: '10px',
         borderRadius: '8px',
         borderLeft: '3px dashed #aaa',
-        backgroundColor: '#fffff',
+        backgroundColor: '#ffffff',
       });
 
-      // Tiêu đề
+      // Tiêu đề mục con (textarea)
       const title = document.createElement('textarea');
       title.rows = 1;
       title.value = item.title || '';
@@ -1066,79 +1092,32 @@ function renderSectionItems(container, items) {
         width: '100%',
         marginBottom: '6px',
         fontWeight: '600',
-        backgroundColor: '#fffff',
+        backgroundColor: '#ffffff',
         border: '1px solid #ccc',
         borderRadius: '4px',
         padding: '4px 8px',
         boxSizing: 'border-box',
+        resize: 'vertical',
       });
       title.addEventListener('input', () => autoResizeTextarea(title));
       autoResizeTextarea(title);
 
-      // ─── Container chứa nội dung và children ───
-    const itemsContainer = document.createElement('div');
-    itemsContainer.className = 'report-section__children';
-    Object.assign(itemsContainer.style, {
-    marginTop: '10px',
-    borderLeft: '2px dashed #aaa',
-    paddingLeft: '10px',
-    backgroundColor: '#fafafa',
-    });
+      // Container chứa các phần tử con (children)
+      const childrenContainer = document.createElement('div');
+      childrenContainer.className = 'report-section__children';
+      Object.assign(childrenContainer.style, {
+        marginTop: '10px',
+        borderLeft: '2px dashed #aaa',
+        paddingLeft: '10px',
+        backgroundColor: '#fafafa',
+      });
 
-    // ─── Ô nội dung và nút xoá nằm theo cột ───
-    const contentWrapper = document.createElement('div');
-    Object.assign(contentWrapper.style, {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '6px',
-    marginBottom: '10px',
-    });
-
-    const content = document.createElement('textarea');
-    content.rows = 2;
-    content.value = item.content || '';
-    content.placeholder = 'Nội dung';
-    Object.assign(content.style, {
-    width: '100%',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    padding: '4px 8px',
-    boxSizing: 'border-box',
-    });
-    content.addEventListener('input', () => autoResizeTextarea(content));
-    autoResizeTextarea(content);
-
-    const deleteContentBtn = document.createElement('button');
-    deleteContentBtn.type = 'button';
-    deleteContentBtn.textContent = '❌ Xoá nội dung';
-    Object.assign(deleteContentBtn.style, {
-    backgroundColor: '#e94e4e',
-    color: 'white',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontWeight: '600',
-    alignSelf: 'flex-end', // đẩy sang phải
-    });
-    deleteContentBtn.onmouseenter = () => (deleteContentBtn.style.backgroundColor = '#c43c3c');
-    deleteContentBtn.onmouseleave = () => (deleteContentBtn.style.backgroundColor = '#e94e4e');
-    deleteContentBtn.onclick = () => {
-    if (confirm('Bạn có chắc chắn muốn xoá nội dung này không?')) {
-        contentWrapper.remove();
-    }
-    };
-
-    contentWrapper.appendChild(content);
-    contentWrapper.appendChild(deleteContentBtn);
-    itemsContainer.appendChild(contentWrapper);
-
-      // Nếu có con thì render tiếp
+      // Đệ quy render children
       if (item.children && item.children.length) {
-        renderSectionItems(itemsContainer, item.children);
+        renderSectionItems(childrenContainer, item.children);
       }
 
-      // Button group
+      // Nút chức năng
       const buttonGroup = document.createElement('div');
       Object.assign(buttonGroup.style, {
         display: 'flex',
@@ -1147,7 +1126,7 @@ function renderSectionItems(container, items) {
         marginTop: '10px',
       });
 
-      // Thêm nội dung
+      // Thêm nội dung con (text)
       const addExtraBtn = document.createElement('button');
       addExtraBtn.type = 'button';
       addExtraBtn.textContent = '➕ Thêm nội dung';
@@ -1162,7 +1141,7 @@ function renderSectionItems(container, items) {
       });
       addExtraBtn.onmouseenter = () => (addExtraBtn.style.backgroundColor = '#005fa3');
       addExtraBtn.onmouseleave = () => (addExtraBtn.style.backgroundColor = '#007acc');
-      addExtraBtn.onclick = () => addExtraContent(addExtraBtn, itemsContainer);
+      addExtraBtn.onclick = () => addExtraContent(addExtraBtn, childrenContainer);
 
       // Thêm bảng
       const addTableBtn = document.createElement('button');
@@ -1179,7 +1158,7 @@ function renderSectionItems(container, items) {
       });
       addTableBtn.onmouseenter = () => (addTableBtn.style.backgroundColor = '#005fa3');
       addTableBtn.onmouseleave = () => (addTableBtn.style.backgroundColor = '#007acc');
-      addTableBtn.onclick = () => addTable(addTableBtn, null, itemsContainer);
+      addTableBtn.onclick = () => addTable(addTableBtn, null, childrenContainer);
 
       // Xoá mục con
       const removeBtn = document.createElement('button');
@@ -1207,13 +1186,71 @@ function renderSectionItems(container, items) {
       buttonGroup.appendChild(removeBtn);
 
       wrapper.appendChild(title);
-      wrapper.appendChild(itemsContainer);
+      wrapper.appendChild(childrenContainer);
       wrapper.appendChild(buttonGroup);
       container.appendChild(wrapper);
     }
+    if (item.type === 'text') {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'report-subtable';  // Dùng class giống bảng để dễ style đồng nhất
+  Object.assign(wrapper.style, {
+    marginBottom: '10px',
+    border: '1px solid #ccc',
+    borderRadius: '8px',
+    padding: '10px',
+    backgroundColor: '#ffffff',
+  });
 
-    // -------------------- TABLE --------------------
+  const textarea = document.createElement('textarea');
+  textarea.rows = 2;
+  textarea.value = item.content || '';
+  textarea.placeholder = 'Nội dung';
+  Object.assign(textarea.style, {
+    width: '100%',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
+    padding: '4px 8px',
+    boxSizing: 'border-box',
+    resize: 'vertical',
+    fontFamily: 'inherit',
+  });
+  textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+  autoResizeTextarea(textarea);
+
+  const removeBtn = document.createElement('button');
+  removeBtn.type = 'button';
+  removeBtn.textContent = '❌ Xoá nội dung';
+  Object.assign(removeBtn.style, {
+    backgroundColor: '#e94e4e',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+  });
+  removeBtn.onmouseenter = () => (removeBtn.style.backgroundColor = '#c43c3c');
+  removeBtn.onmouseleave = () => (removeBtn.style.backgroundColor = '#e94e4e');
+  removeBtn.onclick = () => {
+    if (confirm('Bạn có chắc chắn muốn xoá nội dung này không?')) {
+      wrapper.remove();
+    }
+  };
+
+  // Bọc nút xóa trong div căn sang phải
+  const removeBtnWrapper = document.createElement('div');
+  removeBtnWrapper.style.display = 'flex';
+  removeBtnWrapper.style.justifyContent = 'flex-end';
+  removeBtnWrapper.style.marginTop = '5px';
+  removeBtnWrapper.appendChild(removeBtn);
+
+  wrapper.appendChild(textarea);
+  wrapper.appendChild(removeBtnWrapper);
+  container.appendChild(wrapper);
+}
+
     else if (item.type === 'table') {
+      // Render bảng
       const wrapper = document.createElement('div');
       wrapper.className = 'report-subtable';
 
@@ -1225,11 +1262,12 @@ function renderSectionItems(container, items) {
         width: '100%',
         marginBottom: '10px',
         fontWeight: '600',
-        backgroundColor: '#fffff',
+        backgroundColor: '#ffffff',
         border: '1px solid #ccc',
         borderRadius: '4px',
         padding: '4px 8px',
         boxSizing: 'border-box',
+        resize: 'vertical',
       });
       title.addEventListener('input', () => autoResizeTextarea(title));
       autoResizeTextarea(title);
@@ -1243,57 +1281,54 @@ function renderSectionItems(container, items) {
 
       const cells = item.cells || [];
       for (let r = 0; r < cells.length; r++) {
-        const row = document.createElement('tr');
-        for (let c = 0; c < cells[r].length; c++) {
-          const cellData = cells[r][c];
-          const td = document.createElement('td');
-          Object.assign(td.style, {
-            border: '1px solid #ccc',
-            padding: '4px',
-          });
+  const row = document.createElement('tr');
+  for (let c = 0; c < cells[r].length; c++) {
+    const cellData = cells[r][c];
 
-          td.rowSpan = cellData.rowSpan || 1;
-          td.colSpan = cellData.colSpan || 1;
+    if (!cellData) continue; // ✅ Thêm dòng này
 
-          const wrapperDiv = document.createElement('div');
-          wrapperDiv.className = 'table-cell-wrapper';
-          wrapperDiv.style.position = 'relative';
+    const td = document.createElement('td');
+    td.rowSpan = cellData.rowSpan || 1;
+    td.colSpan = cellData.colSpan || 1;
 
-          const checkbox = document.createElement('input');
-          checkbox.type = 'checkbox';
-          checkbox.className = 'table-cell-checkbox';
-          Object.assign(checkbox.style, {
-            position: 'absolute',
-            top: '0px',
-            right: '0px',
-            width: '30px',
-            height: '14px',
-            zIndex: '1',
-            display: 'none',
-          });
+    const wrapperDiv = document.createElement('div');
+    wrapperDiv.className = 'table-cell-wrapper';
+    wrapperDiv.style.position = 'relative';
 
-          const textarea = document.createElement('textarea');
-          textarea.rows = 1;
-          textarea.value = cellData.text || '';
-          Object.assign(textarea.style, {
-            width: '100%',
-            boxSizing: 'border-box',
-            resize: 'vertical',
-            fontFamily: 'inherit',
-          });
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.className = 'table-cell-checkbox';
+    Object.assign(checkbox.style, {
+      position: 'absolute',
+      top: '0px',
+      right: '0px',
+      width: '30px',
+      height: '14px',
+      zIndex: '1',
+      display: 'none',
+    });
 
-         
+    const textarea = document.createElement('textarea');
+    textarea.rows = 1;
+    textarea.value = cellData.text || '';
+    Object.assign(textarea.style, {
+      width: '100%',
+      boxSizing: 'border-box',
+      resize: 'vertical',
+      fontFamily: 'inherit',
+    });
 
-          textarea.addEventListener('input', () => autoResizeTextarea(textarea));
-          autoResizeTextarea(textarea);
+    textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+    autoResizeTextarea(textarea);
 
-          wrapperDiv.appendChild(checkbox);
-          wrapperDiv.appendChild(textarea);
-          td.appendChild(wrapperDiv);
-          row.appendChild(td);
-        }
-        table.appendChild(row);
-      }
+    wrapperDiv.appendChild(checkbox);
+    wrapperDiv.appendChild(textarea);
+    td.appendChild(wrapperDiv);
+    row.appendChild(td);
+  }
+  table.appendChild(row);
+}
+
 
       const deleteTableBtn = document.createElement('button');
       deleteTableBtn.type = 'button';
@@ -1327,11 +1362,11 @@ function renderSectionItems(container, items) {
       wrapper.appendChild(table);
       wrapper.appendChild(tableFooter);
       container.appendChild(wrapper);
-
-      
     }
   });
 }
+
+
 
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -1393,5 +1428,3 @@ document.getElementById('editReportForm').addEventListener('submit', async funct
 
 
 </script>
-
-

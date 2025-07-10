@@ -81,10 +81,31 @@ function checkExportToken(req, res, next) {
   next();
 };
 
+
+async function injectUserIfLoggedIn(req, res, next) {
+  const token = req.cookies?.accessToken || req.headers.authorization?.split(" ")[1];
+  if (!token) {
+    res.locals.user = null;
+    return next(); // Không có token thì tiếp tục, không lỗi
+  }
+
+  try {
+    const decoded = await jwtHelper.verifyToken(token, accessTokenSecret);
+    req.user = decoded.data;
+    res.locals.user = decoded.data;
+  } catch (err) {
+    req.user = null;
+    res.locals.user = null;
+  }
+
+  next();
+}
+
 module.exports = {
   verifyToken,
   requireAdmin,
   requireRole,
   requirePermission,
-  checkExportToken
+  checkExportToken,
+  injectUserIfLoggedIn
 };

@@ -155,7 +155,8 @@ class MLLMBController {
     try {
       res.render('dashboard/mllMB', {
         layout: 'dashboardLayout',
-        title: 'Thống kê thời gian mất liên lạc trung bình'
+        title: 'Thống kê thời gian mất liên lạc trung bình',
+        user: req.user
       });
     } catch (err) {
       console.error('Render error:', err);

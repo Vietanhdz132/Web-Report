@@ -54,7 +54,6 @@
 .report-subitem-view > h4,
 .report-subtable-view > h4 {
   font-size: 16px;
-  margin: 15px 0 8px 15px;
   font-weight: bold;
   color: #333;
 }
@@ -236,6 +235,27 @@ hr {
 
 .signer-info p {
   text-align: center;
+}
+
+/* Tiêu đề mục chính */
+.report-subitem-view .subitem-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+/* === NỘI DUNG CON TEXT (text) === */
+.report-subitem-extra-view {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.report-subitem-extra-view .subitem-text {
+  white-space: pre-wrap;
+  margin: 0;
+  text-align: justify;
+  line-height: 1.5;
 }
 
 /*# sourceMappingURL=view-report.css.map */

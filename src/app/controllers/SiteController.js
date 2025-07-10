@@ -4,10 +4,17 @@ class SiteController {
 
   // [GET] /
   index(req, res, next) {
-  res.render('404', {
-    layout: 'homeLayout' 
-  });
-}
+    try {
+        res.render('home', {
+            layout: 'homeLayout',
+            title: 'Home',
+
+        });
+        } catch (err) {
+        console.error('Render error:', err);
+        res.status(500).render('404', { layout: 'homeLayout' });
+        }
+  }
 
 
   // [GET] /search
@@ -15,10 +22,7 @@ class SiteController {
     res.render('search');
   }
 
-  // [GET] /login
-  login(req, res) {
-    res.render('login');
-  }
+ 
 }
 
 module.exports = new SiteController();

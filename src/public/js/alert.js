@@ -29,24 +29,47 @@ function showAlert(message, type) {
 
     Object.assign(alertDiv.style, {
         position: "fixed",
-        top: "20px",
-        right: "-400px", // bắt đầu ngoài màn hình
+        top: "-100px",              // Bắt đầu ngoài màn hình (trên cùng)
+        left: "50%",                // Căn giữa theo chiều ngang
+        transform: "translateX(-50%)", // Căn giữa thực sự
         zIndex: "1050",
         minWidth: "320px",
         maxWidth: "420px",
-        padding: "15px 15px 15px 15px", // đủ padding để icon và nút đóng
+        padding: "15px 15px 15px 15px",
         fontSize: "16px",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)",
         borderRadius: "8px",
         backgroundColor: type === "success" ? "#d1e7dd" : (type === "warning" ? "#fff3cd" : "#f8d7da"),
         color: type === "success" ? "#0f5132" : (type === "warning" ? "#664d03" : "#842029"),
-        transition: "right 0.5s ease-in-out, opacity 0.5s ease-in-out",
+        transition: "top 0.5s ease, opacity 0.5s ease",
         display: "flex",
         alignItems: "center",
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         boxSizing: "border-box",
         userSelect: "none",
+        opacity: "0",
     });
+
+    // Thanh tiến trình đáy
+    const progressBar = document.createElement("div");
+    Object.assign(progressBar.style, {
+        position: "absolute",
+        bottom: "0",
+        left: "0",
+        height: "4px",
+        width: "100%",
+        backgroundColor: "rgba(0,0,0,0.1)",
+    });
+
+    const progress = document.createElement("div");
+    Object.assign(progress.style, {
+        height: "100%",
+        width: "100%",
+        backgroundColor: type === "success" ? "#198754" : (type === "warning" ? "#ffc107" : "#dc3545"),
+        transition: "width 2s linear",
+    });
+    progressBar.appendChild(progress);
+    alertDiv.appendChild(progressBar);
 
     // Icon nằm bên trái cố định
     const iconSpan = document.createElement("span");
@@ -70,27 +93,23 @@ function showAlert(message, type) {
     });
     alertDiv.appendChild(messageDiv);
 
-    // Nút đóng nhỏ gọn góc phải trên
-    // const closeBtn = document.createElement("button");
-    // closeBtn.type = "button";
-    // closeBtn.className = "btn-close";
-    // closeBtn.setAttribute("aria-label", "Close");
-    // closeBtn.onclick = () => alertDiv.remove();
-    // alertDiv.appendChild(closeBtn);
-
     document.body.appendChild(alertDiv);
 
     // Hiệu ứng trượt vào
+    // Hiệu ứng trượt từ trên xuống
     setTimeout(() => {
-        alertDiv.style.right = "20px";
+        alertDiv.style.top = "20px";
         alertDiv.style.opacity = "1";
+        progress.style.width = "0%";  // Bắt đầu giảm dần chiều rộng
+
     }, 50);
 
     // Tự động ẩn sau 3s
     setTimeout(() => {
-        alertDiv.style.right = "-400px";
+        alertDiv.style.top = "-100px";
         alertDiv.style.opacity = "0";
         setTimeout(() => alertDiv.remove(), 500);
     }, 2000);
+
 }
 
