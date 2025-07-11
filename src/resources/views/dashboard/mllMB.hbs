@@ -288,6 +288,8 @@
       if (month !== 'all') params.append('month', month);
       if (day !== 'all') params.append('day', day);
 
+      console.log(params.toString());
+
       
       const response = await fetch(`/dashboard/average-duration?${params.toString()}`);
       const data = await response.json();
@@ -505,7 +507,9 @@
         },
         layout: {
           padding: {
-            bottom: 30  // tạo khoảng cách để trục X không bị che
+            bottom: 50,
+            left:40,
+            top:10  // tạo khoảng cách để trục X không bị che
           }
         },
         scales: {

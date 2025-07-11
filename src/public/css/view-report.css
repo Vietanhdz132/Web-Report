@@ -54,6 +54,7 @@
 .report-subitem-view > h4,
 .report-subtable-view > h4 {
   font-size: 16px;
+  margin: 15px 0 8px 15px;
   font-weight: bold;
   color: #333;
 }
@@ -247,7 +248,7 @@ hr {
 
 /* === NỘI DUNG CON TEXT (text) === */
 .report-subitem-extra-view {
-  padding-left: 20px;
+  padding-left: 30px;
   margin-bottom: 10px;
 }
 
