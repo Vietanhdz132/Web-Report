@@ -53,10 +53,12 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
 
           const rowspan = cell.rowSpan > 1 ? ` rowspan="${cell.rowSpan}"` : '';
           const colspan = cell.colSpan > 1 ? ` colspan="${cell.colSpan}"` : '';
-          out += `<td${rowspan}${colspan}>${Handlebars.escapeExpression(cell.text)}</td>`;
+          const cellHtml = Handlebars.escapeExpression(cell.text).replace(/\n/g, '<br>');
+          out += `<td${rowspan}${colspan}>${cellHtml}</td>`;
         }
         out += `</tr>`;
       }
+
 
       out += `</tbody></table></div>`;
     }

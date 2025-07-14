@@ -40,6 +40,7 @@
 
 /* ==== Bảng bọc cuộn ==== */
 .report-pvt__table-wrapper {
+  position: relative;
   max-height: 550px;
   overflow-y: auto;
   border-radius: 10px;
@@ -63,7 +64,6 @@
   border: 1px solid #dee2e6;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
-  overflow: hidden;
 }
 
 /* ==== Header cố định ==== */
@@ -78,6 +78,7 @@
   padding: 14px 18px;
   border-bottom: 2px solid #dee2e6;
   z-index: 1;
+  box-sizing: border-box;
 }
 
 /* ==== Cell thường - bỏ kẻ cột ==== */

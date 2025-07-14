@@ -10,6 +10,7 @@ const authMiddleWare = require('../../middleware/AuthMiddleware');
 
 // Route chính
 router.get('/', authMiddleWare.verifyToken, dashbroadController.index);
+
 router.get('/average-duration', authMiddleWare.verifyToken, MLLMBController.getAverageDuration); // API
 router.get('/duration-target', authMiddleWare.verifyToken, MLLMBController.getDurationTarget);
 router.get('/average-duration-detail', authMiddleWare.verifyToken, MLLMBController.getAverageDurationDetail); // API

@@ -363,6 +363,39 @@ class PhongVTNController {
       res.status(500).render('404', { layout: 'reportLayout' });
     }
   }
+
+  /**
+ * [POST] /report/pvt/:id/copy - Sao chép báo cáo và trả về ID mới
+ */
+  async copyReport(req, res) {
+    try {
+      const id = req.params.id;
+      if (!ObjectId.isValid(id)) {
+        return res.status(400).json({ success: false, message: 'ID không hợp lệ' });
+      }
+
+      const originalReport = await reportPVTN.getReportById(id);
+      if (!originalReport) {
+        return res.status(404).json({ success: false, message: 'Không tìm thấy báo cáo để sao chép' });
+      }
+
+      // Xóa _id để chèn mới
+      delete originalReport._id;
+
+      // Ghi chú là bản sao
+      originalReport.reportName = `[Bản sao] ${originalReport.reportName}`;
+      originalReport.createdAt = new Date();
+
+      const newId = await reportPVTN.insertReport(originalReport);
+      res.json({ success: true, newReportId: newId });
+    } catch (err) {
+      console.error('❌ Lỗi khi sao chép báo cáo:', err);
+      res.status(500).json({ success: false, message: 'Lỗi server khi sao chép báo cáo' });
+    }
+  }
+
 }
+
+
 
 module.exports = new PhongVTNController();

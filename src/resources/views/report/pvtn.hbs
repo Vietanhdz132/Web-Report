@@ -89,6 +89,7 @@
           <td>${report.department || 'Phòng Vô Tuyến'}</td>
           <td>
             <div class="report-pvt__actions">
+              <a href="#" class="report-pvt__action-link" onclick="copyReport('${report._id}')">📋 Sao chép</a>
               <a href="#" class="report-pvt__action-link editReport" data-id="${report._id}">✏️ Sửa</a>
               <button class="report-pvt__action-delete" onclick="deleteReport('${report._id}')">🗑️ Xóa</button>
             </div>
@@ -127,7 +128,7 @@
       }
     } catch (err) {
       console.log(err)
-      showAlert('Lỗi khi xóa báo cáo: ' + err.message, 'warning');
+      showAlert('Lỗi khi xóa báo cáo: ' + err.message, 'error');
     }
   }
 
@@ -146,6 +147,40 @@
       });
     });
   }
+
+
+  async function copyReport(id) {
+    const hasPermission = window.user?.permissions?.canCreateReports;
+
+    if (!hasPermission) {
+      showAlert('Bạn không có quyền sao chép báo cáo !!!', 'warning');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/report/pvt/copy/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        showAlert('Đã sao chép báo cáo, chuyển đến trang chỉnh sửa...', 'success');
+        // ✅ Chuyển đến trang sửa báo cáo mới
+        window.location.href = `/report/pvt/edit/${result.newReportId}`;
+      } else {
+        showAlert('Sao chép thất bại: ' + (result.message || 'Lỗi không xác định'), 'error');
+      }
+    } catch (err) {
+      console.error('❌ Lỗi khi sao chép:', err);
+      showAlert('Lỗi khi sao chép: ' + err.message, 'error');
+    }
+  }
+
+
 
 
 </script>

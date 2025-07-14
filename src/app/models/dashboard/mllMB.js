@@ -709,7 +709,7 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
     let offset = 0;
     let hasMore = true;
     const groupedData = {};
-    const batchSize = 10000;
+    const batchSize = 500000;
 
     const sql = `
       SELECT
@@ -886,7 +886,7 @@ async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
       let offset = 0;
       let hasMore = true;
       const groupedData = {};
-      const batchSize = 10000
+      const batchSize = 500000
 
       const sql = `
         SELECT
@@ -1113,7 +1113,7 @@ async function getAverageDurationDetailProvince({ dvt, year, month, day, onBatch
     let offset = 0;
     let hasMore = true;
     const groupedData = {};
-    const batchSize = 10000
+    const batchSize = 500000
 
     const sql = `
       SELECT

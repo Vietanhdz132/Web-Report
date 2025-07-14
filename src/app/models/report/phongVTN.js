@@ -92,6 +92,26 @@ async function getReportsByDateRange(start, end) {
   }).sort({ createdAt: -1 }).toArray();
 }
 
+ /**
+ * Sao chép một báo cáo từ ID và trả về ID mới
+ */
+async function copyReport(id) {
+  if (!ObjectId.isValid(id)) return null;
+  const col = getCollection('reports');
+
+  const original = await col.findOne({ _id: new ObjectId(id) });
+  if (!original) return null;
+
+  // Xóa _id và cập nhật các trường cần thiết
+  const copied = { ...original };
+  delete copied._id;
+  copied.reportName = (copied.reportName || 'Báo cáo') + ' (Bản sao)';
+  copied.createdAt = new Date(); // cập nhật thời gian mới
+
+  const result = await col.insertOne(copied);
+  return result.insertedId;
+}
+
 module.exports = {
   insertReport,
   getAllReports,
@@ -100,4 +120,5 @@ module.exports = {
   deleteReport,
   getReportsByDepartment,
   getReportsByDateRange,
+  copyReport
 };

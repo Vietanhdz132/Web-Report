@@ -250,6 +250,7 @@
   function autoResizeTextarea(textarea) {
   textarea.style.height = 'auto';        // reset chiều cao
   textarea.style.height = textarea.scrollHeight + 'px'; // đặt lại theo nội dung
+  textarea.style.transition = 'height 0.2s ease';
 }
 
 // Thêm mục con (chỉ có 1 cấp con thôi, không lồng tiếp)
@@ -1191,63 +1192,70 @@ function renderSectionItems(container, items) {
       container.appendChild(wrapper);
     }
     if (item.type === 'text') {
-  const wrapper = document.createElement('div');
-  wrapper.className = 'report-subtable';  // Dùng class giống bảng để dễ style đồng nhất
-  Object.assign(wrapper.style, {
-    marginBottom: '10px',
-    border: '1px solid #ccc',
-    borderRadius: '8px',
-    padding: '10px',
-    backgroundColor: '#ffffff',
-  });
+      const wrapper = document.createElement('div');
+      wrapper.className = 'report-subtable';  // Dùng class giống bảng để dễ style đồng nhất
+      Object.assign(wrapper.style, {
+        marginBottom: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '8px',
+        padding: '10px',
+        backgroundColor: '#ffffff',
+      });
 
-  const textarea = document.createElement('textarea');
-  textarea.rows = 2;
-  textarea.value = item.content || '';
-  textarea.placeholder = 'Nội dung';
-  Object.assign(textarea.style, {
-    width: '100%',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    padding: '4px 8px',
-    boxSizing: 'border-box',
-    resize: 'vertical',
-    fontFamily: 'inherit',
-  });
-  textarea.addEventListener('input', () => autoResizeTextarea(textarea));
-  autoResizeTextarea(textarea);
+      const textarea = document.createElement('textarea');
+      textarea.rows = 2;
+      textarea.value = item.content || '';
+      textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+      textarea.style.transition = 'height 0.2s ease';
+      requestAnimationFrame(() => autoResizeTextarea(textarea));
 
-  const removeBtn = document.createElement('button');
-  removeBtn.type = 'button';
-  removeBtn.textContent = '❌ Xoá nội dung';
-  Object.assign(removeBtn.style, {
-    backgroundColor: '#e94e4e',
-    color: 'white',
-    border: 'none',
-    padding: '6px 12px',
-    borderRadius: '5px',
-    cursor: 'pointer',
-    fontWeight: '600',
-  });
-  removeBtn.onmouseenter = () => (removeBtn.style.backgroundColor = '#c43c3c');
-  removeBtn.onmouseleave = () => (removeBtn.style.backgroundColor = '#e94e4e');
-  removeBtn.onclick = () => {
-    if (confirm('Bạn có chắc chắn muốn xoá nội dung này không?')) {
-      wrapper.remove();
+
+
+      textarea.value = item.content || '';
+      textarea.placeholder = 'Nội dung';
+      Object.assign(textarea.style, {
+        width: '100%',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        padding: '4px 8px',
+        boxSizing: 'border-box',
+        resize: 'vertical',
+        fontFamily: 'inherit',
+      });
+      textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+      autoResizeTextarea(textarea);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.textContent = '❌ Xoá nội dung';
+      Object.assign(removeBtn.style, {
+        backgroundColor: '#e94e4e',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+      removeBtn.onmouseenter = () => (removeBtn.style.backgroundColor = '#c43c3c');
+      removeBtn.onmouseleave = () => (removeBtn.style.backgroundColor = '#e94e4e');
+      removeBtn.onclick = () => {
+        if (confirm('Bạn có chắc chắn muốn xoá nội dung này không?')) {
+          wrapper.remove();
+        }
+      };
+
+      // Bọc nút xóa trong div căn sang phải
+      const removeBtnWrapper = document.createElement('div');
+      removeBtnWrapper.style.display = 'flex';
+      removeBtnWrapper.style.justifyContent = 'flex-end';
+      removeBtnWrapper.style.marginTop = '5px';
+      removeBtnWrapper.appendChild(removeBtn);
+
+      wrapper.appendChild(textarea);
+      wrapper.appendChild(removeBtnWrapper);
+      container.appendChild(wrapper);
     }
-  };
-
-  // Bọc nút xóa trong div căn sang phải
-  const removeBtnWrapper = document.createElement('div');
-  removeBtnWrapper.style.display = 'flex';
-  removeBtnWrapper.style.justifyContent = 'flex-end';
-  removeBtnWrapper.style.marginTop = '5px';
-  removeBtnWrapper.appendChild(removeBtn);
-
-  wrapper.appendChild(textarea);
-  wrapper.appendChild(removeBtnWrapper);
-  container.appendChild(wrapper);
-}
 
     else if (item.type === 'table') {
       // Render bảng
@@ -1281,53 +1289,54 @@ function renderSectionItems(container, items) {
 
       const cells = item.cells || [];
       for (let r = 0; r < cells.length; r++) {
-  const row = document.createElement('tr');
-  for (let c = 0; c < cells[r].length; c++) {
-    const cellData = cells[r][c];
+        const row = document.createElement('tr');
+        for (let c = 0; c < cells[r].length; c++) {
+          const cellData = cells[r][c];
 
-    if (!cellData) continue; // ✅ Thêm dòng này
+          if (!cellData) continue; // ✅ Thêm dòng này
 
-    const td = document.createElement('td');
-    td.rowSpan = cellData.rowSpan || 1;
-    td.colSpan = cellData.colSpan || 1;
+          const td = document.createElement('td');
+          td.rowSpan = cellData.rowSpan || 1;
+          td.colSpan = cellData.colSpan || 1;
 
-    const wrapperDiv = document.createElement('div');
-    wrapperDiv.className = 'table-cell-wrapper';
-    wrapperDiv.style.position = 'relative';
+          const wrapperDiv = document.createElement('div');
+          wrapperDiv.className = 'table-cell-wrapper';
+          wrapperDiv.style.position = 'relative';
 
-    const checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.className = 'table-cell-checkbox';
-    Object.assign(checkbox.style, {
-      position: 'absolute',
-      top: '0px',
-      right: '0px',
-      width: '30px',
-      height: '14px',
-      zIndex: '1',
-      display: 'none',
-    });
+          const checkbox = document.createElement('input');
+          checkbox.type = 'checkbox';
+          checkbox.className = 'table-cell-checkbox';
+          Object.assign(checkbox.style, {
+            position: 'absolute',
+            top: '0px',
+            right: '0px',
+            width: '30px',
+            height: '14px',
+            zIndex: '1',
+            display: 'none',
+          });
 
-    const textarea = document.createElement('textarea');
-    textarea.rows = 1;
-    textarea.value = cellData.text || '';
-    Object.assign(textarea.style, {
-      width: '100%',
-      boxSizing: 'border-box',
-      resize: 'vertical',
-      fontFamily: 'inherit',
-    });
+          const textarea = document.createElement('textarea');
+          textarea.rows = 1;
+          textarea.value = cellData.text || ''; // giữ nguyên \n khi có
+          Object.assign(textarea.style, {
+            width: '100%',
+            boxSizing: 'border-box',
+            resize: 'vertical',
+            fontFamily: 'inherit',
+            transition: 'height 0.2s ease',
+          });
+          textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+          requestAnimationFrame(() => autoResizeTextarea(textarea));
 
-    textarea.addEventListener('input', () => autoResizeTextarea(textarea));
-    autoResizeTextarea(textarea);
 
-    wrapperDiv.appendChild(checkbox);
-    wrapperDiv.appendChild(textarea);
-    td.appendChild(wrapperDiv);
-    row.appendChild(td);
-  }
-  table.appendChild(row);
-}
+          wrapperDiv.appendChild(checkbox);
+          wrapperDiv.appendChild(textarea);
+          td.appendChild(wrapperDiv);
+          row.appendChild(td);
+        }
+        table.appendChild(row);
+      }
 
 
       const deleteTableBtn = document.createElement('button');

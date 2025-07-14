@@ -43,14 +43,14 @@
     <div class="item-sum">
       <div class="item-sum-1">
         <div class="stat-card">
-          <div class="stat-title">Thời gian MLL trung bình</div>
+          <div class="stat-title">Thời gian MD trung bình</div>
           <div class="stat-unit" id="unit-average-card"></div>
           <div id="average-card" class="stat-value loader"></div>
           <div class="stat-footer" id="date-average-card"></div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-title">Target thời gian MLL</div>
+          <div class="stat-title">Target thời gian MD</div>
           <div class="stat-unit" id="unit-average-card-target"></div>
           <div id="average-card-target" class="stat-value loader"></div>
           <div class="stat-footer" id="date-average-card-target"></div>
@@ -60,14 +60,14 @@
 
       <div class="item-sum-1">
          <div class="stat-card">
-          <div class="stat-title">Thời gian MLL TB ngày</div>
+          <div class="stat-title">Thời gian MD TB ngày</div>
           <div class="stat-unit" id="unit-average-card-day"></div>
           <div id="average-card-day" class="stat-value loader"></div>
           <div class="stat-footer" id="date-average-card-day"></div>
         </div>
 
         <div class="stat-card">
-          <div class="stat-title">Thời gian MLL TB đêm</div>
+          <div class="stat-title">Thời gian MD TB đêm</div>
           <div class="stat-unit" id="unit-average-card-night"></div>
           <div id="average-card-night" class="stat-value loader"></div>
           <div class="stat-footer" id="date-average-card-night"></div>
@@ -81,7 +81,7 @@
     <div class="item-deltail">
       <div class="item-body">
         <div class="stat-card">
-          <div id = "stat-title-dvt" class="stat-title">Thời gian mất liên lạc trung bình theo Đài</div>
+          <div id = "stat-title-dvt" class="stat-title">Thời gian mất điện trung bình theo Đài</div>
           <div id="custom-legend" style="margin-bottom: 10px;"></div>
 
           <canvas id="mllChart" class="loader"></canvas>
@@ -95,7 +95,7 @@
   <!-- PHẦN DƯỚI: Biểu đồ dài -->
   <div class="item-2">
     <div class="stat-card">
-      <div id = "stat-title-to" class="stat-title">Thời gian mất liên lạc trung bình theo Tổ</div>
+      <div id = "stat-title-to" class="stat-title">Thời gian mất điện trung bình theo Tổ</div>
       <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
 
       <canvas id="chartSummary" class="loader"></canvas>
@@ -105,7 +105,7 @@
 
   <div class="item-2">
     <div class="stat-card">
-      <div id = "stat-title-to" class="stat-title">Thời gian mất liên lạc trung bình theo ngày</div>
+      <div id = "stat-title-to" class="stat-title">Thời gian mất điện trung bình theo ngày</div>
       <div id="custom-legend-province" style="margin-bottom: 10px;"></div>
 
       <canvas id="chartSummary" class="loader"></canvas>
@@ -204,6 +204,7 @@
 
       attachSlicerEvents();
       fetchAverageDurations();   // Gọi API lấy dữ liệu trung bình
+      getDurationTarget();
       fetchDataAndUpdateChart();
       fetchDataAndUpdateChartTo()
       
@@ -287,6 +288,8 @@
       if (month !== 'all') params.append('month', month);
       if (day !== 'all') params.append('day', day);
 
+      console.log(params.toString());
+
       
       const response = await fetch(`/dashboard/average-duration-ac?${params.toString()}`);
       const data = await response.json();
@@ -361,6 +364,7 @@
     const daytimeData = data.map(entry => entry.items[0]?.AVG_DURATION_DAYTIME || 0);
     const nighttimeData = data.map(entry => entry.items[0]?.AVG_DURATION_NIGHTTIME || 0);
 
+    document.getElementById('mllChart').classList.remove('loader');
     const footer = document.getElementById('stat-title-dvt');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Đài (${data[0].PERIOD})`;
@@ -468,17 +472,7 @@
           easing: 'easeOutQuart'
         },
         plugins: {
-              legend: { display: false }, // Tắt legend mặc định
-              tooltip: {
-                mode: 'index',
-                intersect: false,
-                backgroundColor: 'rgba(0,0,0,0.8)',
-                titleFont: { weight: 'bold', size: 14 },
-                bodyFont: { size: 13 },
-                callbacks: {
-                  label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(2)} phút`
-                }
-              },
+          legend: { display: false },
           tooltip: {
             mode: 'index',
             intersect: false,
@@ -486,10 +480,7 @@
             titleFont: { weight: 'bold', size: 14 },
             bodyFont: { size: 13 },
             callbacks: {
-              label: ctx => {
-                const val = ctx.raw;
-                return `${ctx.dataset.label}: ${val.toFixed(2)} phút`;
-              }
+              label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(2)} phút`
             }
           },
           datalabels: {
@@ -497,13 +488,16 @@
             clamp: true
           }
         },
+
         interaction: {
           mode: 'index',
           intersect: false
         },
         layout: {
           padding: {
-            bottom: 30  // tạo khoảng cách để trục X không bị che
+            bottom: 50,
+            left:40,
+            top:10  // tạo khoảng cách để trục X không bị che
           }
         },
         scales: {
@@ -569,11 +563,11 @@
       });
     }
 
-
     // Gọi hàm khi filter thay đổi
     yearSelect.addEventListener('change', fetchDataAndUpdateChart);
     monthSelect.addEventListener('change', fetchDataAndUpdateChart);
     daySelect.addEventListener('change', fetchDataAndUpdateChart);
+
 
   const chartCanvasTo = document.getElementById('chartSummary');
   let chartInstanceTo = null;
@@ -595,10 +589,11 @@
     const data = json.data;
     const rawData = json.data?.[0]?.items ?? [];
 
-    const labels = rawData.map(entry => entry.MA_TO_XL);
+    const labels = rawData.map(entry => entry.TEAM);
     const daytimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_DAYTIME) || 0);
     const nighttimeData = rawData.map(entry => parseFloat(entry.AVG_DURATION_NIGHTTIME) || 0);
 
+    document.getElementById('chartSummary').classList.remove('loader');
     const footer = document.getElementById('stat-title-to');
       if (footer && data?.[0]?.PERIOD) {
         footer.innerHTML = `Thời gian mất liên lạc trung bình theo Tổ (${data[0].PERIOD})`;
@@ -814,7 +809,53 @@
   // Gọi lần đầu
 
 
-  
+  async function getDurationTarget() {
+    try {
+      let columnLabel = document.getElementById('stationSelect').value;
+
+      // Map label sang mã cột
+      const columnMap = {
+        'ĐVT Hà Nội 1': 'HN1',
+        'ĐVT Hà Nội 2': 'HN2',
+        'ĐVT Hải Phòng': 'HPG',
+        'ĐVT Nam Định': 'NDH',
+        'ĐVT Vĩnh Phúc': 'VPC',
+        'ĐVT Thái Nguyên': 'TNN',
+        'ĐVT Nghệ An': 'NAN',
+        'all': 'MIEN_BAC'
+      };
+
+      let column = columnMap[columnLabel];
+
+      const year = document.getElementById('yearSelect').value;
+      const month = document.getElementById('monthSelect').value;
+
+      const params = new URLSearchParams();
+
+      // Nếu người dùng chọn "Tất cả các đài", hoặc không chọn, có thể xử lý column undefined hoặc gửi hết
+      if (column) params.append('column', column);
+      if (year !== 'all') params.append('year', year);
+      if (month !== 'all') params.append('month', month);
+
+      const response = await fetch(`/dashboard/duration-target-ac?${params.toString()}`);
+      const data = await response.json();
+
+      if (!Array.isArray(data) || data.length === 0 || typeof data[0].VALUE === 'undefined') {
+        throw new Error('API không trả về dữ liệu hợp lệ');
+      }
+
+      const { VALUE, PERIOD } = data[0];
+
+      document.getElementById('average-card-target').classList.remove('loader');
+      document.getElementById('average-card-target').innerHTML = `<div>${VALUE.toFixed(2)}</div>`;
+      document.getElementById('date-average-card-target').innerHTML = `<div><strong>${PERIOD}</strong></div>`;
+
+      console.log(data);
+
+    } catch (error) {
+      console.error('Lỗi khi tải dữ liệu :', error);
+    }
+  }
 
 
   window.onload = () => {
@@ -907,3 +948,10 @@
   chartTarget.render();
   chartValue.render();
 </script> --}}
+
+
+<script>
+  window.user = {{{json user}}}
+</script>
+
+
