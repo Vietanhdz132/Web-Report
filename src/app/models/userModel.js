@@ -54,10 +54,13 @@ class UserModel {
     const now = new Date();
 
     const user = {
-      name:userData.name,
+      name: userData.name,
+      shortName: userData.shortName,
       username: userData.username,
       password: hashedPassword,
       email: userData.email,
+      phone: userData.phone,
+      birthDay: userData.birthDay,
       role: userData.role || 'view',
       department: userData.department || '',
       position: userData.position || '',
@@ -71,18 +74,28 @@ class UserModel {
   }
 
   static async updateUser(id, updateData, currentUser) {
-    if (!currentUser?.permissions?.canManageUsers) {
-      throw new Error('Bạn không có quyền cập nhật người dùng');
-    }
-
     const col = getCollection('users');
     if (!ObjectId.isValid(id)) throw new Error('Invalid user id');
 
     const userToUpdate = await col.findOne({ _id: new ObjectId(id) });
     if (!userToUpdate) throw new Error('User không tồn tại');
 
-    if (currentUser.role === 'manager' && currentUser.department !== userToUpdate.department) {
-      throw new Error('Bạn chỉ được phép chỉnh sửa user cùng phòng ban');
+    const isSelf = currentUser._id.toString() === id.toString();
+
+    if (!isSelf) {
+      // Chỉ cho phép user có quyền quản lý mới được sửa người khác
+      if (!currentUser?.permissions?.canManageUsers) {
+        throw new Error('Bạn không có quyền cập nhật người dùng');
+      }
+
+      // Nếu là manager thì chỉ được sửa user cùng phòng ban
+      if (currentUser.role === 'manager' && currentUser.department !== userToUpdate.department) {
+        throw new Error('Bạn chỉ được phép chỉnh sửa user cùng phòng ban');
+      }
+    } else {
+      // Nếu sửa chính mình thì không được phép cập nhật username và role
+      if ('username' in updateData) delete updateData.username;
+      if ('role' in updateData) delete updateData.role;
     }
 
     const now = new Date();
@@ -93,6 +106,7 @@ class UserModel {
     }
 
     if (updateFields.role) {
+      // Chỉ super admin mới được đặt role admin
       if (updateFields.role === 'admin' && !UserModel.isSuperAdmin(currentUser)) {
         throw new Error('Chỉ super admin mới có thể đặt role admin');
       }
@@ -102,6 +116,7 @@ class UserModel {
     const result = await col.updateOne({ _id: new ObjectId(id) }, { $set: updateFields });
     return result.matchedCount > 0;
   }
+
 
   static async deleteUser(id, currentUser) {
     if (!currentUser?.permissions?.canManageUsers) {
@@ -182,6 +197,33 @@ class UserModel {
     const endDate = new Date(end);
     return await col.find({ createdAt: { $gte: startDate, $lte: endDate } }).sort({ createdAt: -1 }).toArray();
   }
+
+  static async updateSelf(userId, updateData) {
+    if (!ObjectId.isValid(userId)) {
+      throw new Error('ID không hợp lệ');
+    }
+
+    const allowedFields = ['name', 'shortName', 'email', 'phone', 'birthDay', 'position', 'department'];
+    const updateFields = {};
+    for (const field of allowedFields) {
+      if (updateData[field] !== undefined) {
+        updateFields[field] = updateData[field];
+      }
+    }
+
+    updateFields.updatedAt = new Date();
+
+    const col = getCollection('users');
+    const result = await col.updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: updateFields }
+    );
+
+    return result.matchedCount > 0;
+  }
+
+  
+
 }
 
 module.exports = UserModel;

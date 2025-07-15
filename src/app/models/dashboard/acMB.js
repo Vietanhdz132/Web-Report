@@ -595,7 +595,7 @@ async function getAverageDurationDetailProvinceAC({ dvt, year, month, day, onBat
     let offset = 0;
     let hasMore = true;
     const groupedData = {};
-    const batchSize = 10000
+    const batchSize = 500000
 
     const sql = `
       SELECT

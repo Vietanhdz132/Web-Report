@@ -23,16 +23,16 @@
             class="material-symbols-outlined">explore</span><span>Explore</span></a></li>
       --}}
 
-      <li><a href="#"><span
-            class="material-symbols-outlined">settings</span><span>Settings</span></a></li>
+      {{!-- <li><a href="#"><span
+            class="material-symbols-outlined">settings</span><span>Settings</span></a></li> --}}
 
       <li><a href="/auth/account/manager"><span
             class="material-symbols-outlined">person</span><span>Account</span></a></li>
 
-      <li><a href="/contact"><span
-            class="material-symbols-outlined">email</span><span>Contact</span></a></li>
+      {{!-- <li><a href="/contact"><span
+            class="material-symbols-outlined">email</span><span>Contact</span></a></li> --}}
 
-      <li class="dropdown-hover user-info">
+      <li class="dropdown-hover-sidebar user-info">
         <a href="javascript:void(0)"
           style="display: flex; align-items: center;">
           <span class="material-symbols-outlined">account_circle</span>
@@ -43,8 +43,8 @@
           </span>
         </a>
 
-        <ul class="dropdown-menu">
-          <li><a href="/profile">Thông tin cá nhân</a></li>
+        <ul class="dropdown-menu-sidebar">
+          <li><a href="/auth/profile">Thông tin cá nhân</a></li>
           {{!-- <li><a href="/settings">Cài đặt</a></li> --}}
           <li><a href="#" onclick="handleLogout(event)">Đăng xuất</a></li>
         </ul>

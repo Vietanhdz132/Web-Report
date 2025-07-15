@@ -32,6 +32,10 @@ router.put('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermissi
 router.delete('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.deleteUser);
 
 // Lấy thông tin user hiện tại
-router.get('/me',authMiddleWare.verifyToken, authController.getProfile);
+router.get('/profile',authMiddleWare.verifyToken, authController.getProfile);
+
+router.put('/profile',authMiddleWare.verifyToken, authController.updateSelf);
+
+router.post('/change-password', authMiddleWare.verifyToken, authController.changePassword);
 
 module.exports = router;

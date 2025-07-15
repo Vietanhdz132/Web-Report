@@ -104,11 +104,11 @@ a {
 }
 
 /* Style dropdown menu (ẩn mặc định) */
-.dropdown-hover {
+.dropdown-hover-sidebar {
     position: relative;
 }
 
- .dropdown-menu {
+ .dropdown-menu-sidebar {
     display: none;
     position: absolute;
     top: 100%;
@@ -122,17 +122,17 @@ a {
 }
 
 /* Hiển thị menu khi hover */
-.dropdown-hover:hover .dropdown-menu {
+.dropdown-hover-sidebar:hover .dropdown-menu-sidebar {
     display: block;
 }
 
 /* Dropdown items style */
-.dropdown-menu li {
+.dropdown-menu-sidebar li {
     list-style: none;
     margin-bottom: 8px;
 }
 
-.dropdown-menu li a {
+.dropdown-menu-sidebar li a {
     color: white;
     text-decoration: none;
     font-size: 14px;

@@ -241,28 +241,95 @@ class AuthController {
     }
 
     async getProfile(req, res) {
-    try {
-        const userId = req.session?.userId || req.user?.id || req.headers['x-user-id'];
+        try {
+            const userId = req.session?.userId || req.user?._id || req.headers['x-user-id'];
 
-        if (!userId) {
-        return res.status(401).json({ error: 'Bạn chưa đăng nhập hoặc thiếu userId' });
+            if (!userId) {
+            return res.status(401).render('error', { message: 'Bạn chưa đăng nhập hoặc thiếu userId' });
+            }
+
+            const user = await userModel.getCurrentUser(userId);
+
+            if (!user) {
+            return res.status(404).render('error', { message: 'Không tìm thấy người dùng' });
+            }
+
+            const { password, ...safeUser } = user;
+            
+
+            res.render('person/profile', {
+            layout: 'accountLayout',
+            title: 'Thông tin cá nhân',
+            user: safeUser
+            });
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin người dùng hiện tại:', error);
+            res.status(500).render('error', { message: 'Lỗi server' });
+        }
+    }
+
+    async updateSelf(req, res) {
+        try {
+            const userId = req.session?.userId || req.user?._id || req.headers['x-user-id'];
+
+            if (!userId) {
+            return res.status(401).json({ success: false, message: 'Bạn chưa đăng nhập' });
+            }
+
+            const success = await userModel.updateSelf(userId, req.body);
+
+            if (success) {
+            res.json({ success: true, message: 'Cập nhật thông tin thành công' });
+            } else {
+            res.status(404).json({ success: false, message: 'Không tìm thấy người dùng' });
+            }
+        } catch (err) {
+            console.error('Lỗi cập nhật thông tin:', err); // log lỗi
+            res.status(500).json({ success: false, message: 'Lỗi máy chủ' });
+        }
+    }
+
+    async changePassword(req, res) {
+        try {
+            const userId = req.user?._id;
+            if (!userId) {
+            return res.status(401).json({ success: false, message: 'Bạn chưa đăng nhập' });
+            }
+
+            const { currentPassword, newPassword } = req.body;
+            if (!currentPassword || !newPassword) {
+            return res.status(400).json({ success: false, message: 'Vui lòng nhập đủ thông tin' });
+            }
+
+            const user = await userModel.getUserById(userId);
+            if (!user) {
+            return res.status(404).json({ success: false, message: 'Người dùng không tồn tại' });
+            }
+
+            const isMatch = await userModel.verifyPassword(user, currentPassword);
+            if (!isMatch) {
+            return res.status(400).json({ success: false, message: 'Mật khẩu hiện tại không đúng' });
+            }
+
+            const hashedNewPassword = await userModel.hashPassword(newPassword);
+
+            // Truyền user vào làm currentUser
+            // Trong changePassword:
+            const updated = await userModel.updateUser(userId, { password: newPassword }, user);
+
+
+            if (!updated) {
+            return res.status(500).json({ success: false, message: 'Cập nhật mật khẩu thất bại' });
+            }
+
+            res.json({ success: true, message: 'Đổi mật khẩu thành công' });
+        } catch (err) {
+            console.error('Lỗi đổi mật khẩu:', err);
+            res.status(500).json({ success: false, message: 'Lỗi máy chủ' });
+        }
         }
 
-        const user = await userModel.getCurrentUser(userId);
 
-        if (!user) {
-        return res.status(404).json({ error: 'Không tìm thấy người dùng' });
-        }
-
-        // Không trả về mật khẩu
-        const { password, ...safeUser } = user;
-
-        res.json({ user: safeUser });
-    } catch (error) {
-        console.error('Lỗi khi lấy thông tin người dùng hiện tại:', error);
-        res.status(500).json({ error: 'Lỗi server' });
-    }
-    }
 }
 
 

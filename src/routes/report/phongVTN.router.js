@@ -26,8 +26,7 @@ router.get('/pvt',authMiddleWare.verifyToken,authMiddleWare.requirePermission('c
 // Tạo, sửa, xóa báo cáo – chỉ user có quyền tạo mới được
 router.post('/pvt',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'),phongVTNController.createReport);
 // [POST] /report/pvt/copy/:id – sao chép báo cáo và trả về ID mới
-router.post('/pvt/copy/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'),phongVTNController.copyReport
-);
+router.post('/pvt/copy/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'),phongVTNController.copyReport);
 
 router.put('/pvt/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canEditReports'),phongVTNController.updateReport);
 router.delete('/pvt/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canDeleteReports'),phongVTNController.deleteReport);

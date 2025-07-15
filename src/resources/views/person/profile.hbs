@@ -1,0 +1,192 @@
+<div class="profile-container">
+  <div class="profile-header">
+  <h2>THÔNG TIN CHUNG</h2>
+  <div>
+    <a href="#" id="editBtn" class="edit-link"><i class="fa fa-pen"></i> Chỉnh sửa</a>
+    <a href="#" id="changePasswordBtn" class="change-password-link"><i class="fa fa-lock"></i> Đổi mật khẩu</a>
+  </div>
+</div>
+
+
+  <form id="profileForm" class="profile-form">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Họ và tên</label>
+        <input type="text" name="name" value="{{user.name}}" readonly />
+      </div>
+      <div class="form-group">
+        <label>Username <span class="required">*</span></label>
+        <input type="text" name="username" value="{{user.username}}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Tên rút gọn</label>
+        <input type="text" name="shortName" value="{{user.shortName}}" readonly />
+      </div>
+      <div class="form-group">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" name="email" value="{{user.email}}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" name="phone" value="{{user.phone}}" readonly />
+      </div>
+      <div class="form-group">
+        <label>Ngày sinh</label>
+        <input type="date" name="birthDay" value="{{user.birthDay}}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Chức danh <span class="required">*</span></label>
+        <input type="text" name="position" value="{{user.position}}" readonly />
+      </div>
+      <div class="form-group">
+        <label>Đơn vị <span class="required">*</span></label>
+        <input type="text" name="department" value="{{user.department}}" readonly />
+      </div>
+
+      <div class="form-group">
+        <label>Role</label>
+        <input type="text" name="role" value="{{user.role}}" readonly />
+      </div>
+
+      <div class="form-actions" style="display: none;">
+        <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
+        <button type="button" class="btn btn-secondary" id="cancelEditBtn">✖️ Hủy</button>
+      </div>
+
+    </div>
+  
+
+   
+  </form>
+</div>
+
+
+<!-- Modal đổi mật khẩu -->
+<div id="changePasswordModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" id="closeChangePassword">&times;</span>
+    <h3>🔒 Đổi mật khẩu</h3>
+
+    <form id="changePasswordForm">
+      <label for="currentPassword">Mật khẩu hiện tại:</label>
+      <input type="password" name="currentPassword" required>
+
+      <label for="newPassword">Mật khẩu mới:</label>
+      <input type="password" name="newPassword" required>
+
+      <label for="confirmPassword">Xác nhận mật khẩu mới:</label>
+      <input type="password" name="confirmPassword" required>
+
+      <button type="submit" class="btn btn-primary">💾 Lưu mật khẩu mới</button>
+    </form>
+  </div>
+</div>
+
+
+<script>
+  const modal = document.getElementById('changePasswordModal');
+  const modalContent = modal.querySelector('.modal-content');
+
+  document.getElementById('changePasswordBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    modal.style.display = 'block';
+  });
+
+  document.getElementById('closeChangePassword').addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+
+  // Đóng modal khi click ngoài modal-content
+  modal.addEventListener('click', (e) => {
+    if (!modalContent.contains(e.target)) {
+      modal.style.display = 'none';
+    }
+  });
+
+  document.getElementById('editBtn').addEventListener('click', function (e) {
+    e.preventDefault();
+    document.querySelectorAll('#profileForm input').forEach(input => {
+      if (input.name !== 'username' && input.name !== 'role') {
+        input.removeAttribute('readonly');
+      }
+    });
+    document.querySelector('.form-actions').style.display = 'flex';
+  });
+
+
+  document.getElementById('cancelEditBtn').addEventListener('click', function () {
+    window.location.reload();
+  });
+
+
+  document.getElementById('profileForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    try {
+      const res = await fetch('/auth/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+          // Nếu dùng JWT: thêm Authorization
+          // 'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        showAlert('Cập nhật thông tin thành công','success');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1500);
+
+      } else {
+        showAlert(result.message || 'Cập nhật thất bại','danger');
+      }
+    } catch (err) {
+      console.error('Lỗi cập nhật:', err);
+      showAlert('Lỗi khi gửi yêu cầu',error);
+    }
+  });
+
+
+  document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const currentPassword = e.target.currentPassword.value;
+    const newPassword = e.target.newPassword.value;
+    const confirmPassword = e.target.confirmPassword.value;
+
+    if (newPassword !== confirmPassword) {
+      alert('❌ Mật khẩu mới không khớp');
+      return;
+    }
+
+    try {
+      const res = await fetch('/auth/change-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        alert('✅ Đổi mật khẩu thành công');
+        modal.style.display = 'none';
+      } else {
+        alert('❌ ' + (data.message || 'Lỗi đổi mật khẩu'));
+      }
+    } catch (err) {
+      alert('❌ Lỗi khi gửi yêu cầu');
+    }
+  });
+
+</script>
