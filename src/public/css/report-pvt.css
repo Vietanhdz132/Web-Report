@@ -295,6 +295,7 @@
 
 /* Các section con (mục con, bảng) */
 .report-subitem,
+.report-subitem-extra,
 .report-subtable {
   position: relative;
   margin-top: 15px;
@@ -399,7 +400,7 @@
 
 .editable-table td {
   border: 1px solid #ccc;
-  padding: 6px 8px;
+  padding: 2px;
   background-color: #fff;
 }
 
@@ -482,6 +483,7 @@
 }
 
 .btn-add-subitem:hover,
+.report-subitem-extra:hover,
 .btn-add-table:hover {
   background-color: #005ea8;
   box-shadow: 0 4px 10px rgba(0, 95, 158, 0.3);

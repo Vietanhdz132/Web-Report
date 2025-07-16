@@ -2,7 +2,7 @@ const oracledb = require('oracledb');
 const { getConnection } = require('../../../config/db/oracleClient');
 const { executeQuery } = require('../../../config/db/oracleClient');
 
-async function getAllStats(page = 1, pageSize = 50) {
+async function getAllStatsMFD(page = 1, pageSize = 50) {
   const offset = (page - 1) * pageSize;
   const connection = await getConnection();
 
@@ -149,7 +149,7 @@ async function getAllStats(page = 1, pageSize = 50) {
   }
 }
 
-async function getSlicerOptions() {
+async function getSlicerOptionsMFD() {
   const query = `
     SELECT DISTINCT
       CASE MA_PHONG_XL
@@ -453,7 +453,7 @@ async function getAverageDurationaaaa(filterType = 'year', batchSize = 10000, on
   }
 }
 
-async function getAverageDuration({ dvt, year, month, day, onBatch }) {
+async function getAverageDurationMFD({ dvt, year, month, day, onBatch }) {
   const connection = await oracledb.getConnection();
   try {
     let groupByFormat = 'YYYY';
@@ -695,7 +695,7 @@ async function getAverageDuration({ dvt, year, month, day, onBatch }) {
   }
 }
 
-async function getAverageDurationTarget({ column, year, month, onBatch }) {
+async function getAverageDurationTargetMFD({ column, year, month, onBatch }) {
   if (!column) throw new Error("Missing column name");
 
   const connection = await oracledb.getConnection();
@@ -735,8 +735,8 @@ async function getAverageDurationTarget({ column, year, month, onBatch }) {
     await connection.close();
   }
 }
-
-async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
+  
+async function getAverageDurationDetailMFD({ dvt, year, month, day, onBatch }) {
   const connection = await oracledb.getConnection();
 
     try {
@@ -967,7 +967,7 @@ async function getAverageDurationDetail({ dvt, year, month, day, onBatch }) {
   }
 }
 
-async function getAverageDurationDetailProvince({ dvt, year, month, day, onBatch }) {
+async function getAverageDurationDetailProvinceMFD({ dvt, year, month, day, onBatch }) {
   const connection = await oracledb.getConnection();
   try {
     let groupByFormat = 'YYYY';
@@ -1206,4 +1206,4 @@ async function getAverageDurationDetailProvince({ dvt, year, month, day, onBatch
 
 
 
-module.exports = { getAllStats, getAverageDuration,getAverageDurationDetail, getSlicerOptions, getAverageDurationDetailProvince, getAverageDurationTarget};
+module.exports = { getAllStatsMFD, getAverageDurationMFD,getAverageDurationDetailMFD, getSlicerOptionsMFD, getAverageDurationDetailProvinceMFD, getAverageDurationTargetMFD};

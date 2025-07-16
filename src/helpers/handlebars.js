@@ -44,20 +44,68 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
 
       out += `<table class="report-table" border="1" cellspacing="0" cellpadding="4"><tbody>`;
 
+      const rowSpanTracker = [];
+
       for (let r = 0; r < item.cells.length; r++) {
         const row = item.cells[r];
-        out += `<tr>`;
+        let hasSpan = false;
+
+        out += `<tr`;
+
+        // Kiểm tra nếu hàng này bị ảnh hưởng bởi gộp từ trên xuống
+        for (let c = 0; c < rowSpanTracker.length; c++) {
+          if (rowSpanTracker[c] && rowSpanTracker[c] > 0) {
+            hasSpan = true;
+            break;
+          }
+        }
+
+        // Kiểm tra nếu hàng này có ô cần gộp (rowSpan > 1 hoặc colSpan > 1)
         for (let c = 0; c < row.length; c++) {
+          const cell = row[c];
+          if (cell && (cell.rowSpan > 1 || cell.colSpan > 1)) {
+            hasSpan = true;
+            break;
+          }
+        }
+
+        if (r === 0 || hasSpan) {
+          out += ` class="bold-row"`;
+        }
+
+        out += `>`;
+
+        let colIndex = 0;
+
+        for (let c = 0; c < row.length; c++) {
+          // Skip cột đang bị chiếm bởi rowSpan từ trên
+          while (rowSpanTracker[colIndex] > 0) {
+            rowSpanTracker[colIndex]--;
+            colIndex++;
+          }
+
           const cell = row[c];
           if (!cell) continue;
 
           const rowspan = cell.rowSpan > 1 ? ` rowspan="${cell.rowSpan}"` : '';
           const colspan = cell.colSpan > 1 ? ` colspan="${cell.colSpan}"` : '';
           const cellHtml = Handlebars.escapeExpression(cell.text).replace(/\n/g, '<br>');
+
           out += `<td${rowspan}${colspan}>${cellHtml}</td>`;
+
+          // Ghi nhận rowSpan cho các hàng tiếp theo
+          const spanCols = cell.colSpan || 1;
+          const spanRows = cell.rowSpan || 1;
+          for (let i = 0; i < spanCols; i++) {
+            rowSpanTracker[colIndex + i] = spanRows - 1;
+          }
+
+          colIndex += spanCols;
         }
+
         out += `</tr>`;
       }
+
 
 
       out += `</tbody></table></div>`;
