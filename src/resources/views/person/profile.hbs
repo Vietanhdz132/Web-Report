@@ -3,7 +3,6 @@
   <h2>THÔNG TIN CHUNG</h2>
   <div>
     <a href="#" id="editBtn" class="edit-link"><i class="fa fa-pen"></i> Chỉnh sửa</a>
-    <a href="#" id="changePasswordBtn" class="change-password-link"><i class="fa fa-lock"></i> Đổi mật khẩu</a>
   </div>
 </div>
 
@@ -64,47 +63,11 @@
 </div>
 
 
-<!-- Modal đổi mật khẩu -->
-<div id="changePasswordModal" class="modal" style="display: none;">
-  <div class="modal-content">
-    <span class="close" id="closeChangePassword">&times;</span>
-    <h3>🔒 Đổi mật khẩu</h3>
 
-    <form id="changePasswordForm">
-      <label for="currentPassword">Mật khẩu hiện tại:</label>
-      <input type="password" name="currentPassword" required>
-
-      <label for="newPassword">Mật khẩu mới:</label>
-      <input type="password" name="newPassword" required>
-
-      <label for="confirmPassword">Xác nhận mật khẩu mới:</label>
-      <input type="password" name="confirmPassword" required>
-
-      <button type="submit" class="btn btn-primary">💾 Lưu mật khẩu mới</button>
-    </form>
-  </div>
-</div>
 
 
 <script>
-  const modal = document.getElementById('changePasswordModal');
-  const modalContent = modal.querySelector('.modal-content');
-
-  document.getElementById('changePasswordBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    modal.style.display = 'block';
-  });
-
-  document.getElementById('closeChangePassword').addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  // Đóng modal khi click ngoài modal-content
-  modal.addEventListener('click', (e) => {
-    if (!modalContent.contains(e.target)) {
-      modal.style.display = 'none';
-    }
-  });
+ 
 
   document.getElementById('editBtn').addEventListener('click', function (e) {
     e.preventDefault();
@@ -159,34 +122,6 @@
   });
 
 
-  document.getElementById('changePasswordForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const currentPassword = e.target.currentPassword.value;
-    const newPassword = e.target.newPassword.value;
-    const confirmPassword = e.target.confirmPassword.value;
-
-    if (newPassword !== confirmPassword) {
-      alert('❌ Mật khẩu mới không khớp');
-      return;
-    }
-
-    try {
-      const res = await fetch('/auth/change-password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ currentPassword, newPassword }),
-      });
-
-      const data = await res.json();
-      if (data.success) {
-        alert('✅ Đổi mật khẩu thành công');
-        modal.style.display = 'none';
-      } else {
-        alert('❌ ' + (data.message || 'Lỗi đổi mật khẩu'));
-      }
-    } catch (err) {
-      alert('❌ Lỗi khi gửi yêu cầu');
-    }
-  });
+  
 
 </script>

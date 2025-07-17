@@ -57,7 +57,7 @@
       <label for="position">Chức vụ</label>
       <select id="position" name="position" required>
             <option value="">-- Chọn chức vụ --</option>
-            <option value="Phòng Vô Tuyến">Chuyên viên</option>
+            <option value="Chuyên viên">Chuyên viên</option>
       </select>   
     </div>
 
@@ -85,6 +85,9 @@
       position: form.position.value.trim()
       // ✅ Không cần gửi permissions, backend sẽ dùng getPermissions(role)
     };
+
+
+
 
     try {
       const res = await fetch('/auth/user/create', {

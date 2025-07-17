@@ -1,5 +1,10 @@
 const jwtHelper = require('../../helpers/jwt.helper');
 const userModel = require('../models/userModel');
+const ldap = require('ldapjs');
+const { ldapAuthenticate } = require('../../helpers/ldapHelper'); // đường dẫn tùy theo cấu trúc dự án
+
+
+
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || '3650d';
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET || 'access-token-cntt@811@';
@@ -64,62 +69,65 @@ class AuthController {
     // Đăng nhập
     async login(req, res) {
         try {
-        const { username, password } = req.body;
-        if (!username || !password) {
+            const { username, password } = req.body;
+            if (!username || !password) {
             return res.status(400).json({ message: 'Vui lòng nhập đầy đủ thông tin.' });
-        }
+            }
 
-        const user = await userModel.getUserByUsername(username);
-        if (!user) {
+            // Lấy user từ DB
+            const user = await userModel.getUserByUsername(username);
+            if (!user) {
+            return res.status(401).json({ message: 'Bạn không có trong danh sách tài khoản.' });
+            }
+
+            // Chỉ xác thực LDAP
+            const valid = await ldapAuthenticate(username, password);
+            if (!valid) {
             return res.status(401).json({ message: 'Sai tên đăng nhập hoặc mật khẩu.' });
-        }
+            }
 
-        const valid = await userModel.verifyPassword(user, password);
-        if (!valid) {
-            return res.status(401).json({ message: 'Sai tên đăng nhập hoặc mật khẩu.' });
-        }
-
-        const payload = {
+            // Tạo payload JWT
+            const payload = {
             _id: user._id,
-            name:user.name,
+            name: user.name,
             username: user.username,
-            email:user.email,
+            email: user.email,
             role: user.role,
-            department:user.department,
-            position:user.position,
+            department: user.department,
+            position: user.position,
             permissions: user.permissions,
             };
 
+            const accessToken = await jwtHelper.generateToken(payload, accessTokenSecret, accessTokenLife);
+            const refreshToken = await jwtHelper.generateToken(payload, refreshTokenSecret, refreshTokenLife);
 
-        const accessToken = await jwtHelper.generateToken(payload, accessTokenSecret, accessTokenLife);
-        const refreshToken = await jwtHelper.generateToken(payload, refreshTokenSecret, refreshTokenLife);
+            tokenList[refreshToken] = { accessToken, refreshToken };
 
-        tokenList[refreshToken] = { accessToken, refreshToken };
-
-        res.cookie('accessToken', accessToken, {
+            res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict',
-            maxAge: 10 * 365 * 24 * 60 * 60 * 1000, // 10 năm
-        });
+            maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
+            });
 
-        res.cookie('refreshToken', refreshToken, {
+            res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'Strict',
-            maxAge: 10 * 365 * 24 * 60 * 60 * 1000, // 10 năm
-        });
+            maxAge: 10 * 365 * 24 * 60 * 60 * 1000,
+            });
 
-        res.status(200).json({
+            res.status(200).json({
             accessToken,
             refreshToken,
             user: payload,
-        });
+            });
         } catch (err) {
-        console.error('❌ Login error:', err);
-        res.status(500).json({ message: 'Lỗi server' });
+            console.error('❌ Login error:', err);
+            res.status(500).json({ message: 'Lỗi server' });
         }
-    }
+        }
+
 
   
 

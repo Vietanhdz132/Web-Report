@@ -155,7 +155,7 @@ class ACMBController {
     try {
       res.render('dashboard/acMB', {
         layout: 'dashboardLayout',
-        title: 'Thống kê thời gian mất liên lạc trung bình'
+        title: 'Thống kê thời gian mất điện trung bình'
       });
     } catch (err) {
       console.error('Render error:', err);

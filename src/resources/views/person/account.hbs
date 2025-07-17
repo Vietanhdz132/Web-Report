@@ -87,8 +87,8 @@
           <td>${user.email}</td>
           <td>${user.role}</td>
           <td>${user.department || ''}</td>
-          <td>${new Date(user.createdAt).toLocaleDateString('vi-VN')}</td>
-          <td>${new Date(user.updatedAt).toLocaleDateString('vi-VN')}</td>
+          <td>${user.createdAt}</td>
+          <td>${user.updatedAt}</td>
           <td>
           <div class = "account__actions">
             <a href="/user/edit/${user._id}" class="account__action-link">✏️ Sửa</a>
