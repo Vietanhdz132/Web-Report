@@ -56,13 +56,9 @@
       </div>
 
     </div>
-  
-
-   
+    
   </form>
 </div>
-
-
 
 
 
@@ -72,7 +68,7 @@
   document.getElementById('editBtn').addEventListener('click', function (e) {
     e.preventDefault();
     document.querySelectorAll('#profileForm input').forEach(input => {
-      if (input.name !== 'username' && input.name !== 'role') {
+      if (input.name !== 'username' && input.name !== 'role' && input.name !== 'department' && input.name !== 'position') {
         input.removeAttribute('readonly');
       }
     });
@@ -121,7 +117,5 @@
     }
   });
 
-
-  
 
 </script>

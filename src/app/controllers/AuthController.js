@@ -12,7 +12,29 @@ const refreshTokenLife = process.env.REFRESH_TOKEN_LIFE || '3650d';
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET || 'refresh-token-cntt@811@';
 
 const tokenList = {};
-
+const Permissions = {
+        admin: {
+            canManageUsers: true,
+            canViewReports: true,
+            canCreateReports: true,
+            canEditReports: true,
+            canDeleteReports: true,
+        },
+        manager: {
+            canManageUsers: false,
+            canViewReports: true,
+            canCreateReports: true,
+            canEditReports: true,
+            canDeleteReports: true,
+        },
+        view: {
+            canManageUsers: false,
+            canViewReports: true,
+            canCreateReports: false,
+            canEditReports: false,
+            canDeleteReports: false,
+        },
+        };
 class AuthController {
   // Trang login (tùy)
     loginPage(req, res) {
@@ -56,7 +78,7 @@ class AuthController {
             role:r.role ||'',
             department: r.department ,
             createdAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
-            updateAt: r.updateAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
+            updatedAt: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('vi-VN') : '',
             stt: i + 1,
         }));
 
@@ -88,14 +110,14 @@ class AuthController {
 
             // Tạo payload JWT
             const payload = {
-            _id: user._id,
-            name: user.name,
-            username: user.username,
-            email: user.email,
-            role: user.role,
-            department: user.department,
-            position: user.position,
-            permissions: user.permissions,
+                _id: user._id,
+                name: user.name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                department: user.department,
+                position: user.position,
+                permissions: user.permissions,
             };
 
             const accessToken = await jwtHelper.generateToken(payload, accessTokenSecret, accessTokenLife);
@@ -190,20 +212,41 @@ class AuthController {
     }
 
     // Sửa thông tin user (chỉ admin)
+    // Permissions mapping
+    
+
     async updateUser(req, res) {
         try {
-        const currentUser = req.user;
-        const id = req.params.id;
-        const updateData = req.body;
+            const currentUser = req.user;
+            const id = req.params.id;
+            const updateData = req.body;
 
-        const success = await userModel.updateUser(id, updateData, currentUser);
-        if (!success) return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+            // Không cho phép cập nhật _id
+            if (updateData._id) {
+            delete updateData._id;
+            }
 
-        res.json({ message: 'Cập nhật thành công' });
+            // Nếu có role thì cập nhật permissions tương ứng
+            if (updateData.role && Permissions[updateData.role]) {
+            updateData.permissions = Permissions[updateData.role];
+            }
+
+            const success = await userModel.updateUser(id, updateData, currentUser);
+
+            if (!success) {
+            return res.status(404).json({ success: false, message: 'Không tìm thấy người dùng' });
+            }
+
+            return res.json({ success: true, message: 'Cập nhật thành công' });
         } catch (err) {
-        res.status(400).json({ message: err.message });
+            console.error('Error updateUser:', err);
+            return res.status(400).json({ success: false, message: err.message || 'Lỗi server' });
         }
-    }
+        }
+
+
+
+
 
     // Xoá user (chỉ admin)
     async deleteUser(req, res) {
@@ -275,6 +318,35 @@ class AuthController {
             res.status(500).render('error', { message: 'Lỗi server' });
         }
     }
+
+    async getUserById(req, res) {
+        try {
+                const userId = req.params.id; // 👈 Lấy user ID từ URL /users/:id
+
+                if (!userId || !userId.match(/^[0-9a-fA-F]{24}$/)) {
+                return res.status(400).render('error', { message: 'ID người dùng không hợp lệ' });
+                }
+
+                const user = await userModel.getUserById(userId);
+
+                if (!user) {
+                return res.status(404).render('error', { message: 'Không tìm thấy người dùng' });
+                }
+
+                const { password, ...safeUser } = user;
+
+                res.render('person/edit', {
+                layout: 'accountLayout',
+                title: 'Thông tin người dùng',
+                selectedUser: safeUser, // ✅ không ghi đè res.locals.user
+                });
+
+            } catch (error) {
+                console.error('Lỗi khi lấy thông tin người dùng theo ID:', error);
+                res.status(500).render('error', { message: 'Lỗi server' });
+            }
+    }
+
 
     async updateSelf(req, res) {
         try {

@@ -130,87 +130,6 @@
   background-color: #bdbdbd;
 }
 
-/* Modal nền đen mờ */
-.modal {
-  position: fixed;
-  z-index: 1000;
-  left: 0; top: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 15px;
-}
-
-/* Nội dung modal */
-.modal-content {
-  background: white;
-  padding: 25px 30px;
-  border-radius: 12px;
-  width: 100%;
-  max-width: 400px;
-  position: relative;
-  box-shadow: 0 10px 25px rgb(0 0 0 / 0.15);
-}
-
-/* Đóng modal */
-.close {
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #888;
-  cursor: pointer;
-  user-select: none;
-  transition: color 0.2s;
-}
-
-.close:hover {
-  color: #333;
-}
-
-/* Modal form */
-#changePasswordForm {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-#changePasswordForm label {
-  font-weight: 600;
-  color: #444;
-}
-
-#changePasswordForm input {
-  padding: 10px 14px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1.6px solid #ccc;
-  transition: border-color 0.2s;
-}
-
-#changePasswordForm input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-/* Nút lưu mật khẩu modal */
-#changePasswordForm button {
-  margin-top: 10px;
-  background-color: #28a745;
-  color: white;
-  font-weight: 700;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.25s;
-}
-
-#changePasswordForm button:hover {
-  background-color: #1e7e34;
-}
 
 /* Responsive nhỏ */
 @media (max-width: 480px) {
@@ -229,24 +148,37 @@
   }
 }
 
-.modal {
-  position: fixed;
-  left: 0; top: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  display: block; /* hoặc none khi ẩn */
-  z-index: 1000;
+
+
+.form-group input[readonly],
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
 }
 
-.modal-content {
-  position: fixed;  /* hoặc absolute nếu modal cha position relative */
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* căn giữa chính xác */
-  
-  background: white;
-  padding: 25px 30px;
-  border-radius: 12px;
-  max-width: 400px;
-  width: 90%;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+
+
+/* Button hành động (Lưu / Hủy) */
+.form-actions {
+  margin-top: 20px;
+  gap: 10px;
 }
+
+.form-actions .btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+
+

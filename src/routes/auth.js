@@ -28,6 +28,8 @@ router.post('/user/create',authMiddleWare.verifyToken,authMiddleWare.requirePerm
 // Sửa user (admin)
 router.put('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.updateUser);
 
+router.get('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.getUserById);
+
 // Xóa user (admin)
 router.delete('/user/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'), authController.deleteUser);
 

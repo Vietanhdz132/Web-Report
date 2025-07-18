@@ -33,10 +33,7 @@
 
 
 <script>
-  window.user = {{{json user}}};
-</script>
-
-<script>
+  window.user = {{{json user}}}; // dữ liệu user từ server
 
   document.getElementById('createAccountBtn').addEventListener('click', function () {
     const hasPermission = window.user?.permissions?.canManageUsers;
@@ -44,10 +41,9 @@
     if (hasPermission) {
       window.location.href = '/auth/account/create';
     } else {
-      showAlert('Bạn không có quyền tạo báo cáo !!!', 'warning');
+      showAlert('Bạn không có quyền tạo người dùng !!!', 'warning');
     }
   });
-  
 
   document.addEventListener('DOMContentLoaded', () => {
     loadUsers();
@@ -65,7 +61,7 @@
 
     try {
       const res = await fetch('/auth/account/getAllUsers');
-      const { success, users } = await res.json(); // ✅ phải là `users` đúng với API trả về
+      const { success, users } = await res.json();
 
       if (!success || !users.length) {
         noDataMsg.style.display = 'block';
@@ -90,14 +86,33 @@
           <td>${user.createdAt}</td>
           <td>${user.updatedAt}</td>
           <td>
-          <div class = "account__actions">
-            <a href="/user/edit/${user._id}" class="account__action-link">✏️ Sửa</a>
-            <button class="account__action-delete" onclick="deleteUser('${user._id}')">🗑️ Xóa</button>
-          </div>
+            <div class="account__actions">
+              <a href="#" class="editAccountBtn account__action-link" data-userid="${user._id}">✏️ Sửa</a>
+              <button class="account__action-delete" onclick="deleteUser('${user._id}')">🗑️ Xóa</button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
+
+      // Gán sự kiện cho các nút "Sửa" vừa tạo
+      document.querySelectorAll('.editAccountBtn').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+
+          const hasPermission = window.user?.permissions?.canManageUsers;
+          if (!hasPermission) {
+            showAlert('Bạn không có quyền sửa người dùng !!!', 'warning');
+            return;
+          }
+
+          const userId = btn.getAttribute('data-userid');
+          if (userId) {
+            window.location.href = `/auth/user/${userId}`;
+          }
+        });
+      });
+
     } catch (err) {
       console.error('❌ Error loading users:', err);
       alert('Không thể tải danh sách tài khoản.');
@@ -113,12 +128,10 @@
       });
 
       if (!res.ok) {
-        // Cố gắng parse JSON lỗi
         let errData = null;
         try {
           errData = await res.json();
         } catch {
-          // Nếu không parse được JSON, báo lỗi chung
           showAlert(`Lỗi ${res.status}: ${res.statusText}`, 'error');
           return;
         }
@@ -129,7 +142,7 @@
       const data = await res.json();
       if (data.success) {
         showAlert('Đã xoá tài khoản thành công!', 'success');
-        loadUsers(); // Reload lại danh sách
+        loadUsers();
       } else {
         showAlert('Xóa thất bại: ' + (data.message || 'Lỗi không xác định'), 'warning');
       }
@@ -138,6 +151,4 @@
       showAlert('Lỗi khi xoá tài khoản: ' + err.message, 'error');
     }
   }
-
 </script>
-

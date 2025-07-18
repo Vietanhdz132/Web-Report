@@ -6,8 +6,7 @@ async function ldapAuthenticate(username, password) {
             url: 'ldap://10.2.19.99:389',
         });
 
-        const fullUsername = username; // hoặc username nếu đã đủ
-
+        const fullUsername = username; 
         client.bind(fullUsername, password, (err) => {
             client.unbind(); // Dọn dẹp
 
