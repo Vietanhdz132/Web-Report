@@ -1,36 +1,73 @@
 .home-guide {
-  max-width: 85vw;
-  margin: 40px auto;
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 20px;
   font-family: "Segoe UI", sans-serif;
 }
 
 .home-guide__title {
-  font-size: 2rem;
-  margin-bottom: 20px;
-  color: #004275;
+  text-align: center;
+  font-size: 32px;
+  color: #2c3e50;
+  margin-bottom: 40px;
 }
 
-.home-guide__section {
-  margin-bottom: 20px;
+.guide-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.home-guide__section h2 {
-  color: #007acc;
-  margin-bottom: 10px;
-  font-size: 1.25rem;
+.guide-step {
+  display: flex;
+  align-items: flex-start;
+  background: #f9f9f9;
+  border-left: 6px solid #3498db;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s;
 }
 
-.home-guide__section ul {
+.guide-step:hover {
+  transform: scale(1.02);
+}
+
+.guide-step__number {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  background-color: #3498db;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 48px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.guide-step__content h2 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0 0 8px;
+}
+
+.guide-step__content ul {
+  margin: 0;
   padding-left: 20px;
+  list-style: disc;
+  color: #555;
 }
 
-.home-guide__section ul li {
-  margin-bottom: 6px;
-  line-height: 1.5;
+@media (max-width: 600px) {
+  .guide-step {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .guide-step__number {
+    margin-bottom: 10px;
+  }
 }
 
 /*# sourceMappingURL=home.css.map */

@@ -11,6 +11,8 @@ router.get('/account/manager',authMiddleWare.verifyToken,authController.viewAll 
 
 router.get('/account/create',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canManageUsers'),authController.createUserView )
 
+router.get('/account/:department', authMiddleWare.verifyToken, authController.getUsersByDepartment);
+
 router.get('/account/getAllUsers',authMiddleWare.verifyToken,authController.getAllUsers )
 
 
@@ -39,5 +41,6 @@ router.get('/profile',authMiddleWare.verifyToken, authController.getProfile);
 router.put('/profile',authMiddleWare.verifyToken, authController.updateSelf);
 
 router.post('/change-password', authMiddleWare.verifyToken, authController.changePassword);
+
 
 module.exports = router;

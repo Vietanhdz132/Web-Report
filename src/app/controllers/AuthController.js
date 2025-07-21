@@ -66,28 +66,53 @@ class AuthController {
         }
     }
 
-    async getAllUsers(req, res) {
+ 
+    formatUsers(users) {
+        return users.map((r, i) => ({
+        _id: r._id,
+        name: r.name || '',
+        username: r.username || '',
+        email: r.email || '',
+        role: r.role || '',
+        department: r.department || '',
+        createdAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
+        updatedAt: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('vi-VN') : '',
+        stt: i + 1,
+        }));
+    }
+
+    getAllUsers = async (req, res) => {
         try {
         const users = await userModel.getAllAccounts();
-
-        const processedUsers = users.map((r, i) => ({
-            _id: r._id,
-            name:r.name ||'',
-            username: r.username || '',
-            email: r.email || '',
-            role:r.role ||'',
-            department: r.department ,
-            createdAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
-            updatedAt: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('vi-VN') : '',
-            stt: i + 1,
-        }));
-
+        const processedUsers = this.formatUsers(users);
         res.json({ success: true, users: processedUsers });
         } catch (err) {
         console.error('❌ Error fetching users:', err);
         res.status(500).json({ success: false });
         }
     }
+
+    getUsersByDepartment = async (req, res) => {
+        try {
+        const { department } = req.params;
+
+        if (!department) {
+            return res.status(400).json({ success: false, message: `Thiếu phòng ban: ${department}` });
+        }
+
+        const users = await userModel.getAccountsByDepartment(department);
+        const processedUsers = this.formatUsers(users);
+
+        return res.status(200).json({ success: true, users: processedUsers });
+        } catch (err) {
+        console.error('❌ Lỗi khi lấy user theo phòng ban:', err);
+        return res.status(500).json({ success: false, message: 'Lỗi server' });
+        }
+    }
+    
+
+
+
     // Đăng nhập
     async login(req, res) {
         try {
@@ -408,6 +433,8 @@ class AuthController {
             res.status(500).json({ success: false, message: 'Lỗi máy chủ' });
         }
         }
+
+    
 
 
 }

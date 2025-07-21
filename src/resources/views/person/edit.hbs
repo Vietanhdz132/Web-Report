@@ -46,10 +46,22 @@
                     value="{{selectedUser.birthDay}}" readonly />
             </div>
 
+            
+
             <div class="form-group">
-                <label>Chức danh <span class="required">*</span></label>
-                <input type="text" name="position"
+                <label for="position">Chức vụ</label>
+                <!-- Hiển thị input readonly khi không chỉnh sửa -->
+                <input type="text" id="position_display"
                     value="{{selectedUser.position}}" readonly />
+
+                <!-- Select ẩn, chỉ hiện khi edit -->
+                <select id="position" name="position" style="display:none;">
+                  <option value="">-- Chọn chức vụ --</option>
+                  <option value="Chuyên viên">Chuyên viên</option>
+                  <option value="Tổ trưởng">Tổ trưởng</option>
+                  <option value="Phó phòng">Phó phòng</option>
+                  <option value="Trưởng phòng">Trưởng phòng</option>
+                </select>
             </div>
 
             <div class="form-group">
@@ -61,13 +73,12 @@
                 <!-- Select ẩn, chỉ hiện khi edit -->
                 <select id="department" name="department" style="display:none;">
                     <option value>-- Chọn phòng ban --</option>
-                    <option value="Phòng Vô Tuyến">Phòng Vô Tuyến</option>
-                    <option value="Phòng Kế Toán">Phòng Kế Toán</option>
-                    <option value="Phòng Hạ Tầng">Phòng Hạ Tầng</option>
-                    <option value="Phòng Truyền Dẫn">Phòng Truyền Dẫn</option>
-                    <option value="Nhóm BO Tập Trung">Nhóm BO Tập Trung</option>
+                    <option value="Phòng Vô tuyến">Phòng Vô Tuyến</option>
+                    <option value="Phòng Kế toán">Phòng Kế Toán</option>
+                    <option value="Phòng Hạ tầng">Phòng Hạ Tầng</option>
+                    <option value="Phòng Truyền dẫn">Phòng Truyền Dẫn</option>
                     <option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành chính</option>
-                    <option value="Phòng Kế hoạch - Đầu tư">Phòng Tổ Chức - Hành chính</option>
+                    <option value="Phòng Kế hoạch - Đầu tư">Phòng Kế hoạch - Đầu tư</option>
                 </select>
             </div>
 
@@ -116,28 +127,34 @@
 
   // Ẩn input readonly và hiện select tương ứng
   document.getElementById('department_display').style.display = 'none';
+  document.getElementById('position_display').style.display = 'none';
   document.getElementById('role_display').style.display = 'none';
 
   const departmentSelect = document.getElementById('department');
+  const positionSelect = document.getElementById('position');
   const roleSelect = document.getElementById('role');
 
   departmentSelect.style.display = 'block';
+  positionSelect.style.display = 'block';
   roleSelect.style.display = 'block';
 
   // Set giá trị select bằng giá trị input readonly ban đầu
   departmentSelect.value = document.getElementById('department_display').value;
+  positionSelect.value = document.getElementById('position_display').value;
   roleSelect.value = document.getElementById('role_display').value;
 
   // Hiện nút lưu/hủy
   document.querySelector('.form-actions').style.display = 'flex';
 });
 
-document.getElementById('cancelEditBtn').addEventListener('click', function () {
+  document.getElementById('cancelEditBtn').addEventListener('click', function () {
   // Ẩn select, hiện lại input readonly
   document.getElementById('department_display').style.display = 'block';
+  document.getElementById('position_display').style.display = 'block';
   document.getElementById('role_display').style.display = 'block';
 
   document.getElementById('department').style.display = 'none';
+  document.getElementById('position').style.display = 'none';
   document.getElementById('role').style.display = 'none';
 
   // Ẩn nút lưu/hủy
