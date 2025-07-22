@@ -5,7 +5,8 @@
     <!-- Họ tên -->
     <div class="account-create__group">
       <label for="name">Họ và tên</label>
-      <input type="text" id="name" name="name" placeholder="Nhập họ tên đầy đủ" required>
+      <input type="text" id="name" name="name" placeholder="Nhập họ tên đầy đủ"
+        required>
     </div>
 
     <!-- Tên tài khoản -->
@@ -30,7 +31,7 @@
     <div class="account-create__group">
       <label for="role">Vai trò</label>
       <select id="role" name="role" required>
-        <option value="">-- Chọn vai trò --</option>
+        <option value>-- Chọn vai trò --</option>
         {{!-- <option value="admin">Admin</option> --}}
         <option value="manager">Manager</option>
         <option value="view">Viewer</option>
@@ -39,35 +40,36 @@
 
     <!-- Phòng ban -->
     <div class="account-create__group">
-        <label for="department">Phòng ban</label>
-        <select id="department" name="department" required>
-            <option value>-- Chọn phòng ban --</option>
-            <option value="Phòng Vô tuyến">Phòng Vô Tuyến</option>
-            <option value="Phòng Kế toán">Phòng Kế Toán</option>
-            <option value="Phòng Hạ tầng">Phòng Hạ Tầng</option>
-            <option value="Phòng Truyền dẫn">Phòng Truyền Dẫn</option>
-            <option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành chính</option>
-            <option value="Phòng Kế hoạch - Đầu tư">Phòng Kế hoạch - Đầu tư</option>
-        </select>
-        </div>
-
+      <label for="department">Phòng ban</label>
+      <select id="department" name="department" required>
+        <option value>-- Chọn phòng ban --</option>
+        <option value="Phòng Vô tuyến">Phòng Vô Tuyến</option>
+        <option value="Phòng Kế toán">Phòng Kế Toán</option>
+        <option value="Phòng Hạ tầng">Phòng Hạ Tầng</option>
+        <option value="Phòng Truyền dẫn">Phòng Truyền Dẫn</option>
+        <option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành
+          chính</option>
+        <option value="Phòng Kế hoạch - Đầu tư">Phòng Kế hoạch - Đầu tư</option>
+      </select>
+    </div>
 
     <!-- Chức vụ -->
     <div class="account-create__group">
       <label for="position">Chức vụ</label>
       <select id="position" name="position" required>
-            <option value="">-- Chọn chức vụ --</option>
-            <option value="Chuyên viên">Chuyên viên</option>
-            <option value="Tổ trưởng">Tổ trưởng</option>
-            <option value="Phó phòng">Phó phòng</option>
-            <option value="Trưởng phòng">Trưởng phòng</option>
-      </select>   
+        <option value>-- Chọn chức vụ --</option>
+        <option value="Chuyên viên">Chuyên viên</option>
+        <option value="Tổ trưởng">Tổ trưởng</option>
+        <option value="Phó phòng">Phó phòng</option>
+        <option value="Trưởng phòng">Trưởng phòng</option>
+      </select>
     </div>
 
     <!-- Nút -->
     <div class="account-create__actions">
       <button type="submit">Tạo tài khoản</button>
-      <a href="/auth/account/manager" class="btn-cancel" onclick="return confirm('Bạn có chắc chắn muốn hủy? Mọi thay đổi sẽ không được lưu.')">Hủy</a>
+      <a href="/auth/account/manager" class="btn-cancel"
+        onclick="return confirm('Bạn có chắc chắn muốn hủy? Mọi thay đổi sẽ không được lưu.')">Hủy</a>
     </div>
   </form>
 </div>

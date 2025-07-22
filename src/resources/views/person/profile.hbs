@@ -1,11 +1,11 @@
 <div class="profile-container">
   <div class="profile-header">
-  <h2>THÔNG TIN CHUNG CÁ NHÂN</h2>
-  <div>
-    <a href="#" id="editBtn" class="edit-link"><i class="fa fa-pen"></i> Chỉnh sửa</a>
+    <h2>THÔNG TIN CHUNG CÁ NHÂN</h2>
+    <div>
+      <a href="#" id="editBtn" class="edit-link"><i class="fa fa-pen"></i> Chỉnh
+        sửa</a>
+    </div>
   </div>
-</div>
-
 
   <form id="profileForm" class="profile-form">
     <div class="form-grid">
@@ -20,7 +20,8 @@
 
       <div class="form-group">
         <label>Tên rút gọn</label>
-        <input type="text" name="shortName" value="{{user.shortName}}" readonly />
+        <input type="text" name="shortName" value="{{user.shortName}}"
+          readonly />
       </div>
       <div class="form-group">
         <label>Email <span class="required">*</span></label>
@@ -42,7 +43,8 @@
       </div>
       <div class="form-group">
         <label>Đơn vị <span class="required">*</span></label>
-        <input type="text" name="department" value="{{user.department}}" readonly />
+        <input type="text" name="department" value="{{user.department}}"
+          readonly />
       </div>
 
       <div class="form-group">
@@ -52,15 +54,14 @@
 
       <div class="form-actions" style="display: none;">
         <button type="submit" class="btn btn-primary">💾 Lưu thay đổi</button>
-        <button type="button" class="btn btn-secondary" id="cancelEditBtn">✖️ Hủy</button>
+        <button type="button" class="btn btn-secondary" id="cancelEditBtn">✖️
+          Hủy</button>
       </div>
 
     </div>
-    
+
   </form>
 </div>
-
-
 
 <script>
  

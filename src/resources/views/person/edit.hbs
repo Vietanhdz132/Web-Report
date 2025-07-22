@@ -1,117 +1,117 @@
 <div class="profile-container">
-    <div class="profile-header">
-        <h2>THÔNG TIN CHUNG</h2>
-        <div>
-            <a href="#" id="editBtn" class="edit-link">
-                <i class="fa fa-pen"></i> Chỉnh sửa
-            </a>
-        </div>
+  <div class="profile-header">
+    <h2>THÔNG TIN CHUNG</h2>
+    <div>
+      <a href="#" id="editBtn" class="edit-link">
+        <i class="fa fa-pen"></i> Chỉnh sửa
+      </a>
     </div>
+  </div>
 
-    <form id="profileForm" class="profile-form">
-        <!-- Hidden field to hold user ID -->
-        <input type="hidden" name="_id" value="{{selectedUser._id}}" />
+  <form id="profileForm" class="profile-form">
+    <!-- Hidden field to hold user ID -->
+    <input type="hidden" name="_id" value="{{selectedUser._id}}" />
 
-        <div class="form-grid">
-            <div class="form-group">
-                <label>Họ và tên</label>
-                <input type="text" name="name" value="{{selectedUser.name}}"
-                    readonly />
-            </div>
-            <div class="form-group">
-                <label>Username <span class="required">*</span></label>
-                <input type="text" name="username"
-                    value="{{selectedUser.username}}" readonly />
-            </div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Họ và tên</label>
+        <input type="text" name="name" value="{{selectedUser.name}}"
+          readonly />
+      </div>
+      <div class="form-group">
+        <label>Username <span class="required">*</span></label>
+        <input type="text" name="username"
+          value="{{selectedUser.username}}" readonly />
+      </div>
 
-            <div class="form-group">
-                <label>Tên rút gọn</label>
-                <input type="text" name="shortName"
-                    value="{{selectedUser.shortName}}" readonly />
-            </div>
-            <div class="form-group">
-                <label>Email <span class="required">*</span></label>
-                <input type="email" name="email" value="{{selectedUser.email}}"
-                    readonly />
-            </div>
+      <div class="form-group">
+        <label>Tên rút gọn</label>
+        <input type="text" name="shortName"
+          value="{{selectedUser.shortName}}" readonly />
+      </div>
+      <div class="form-group">
+        <label>Email <span class="required">*</span></label>
+        <input type="email" name="email" value="{{selectedUser.email}}"
+          readonly />
+      </div>
 
-            <div class="form-group">
-                <label>Số điện thoại</label>
-                <input type="text" name="phone" value="{{selectedUser.phone}}"
-                    readonly />
-            </div>
-            <div class="form-group">
-                <label>Ngày sinh</label>
-                <input type="date" name="birthDay"
-                    value="{{selectedUser.birthDay}}" readonly />
-            </div>
+      <div class="form-group">
+        <label>Số điện thoại</label>
+        <input type="text" name="phone" value="{{selectedUser.phone}}"
+          readonly />
+      </div>
+      <div class="form-group">
+        <label>Ngày sinh</label>
+        <input type="date" name="birthDay"
+          value="{{selectedUser.birthDay}}" readonly />
+      </div>
 
-            
+      <div class="form-group">
+        <label for="position">Chức vụ</label>
+        <!-- Hiển thị input readonly khi không chỉnh sửa -->
+        <input type="text" id="position_display"
+          value="{{selectedUser.position}}" readonly />
 
-            <div class="form-group">
-                <label for="position">Chức vụ</label>
-                <!-- Hiển thị input readonly khi không chỉnh sửa -->
-                <input type="text" id="position_display"
-                    value="{{selectedUser.position}}" readonly />
+        <!-- Select ẩn, chỉ hiện khi edit -->
+        <select id="position" name="position" style="display:none;">
+          <option value>-- Chọn chức vụ --</option>
+          <option value="Chuyên viên">Chuyên viên</option>
+          <option value="Tổ trưởng">Tổ trưởng</option>
+          <option value="Phó phòng">Phó phòng</option>
+          <option value="Trưởng phòng">Trưởng phòng</option>
+        </select>
+      </div>
 
-                <!-- Select ẩn, chỉ hiện khi edit -->
-                <select id="position" name="position" style="display:none;">
-                  <option value="">-- Chọn chức vụ --</option>
-                  <option value="Chuyên viên">Chuyên viên</option>
-                  <option value="Tổ trưởng">Tổ trưởng</option>
-                  <option value="Phó phòng">Phó phòng</option>
-                  <option value="Trưởng phòng">Trưởng phòng</option>
-                </select>
-            </div>
+      <div class="form-group">
+        <label for="department">Phòng ban</label>
+        <!-- Hiển thị input readonly khi không chỉnh sửa -->
+        <input type="text" id="department_display"
+          value="{{selectedUser.department}}" readonly />
 
-            <div class="form-group">
-                <label for="department">Phòng ban</label>
-                <!-- Hiển thị input readonly khi không chỉnh sửa -->
-                <input type="text" id="department_display"
-                    value="{{selectedUser.department}}" readonly />
+        <!-- Select ẩn, chỉ hiện khi edit -->
+        <select id="department" name="department" style="display:none;">
+          <option value>-- Chọn phòng ban --</option>
+          <option value="Phòng Vô tuyến">Phòng Vô Tuyến</option>
+          <option value="Phòng Kế toán">Phòng Kế Toán</option>
+          <option value="Phòng Hạ tầng">Phòng Hạ Tầng</option>
+          <option value="Phòng Truyền dẫn">Phòng Truyền Dẫn</option>
+          <option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành
+            chính</option>
+          <option value="Phòng Kế hoạch - Đầu tư">Phòng Kế hoạch - Đầu
+            tư</option>
+        </select>
+      </div>
 
-                <!-- Select ẩn, chỉ hiện khi edit -->
-                <select id="department" name="department" style="display:none;">
-                    <option value>-- Chọn phòng ban --</option>
-                    <option value="Phòng Vô tuyến">Phòng Vô Tuyến</option>
-                    <option value="Phòng Kế toán">Phòng Kế Toán</option>
-                    <option value="Phòng Hạ tầng">Phòng Hạ Tầng</option>
-                    <option value="Phòng Truyền dẫn">Phòng Truyền Dẫn</option>
-                    <option value="Phòng Tổ chức - Hành chính">Phòng Tổ chức - Hành chính</option>
-                    <option value="Phòng Kế hoạch - Đầu tư">Phòng Kế hoạch - Đầu tư</option>
-                </select>
-            </div>
+      <div class="form-group">
+        <label>Role</label>
+        <!-- Hiển thị input readonly khi không chỉnh sửa -->
+        <input type="text" id="role_display"
+          value="{{selectedUser.role}}" readonly />
 
-            <div class="form-group">
-                <label>Role</label>
-                <!-- Hiển thị input readonly khi không chỉnh sửa -->
-                <input type="text" id="role_display"
-                    value="{{selectedUser.role}}" readonly />
+        <!-- Select ẩn, chỉ hiện khi edit -->
+        <select id="role" name="role" style="display:none;" required>
+          <option value>-- Chọn vai trò --</option>
+          <!-- <option value="admin">Admin</option> -->
+          <option value="manager">manager</option>
+          <option value="view">view</option>
+        </select>
+      </div>
 
-                <!-- Select ẩn, chỉ hiện khi edit -->
-                <select id="role" name="role" style="display:none;" required>
-                    <option value>-- Chọn vai trò --</option>
-                    <!-- <option value="admin">Admin</option> -->
-                    <option value="manager">manager</option>
-                    <option value="view">view</option>
-                </select>
-            </div>
+      <div class="form-actions" style="display: none;">
+        <button type="submit" class="btn btn-primary">💾 Lưu thay
+          đổi</button>
+        <button type="button" class="btn btn-secondary"
+          id="cancelEditBtn">✖️ Hủy</button>
+      </div>
 
-            <div class="form-actions" style="display: none;">
-                <button type="submit" class="btn btn-primary">💾 Lưu thay
-                    đổi</button>
-                <button type="button" class="btn btn-secondary"
-                    id="cancelEditBtn">✖️ Hủy</button>
-            </div>
-
-            <div class="form-actions" style="display: none;">
-                <button type="submit" class="btn btn-primary">💾 Lưu thay
-                    đổi</button>
-                <button type="button" class="btn btn-secondary"
-                    id="cancelEditBtn">✖️ Hủy</button>
-            </div>
-        </div>
-    </form>
+      <div class="form-actions" style="display: none;">
+        <button type="submit" class="btn btn-primary">💾 Lưu thay
+          đổi</button>
+        <button type="button" class="btn btn-secondary"
+          id="cancelEditBtn">✖️ Hủy</button>
+      </div>
+    </div>
+  </form>
 </div>
 
 <script>
