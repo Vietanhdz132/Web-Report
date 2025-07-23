@@ -287,7 +287,7 @@
   transition: border-color 0.3s ease;
   resize: vertical;
   font-family: inherit;
-  box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.05);
+
 }
 
 /* Textarea ban đầu cao hơn */
@@ -297,12 +297,16 @@
 }
 
 /* Input/textarea khi focus */
-.report-pvt-create__group input:focus,
-.report-pvt-create__group textarea:focus {
+.report-pvt-create__group input:focus {
   outline: none;
   border-color: #007acc;
   box-shadow: 0 0 6px #007acc66;
   background-color: #fff;
+}
+
+.report-pvt-create__group textarea:focus {
+  outline: none;
+  
 }
 
 /* Các section con (mục con, bảng) */
@@ -413,6 +417,7 @@
 }
 
 .editable-table td {
+  vertical-align: top;
   border: 1px solid #ccc;
   padding: 2px;
   background-color: #fff;
@@ -420,25 +425,10 @@
 
 /* Textarea trong bảng */
 .editable-table textarea {
-  width: 100%;
-  box-sizing: border-box;
-  border: 1px solid #007acc;
-  border-radius: 4px;
-  padding: 6px 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  resize: vertical;
-  min-height: 36px;
-  color: #222;
-  background-color: #f9fbff;
-  transition: border-color 0.3s ease;
+  
 }
 
-.editable-table textarea:focus {
-  outline: none;
-  border-color: #005f9e;
-  box-shadow: 0 0 6px #005f9eaa;
-}
+
 
 /* Các nút lưu, hủy dưới form */
 .report-pvt-create__actions {

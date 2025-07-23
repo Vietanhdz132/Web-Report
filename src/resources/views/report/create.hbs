@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-resizable-columns@0.2.3/resizable-columns.css" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-resizable-columns@0.2.3/jquery.resizableColumns.min.js"></script>
+
 <div class="report-pvt-create">
   <h1 class="report-pvt-create__title">Tạo Báo Cáo Tuần Mới - Phòng Vô
     Tuyến</h1>
@@ -280,7 +284,7 @@ function addChild(button, section, containerOverride) {
   titleTextarea.rows = 1;
   titleTextarea.style.width = '100%';
   titleTextarea.style.marginBottom = '6px';
-  titleTextarea.style.resize = 'vertical';
+  titleTextarea.style.resize = 'none';
   titleTextarea.style.fontWeight = '700';
   titleTextarea.addEventListener('input', () => autoResizeTextarea(titleTextarea));
   autoResizeTextarea(titleTextarea);
@@ -362,7 +366,7 @@ function addTable(button, section, containerOverride, level = 1) {
   title.placeholder = 'Tiêu đề bảng';
   title.rows = 1;
   title.style.width = '100%';
-  title.style.resize = 'vertical';
+  title.style.resize = 'none';
   title.style.marginBottom = '10px';
   title.style.fontWeight = '600';
   title.addEventListener('input', () => autoResizeTextarea(title));
@@ -471,6 +475,19 @@ function addTable(button, section, containerOverride, level = 1) {
       width: 'max-content'
     });
 
+  const addRowBtn = document.createElement('button');
+    addRowBtn.type = 'button';
+    addRowBtn.textContent = '➕ Thêm hàng';
+    Object.assign(addRowBtn.style, {
+      cursor: 'pointer',
+      border: 'none',
+      borderRadius: '5px',
+      backgroundColor: '#17a2b8',
+      color: 'white',
+      fontWeight: '600'
+    });
+  
+
   deleteTableBtn.onmouseenter = () => deleteTableBtn.style.background = '#c43c3c';
   deleteTableBtn.onmouseleave = () => deleteTableBtn.style.background = '#e94e4e';
 
@@ -491,11 +508,12 @@ function addTable(button, section, containerOverride, level = 1) {
   config.appendChild(selectBtn);
   config.appendChild(confirmMergeBtn);
   config.appendChild(cancelMergeBtn);
+  config.appendChild(addRowBtn);
   config.appendChild(deleteBtnContainer);
 
 
   const table = document.createElement('table');
-  table.className = 'editable-table';
+  table.className = 'editable-table resizable';
   Object.assign(table.style, {
     width: '100%',
     borderCollapse: 'collapse',
@@ -541,17 +559,15 @@ function addTable(button, section, containerOverride, level = 1) {
 
 
         const textarea = document.createElement('textarea');
-        textarea.rows = 1;
-        textarea.style.width = '100%';
-        textarea.style.boxSizing = 'border-box';
-        textarea.style.resize = 'vertical';
-        textarea.style.fontFamily = 'inherit';
+          textarea.rows = 1;
+          textarea.style.width = '100%';
+          textarea.style.resize = 'none';
+          textarea.style.fontFamily = 'inherit';
+          textarea.style.border = 'none';
+          textarea.style.backgroundColor = '#ffffff';
+          
 
-        if (r === 0) {
-          textarea.placeholder = `Tiêu đề cột ${c + 1}`;
-          textarea.style.fontWeight = 'bold';
-          textarea.style.backgroundColor = '#f0f0f0';
-        }
+        
 
         textarea.addEventListener('input', () => {
           autoResizeTextarea(textarea);
@@ -608,6 +624,54 @@ function addTable(button, section, containerOverride, level = 1) {
       cb.style.display = 'none';
     });
   };
+
+  addRowBtn.onclick = () => {
+    const cols = table.rows[0]?.cells.length || 1;
+    const tr = document.createElement('tr');
+
+    for (let c = 0; c < cols; c++) {
+      const td = document.createElement('td');
+      td.style.border = '1px solid #ccc';
+      td.style.padding = '4px';
+
+      const wrapperDiv = document.createElement('div');
+      wrapperDiv.className = 'table-cell-wrapper';
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'table-cell-checkbox';
+      checkbox.style.position = 'absolute';
+      checkbox.style.top = '0px';
+      checkbox.style.right = '0px';
+      checkbox.style.width = '30px';
+      checkbox.style.height = '14px';
+      checkbox.style.zIndex = '1';
+      checkbox.style.display = 'none';
+
+      const textarea = document.createElement('textarea');
+      textarea.rows = 1;
+      textarea.style.width = '100%';
+      textarea.style.resize = 'none';
+      textarea.style.fontFamily = 'inherit';
+      textarea.style.border ='none';
+      textarea.style.backgroundColor = '#ffffff';
+      textarea.addEventListener('input', () => {
+        autoResizeTextarea(textarea);
+        syncRowHeight(tr);
+      });
+
+      autoResizeTextarea(textarea);
+
+      wrapperDiv.appendChild(checkbox);
+      wrapperDiv.appendChild(textarea);
+      td.appendChild(wrapperDiv);
+      tr.appendChild(td);
+    }
+
+    table.appendChild(tr);
+    
+  };
+
 
   // Hàm tính vị trí cột "ảo" dựa trên colSpan của các ô trong 1 hàng
   function getCellsPositionsInRow(row) {
@@ -886,7 +950,7 @@ function addExtraContent(button, containerOverride, level = 1) {
   textarea.rows = 2;
   Object.assign(textarea.style, {
     width: '100%',
-    resize: 'vertical',
+    resize: 'none',
     border: '1px solid #ccc',
     borderRadius: '4px',
     padding: '4px 8px',
