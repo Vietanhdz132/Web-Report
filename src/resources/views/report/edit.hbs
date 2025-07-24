@@ -507,6 +507,7 @@ function addTable(button, section, containerOverride, level = 1) {
   table.className = 'editable-table resizable';
   Object.assign(table.style, {
     width: '100%',
+    tableLayout: 'auto',
     borderCollapse: 'collapse',
     marginTop: '10px'
   });
@@ -1318,9 +1319,9 @@ function renderSectionItems(container, items) {
     }
 
     else if (item.type === 'table') {
-      // Render bảng
       const wrapper = document.createElement('div');
       wrapper.className = 'report-subtable';
+      wrapper.style.overflowX = 'auto'; // ✅ tránh bảng bị tràn
 
       const title = document.createElement('textarea');
       title.rows = 1;
@@ -1343,25 +1344,34 @@ function renderSectionItems(container, items) {
       const table = document.createElement('table');
       table.className = 'editable-table resizable';
       Object.assign(table.style, {
-        width: '100%',
+        width: 'auto',
+        maxWidth: '100%',
+        tableLayout: 'auto',
         borderCollapse: 'collapse',
       });
+
 
       const cells = item.cells || [];
       for (let r = 0; r < cells.length; r++) {
         const row = document.createElement('tr');
         for (let c = 0; c < cells[r].length; c++) {
           const cellData = cells[r][c];
-
-          if (!cellData) continue; // ✅ Thêm dòng này
+          if (!cellData) continue;
 
           const td = document.createElement('td');
           td.rowSpan = cellData.rowSpan || 1;
           td.colSpan = cellData.colSpan || 1;
+          td.style.border = '1px solid #ccc';
+          td.style.padding = '4px';
 
           const wrapperDiv = document.createElement('div');
           wrapperDiv.className = 'table-cell-wrapper';
-          wrapperDiv.style.position = 'relative';
+          Object.assign(wrapperDiv.style, {
+            position: 'relative',
+            width: '100%',
+            height: '100%',
+            boxSizing: 'border-box'
+          });
 
           const checkbox = document.createElement('input');
           checkbox.type = 'checkbox';
@@ -1378,20 +1388,20 @@ function renderSectionItems(container, items) {
 
           const textarea = document.createElement('textarea');
           textarea.rows = 1;
-          textarea.value = cellData.text || ''; // giữ nguyên \n khi có
+          textarea.value = cellData.text || '';
           Object.assign(textarea.style, {
-            width: '100%',
-            height: '100%',
+            minHeight: '30px',
             border: 'none',
             resize: 'none',
-            padding: '6px',
+            padding: '4px 6px',
             fontFamily: 'inherit',
             backgroundColor: '#ffffff',
-            display:'flex' 
+            boxSizing: 'border-box',   // Giữ không bị tràn
+            overflow: 'hidden'         // Tránh thanh cuộn
           });
+
           textarea.addEventListener('input', () => autoResizeTextarea(textarea));
           requestAnimationFrame(() => autoResizeTextarea(textarea));
-
 
           wrapperDiv.appendChild(checkbox);
           wrapperDiv.appendChild(textarea);
@@ -1401,128 +1411,11 @@ function renderSectionItems(container, items) {
         table.appendChild(row);
       }
 
-
-      const deleteTableBtn = document.createElement('button');
-      deleteTableBtn.type = 'button';
-      deleteTableBtn.textContent = '❌ Xoá bảng';
-      Object.assign(deleteTableBtn.style, {
-        backgroundColor: '#e94e4e',
-        color: 'white',
-        border: 'none',
-        padding: '6px 12px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontWeight: '600',
-      });
-
-      deleteTableBtn.onclick = () => {
-        if (confirm('Bạn có chắc chắn muốn xoá bảng này không?')) {
-          wrapper.remove();
-        }
-      };
-
-      const addRowBtn = document.createElement('button');
-        addRowBtn.type = 'button';
-        addRowBtn.textContent = '➕ Thêm hàng';
-        Object.assign(addRowBtn.style, {
-          backgroundColor: '#17a2b8',
-          color: 'white',
-          border: 'none',
-          padding: '6px 12px',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          fontWeight: '600',
-        });
-        
-        addRowBtn.onclick = () => {
-          const newRow = document.createElement('tr');
-
-          // Nếu có dòng nào rồi thì tạo số cột bằng dòng đầu tiên
-          const numCols = table.rows[0]?.cells.length || 3; // mặc định 3 cột nếu chưa có dòng nào
-
-          for (let i = 0; i < numCols; i++) {
-            const td = document.createElement('td');
-
-            const wrapperDiv = document.createElement('div');
-            wrapperDiv.className = 'table-cell-wrapper';
-            wrapperDiv.style.position = 'relative';
-
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.className = 'table-cell-checkbox';
-            Object.assign(checkbox.style, {
-              position: 'absolute',
-              top: '0px',
-              right: '0px',
-              width: '30px',
-              height: '14px',
-              zIndex: '1',
-              display: 'none',
-            });
-
-            const textarea = document.createElement('textarea');
-            textarea.rows = 1;
-            textarea.value = '';
-            Object.assign(textarea.style, {
-              width: '100%',
-              height: '100%',
-              border: 'none', // ✨ bỏ viền
-              resize: 'none',
-              padding: '6px',
-              boxSizing: 'border-box',
-              fontFamily: 'inherit',
-              backgroundColor:'#ffffff',
-            });
-            textarea.addEventListener('input', () => autoResizeTextarea(textarea));
-            requestAnimationFrame(() => autoResizeTextarea(textarea));
-
-            wrapperDiv.appendChild(checkbox);
-            wrapperDiv.appendChild(textarea);
-            td.appendChild(wrapperDiv);
-            newRow.appendChild(td);
-          }
-
-          table.appendChild(newRow);
-        };
-
-        // Nút xoá hàng cuối
-      const deleteRowBtn = document.createElement('button');
-      deleteRowBtn.type = 'button';
-      deleteRowBtn.textContent = '➖ Xoá hàng cuối';
-      Object.assign(deleteRowBtn.style, {
-        backgroundColor: '#ff9800',
-        color: 'white',
-        border: 'none',
-        padding: '6px 12px',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        fontWeight: '600',
-      });
-      deleteRowBtn.onmouseenter = () => (deleteRowBtn.style.backgroundColor = '#e68a00');
-      deleteRowBtn.onmouseleave = () => (deleteRowBtn.style.backgroundColor = '#ff9800');
-      deleteRowBtn.onclick = () => {
-        if (table.rows.length > 0) {
-          table.deleteRow(table.rows.length - 1);
-        }
-      };
-
-
-      const tableFooter = document.createElement('div');
-      Object.assign(tableFooter.style, {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        marginTop: '10px',
-      });
-      tableFooter.appendChild(addRowBtn);
-      tableFooter.appendChild(deleteRowBtn);
-      tableFooter.appendChild(deleteTableBtn);
-
       wrapper.appendChild(title);
       wrapper.appendChild(table);
-      wrapper.appendChild(tableFooter);
       container.appendChild(wrapper);
-      
     }
+
   });
 }
 
