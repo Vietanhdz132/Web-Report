@@ -29,7 +29,7 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
     // Nội dung con: đoạn văn
     if (item.type === 'text') {
       out += `<div class="report-subitem-extra-view">`;
-      const lines = item.content.split('\n').map(line => `${line.trim()}`).join('<br>');
+      const lines = item.content.split('\n').map(line => `${line}`).join('<br>');
       out += `<p class="subitem-text">${lines}</p>`;
       out += `</div>`;
     }
@@ -91,7 +91,7 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
           const colspan = cell.colSpan > 1 ? ` colspan="${cell.colSpan}"` : '';
           const cellHtml = Handlebars.escapeExpression(cell.text).replace(/\n/g, '<br>');
 
-          out += `<td${rowspan}${colspan}>${cellHtml}</td>`;
+          out += `<td${rowspan}${colspan} style="white-space: pre-wrap;">${cellHtml}</td>`;
 
           // Ghi nhận rowSpan cho các hàng tiếp theo
           const spanCols = cell.colSpan || 1;
@@ -105,8 +105,6 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
 
         out += `</tr>`;
       }
-
-
 
       out += `</tbody></table></div>`;
     }

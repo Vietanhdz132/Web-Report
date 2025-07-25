@@ -324,12 +324,11 @@
   background: #e94e4e;
   border: none;
   color: white;
-  font-weight: 700;
-  padding: 8px 18px;
+  font-weight: 600;
+  padding: 5px 10px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 1rem;
-  box-shadow: 0 0 5px rgba(233, 78, 78, 0.6666666667);
   transition: background-color 0.3s ease;
   user-select: none;
   /* căn giữa nút */
