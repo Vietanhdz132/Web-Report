@@ -19,6 +19,7 @@ class PhongVTNController {
         recipient: body.recipient || '',
         number: body.number || '',
         createdAt: body.createdAt ? new Date(body.createdAt) : new Date(),
+        username: body.username||'Không xác định',
         department: 'Phòng Vô Tuyến',
         sections: body.sections || {}, // phần này bạn cần đảm bảo frontend gửi đúng
         receivers: body.receivers || '',
@@ -47,14 +48,18 @@ class PhongVTNController {
     try {
       const reports = await reportPVTN.getAllReports();
 
-      const processedReports = reports.map((r, i) => ({
-        _id: r._id,
-        number: r.number || '',
-        reportName: r.reportName || '',
-        date: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
-        department: r.department ,
-        stt: i + 1,
-      }));
+      const processedReports = reports
+        .filter(r => String(r._id) !== "6875bbc36fdf72698308d501") // ép về string
+        .map((r, i) => ({
+          _id: r._id,
+          number: r.number || '',
+          reportName: r.reportName || '',
+          date: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
+          username: r.username,
+          department: r.department,
+          stt: i + 1,
+        }));
+
 
       res.json({ success: true, reports: processedReports });
     } catch (err) {
@@ -213,6 +218,7 @@ class PhongVTNController {
       res.render('report/viewreport', {
         layout: 'reportLayout',
         report,
+        nextWeek: report.number ? parseInt(report.number) + 1 : 'TỚI',
       
       });
     } catch (err) {
@@ -290,6 +296,18 @@ class PhongVTNController {
             .button-container {
               display: none !important;
             }
+            
+            .subitem-text a {
+              font-family: 'Times New Roman', serif;
+              color: #007bff;
+              text-decoration: underline;
+              word-break: break-all;
+            }
+
+            .subitem-text a:hover {
+              color: #0056b3;
+              text-decoration: none;
+            }
           </style>
         `;
 
@@ -351,6 +369,19 @@ class PhongVTNController {
     }
   }
 
+  async showCreateFormEx(req, res) {
+    try {
+      res.render('report/createEx', {
+        layout: 'reportLayout',
+        title: 'Tạo Báo Cáo Tuần - Phòng Vô Tuyến'
+      });
+    } catch (err) {
+      console.error('Render error:', err);
+      res.status(500).render('404', { layout: 'reportLayout' });
+    }
+  }
+
+
   async showEditForm(req, res) {
     try {
       res.render('report/edit', {
@@ -385,6 +416,7 @@ class PhongVTNController {
       // Ghi chú là bản sao
       originalReport.reportName = `[Bản sao] ${originalReport.reportName}`;
       originalReport.createdAt = new Date();
+      originalReport.username = req.user?.name || '';
 
       const newId = await reportPVTN.insertReport(originalReport);
       res.json({ success: true, newReportId: newId });

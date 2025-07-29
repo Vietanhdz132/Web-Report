@@ -7,6 +7,7 @@ const authMiddleWare = require('../../middleware/AuthMiddleware');
 // HTML view routes
 router.get('/pvt/view', authMiddleWare.verifyToken, authMiddleWare.requirePermission('canViewReports'), phongVTNController.viewAll);
 router.get('/pvt/create',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'), phongVTNController.showCreateForm);
+router.get('/pvt/createEx',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'), phongVTNController.showCreateFormEx);
 router.get('/pvt/edit/:id',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canCreateReports'), phongVTNController.showEditForm);
 router.get('/pvt/detail/:id',(req, res, next) => {
     if (req.headers['x-export-token']) 

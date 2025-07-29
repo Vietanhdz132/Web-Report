@@ -29,10 +29,19 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
     // Nội dung con: đoạn văn
     if (item.type === 'text') {
       out += `<div class="report-subitem-extra-view">`;
-      const lines = item.content.split('\n').map(line => `${line}`).join('<br>');
+
+      const lines = item.content.split('\n').map(line => {
+        const linkified = line.replace(
+          /(https?:\/\/[^\s]+)/g,
+          url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
+        );
+        return linkified;
+      }).join('<br>');
+
       out += `<p class="subitem-text">${lines}</p>`;
       out += `</div>`;
     }
+
 
     // Nội dung con: bảng
     if (item.type === 'table') {

@@ -80,7 +80,7 @@
 
     </div>
 
-    <h2>IV. KẾ HOẠCH TUẦN TỚI</h2>
+    <h2>IV. KẾ HOẠCH TUẦN {{nextWeek}}</h2>
 
     {{!-- Kế hoạch TUH --}}
     <div class="report-pvt-view__section">
@@ -160,3 +160,16 @@
   // Hiển thị lên HTML
   document.getElementById('vietnamDate').textContent = formatVietnamDate(createdAt);
 </script>
+
+<style>
+  .subitem-text a {
+    color: #007bff;
+    text-decoration: underline;
+    word-break: break-all;
+  }
+
+  .subitem-text a:hover {
+    color: #0056b3;
+    text-decoration: none;
+  }
+</style>

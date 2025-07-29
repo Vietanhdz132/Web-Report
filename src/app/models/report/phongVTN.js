@@ -13,6 +13,7 @@ async function insertReport(reportData) {
     reportName: reportData.reportName || 'Chưa đặt tên',
     recipient: reportData.recipient|| 'Chưa có',
     number: reportData.number || '',
+    username: reportData.username||'Không xác định',
     createdAt: reportData.createdAt ? new Date(reportData.createdAt) : new Date(),
     department: reportData.department ,
     sections: reportData.sections || {},

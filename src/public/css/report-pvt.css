@@ -17,7 +17,9 @@
 
 /* ==== Nút tạo mới ==== */
 .report-pvt__create-wrapper {
-  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .report-pvt__button-create {
@@ -30,7 +32,9 @@
   font-size: 0.95rem;
   text-decoration: none;
   box-shadow: 0 4px 8px rgba(0, 188, 212, 0.25);
-  transition: all 0.3s ease;
+  transition: background 0.1s ease, box-shadow 0.1s ease, transform 0.1s ease;
+  margin-bottom: 1rem;
+  cursor: pointer;
 }
 
 .report-pvt__button-create:hover {
@@ -225,6 +229,18 @@
   max-width: 20%;
 }
 
+.report-pvt__table th:nth-child(5),
+.report-pvt__table td:nth-child(5) {
+  width: 20%;
+  max-width: 20%;
+}
+
+.report-pvt__table th:nth-child(6),
+.report-pvt__table td:nth-child(6) {
+  width: 20%;
+  max-width: 20%;
+}
+
 /* Container chính */
 .report-pvt-create {
   max-width: 80vw;
@@ -256,8 +272,8 @@
 /* Label */
 .report-pvt-create__group label {
   font-weight: 600;
-  color: #555;
-  font-size: 1rem;
+  color: inherit;
+  font-size: 1.5rem;
 }
 
 /* Input & textarea chung */

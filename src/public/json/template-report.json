@@ -1,0 +1,2693 @@
+{
+  "reportName": "",
+  "recipient": "Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc",
+  "number": "",
+  "department": "Phòng Vô Tuyến",
+  "sections": {
+    "bscKpi": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "STT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tên chỉ tiêu",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Định nghĩa",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đơn vị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tỷ lệ",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KH năm 2025",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KQ tháng 6",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chi phí trực tiếp",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tỷ lệ hoàn thành = Sum (Trọng số CPBĐ bước i * (Tỷ lệ hoàn thành CPBĐ bước i//Kế hoạch CPBĐ 2025)+20% (Số tiền thanh toán CPCĐ lũy kế/Kế hoạch CPCĐ 2025)\n      Trọng số CPBĐ quy định như sau: \n      - Trong 6 tháng đầu năm 2025: Phê duyệt (40%), hợp đồng (20%), nghiệm thu (10%), thanh toán (10%)\n      - Các tháng còn lại: Phê duyệt (10%), hợp đồng (10%), nghiệm thu (20%), thanh toán (40%)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "15.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "2",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Thực hiện các dự án KHĐT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành các bước phê duyệt, hợp đồng, nghiệm thu, thanh toán theo kế hoạch Trung tâm giao\nTỷ lệ hoàn thành = Sum (Trọng số bước i * (Tỷ lệ hoàn thành bước i/ Kế hoạch Trung tâm giao))\nTrọng số quy định như sau: Phê duyệt (20%), hợp đồng (20%), nghiệm thu (20%), thanh toán (40%)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "90",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "3",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "An toàn mạng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu An toàn mạng = 100% - Sum(ĐTSC(%)), trong đó ĐTSC(%) là điểm trừ khi để xảy ra sự cố và được quy định như sau:\n- Sự cố Rất nghiêm trọng: ĐTSC(%) = 100%\n- Sự cố Nghiêm trọng: ĐTSC(%) = 50%\n- Sự cố Lớn: ĐTSC(%) = 20%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "4",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Phát triển mạng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Số trạm (điểm/khu/tòa…) hoàn thành/ Kế hoạch giao tại các CTHĐ, văn bản giao nhiệm vụ,…\n+ Số điểm PS\n+ 5G\n+ 4G\n+ Khác (IBC, PSĐT, Moran xử lý điểm đen, di chuyển trạm…)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "15.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "5",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chất lượng mạng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành các chỉ tiêu đảm bảo chất lượng mạng do TCT, TT giao\nTỷ lệ hoàn thành = SUM(Trọng số chỉ tiêu i* Tỷ lệ hoàn thành chỉ tiêu i /Kế hoạch giao chỉ tiêu i) \nTrọng số các chỉ tiêu quy định như sau:\nTỷ lệ cell có ngưỡng tải PRB80 đảm bảo chất lượng dịch vụ data (40%)\nTỷ lệ cell có tốc độ truy cập giờ cao điểm từ 10Mbps trở lên (40%)\nKhác (MTCL, PAKH…): 20%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "15.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "6",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tỷ lệ trạm chỉ còn 1 lớp mạng CS cho thoại (tắt 2G hoặc 3G)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Số trạm  có tối đa 1 lớp mạng 2G hay 3G trên tổng số trạm (macro, RRU, IBC)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "7",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Thực hiện chuyển đổi số tại đơn vị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành các nhiệm vụ CĐS theo kế hoạch của TCT, Trung tâm giao\nTỷ lệ hoàn thành =50%*%HDDT +(50% - 5%* số nhiệm vụ không hoàn thành+ 5% số nhiệm vụ hoàn thành vượt tiến độ)\nTrong đó: \n+ %HDDT=(Số hợp đồng điện tử được tính trên hệ thống eContract/Tổng số hợp đồng của đơn vị được tính trên hệ thống ERP)/KH giao của Trung tâm\n+ Chỉ cộng vượt tiến độ khi 100% các nhiệm vụ hoàn thành",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "8",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Học tập và đào tạo của đơn vị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành các khóa học (online, offline)  TCT, Trung tâm tổ chức, giao theo quý\nTỷ lệ hoàn thành = Tổng số lần cá nhân trong đơn vị hoàn thành/tổng số lần cá nhân trong đơn vị được triệu tập tham dự",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "9",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đánh giá BSC-KPI cá nhân định kỳ",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành đánh giá BSC-KPI của các cá nhân trong đơn vị chậm nhất ngày mùng 7 hàng tháng\nTỷ lệ hoàn thành =100% - 10%* số ngày chậm kế hoạch tháng (n-1)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "5.0",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "100",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "tuh": [
+      {
+        "type": "subitem",
+        "title": "Chương trình phát sóng F2:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc cho các Đài VT triển khai điều chuyển thiết bị phần cứng, thiết kế CDD, CR phát sóng tần số F2 1800 (tần số GTEL) để xử lý các cell có tải PRB >80%. Số cell F2 đang phát sóng lũy kế: 1190 cell.\n- Số cell rút RRU theo kế hoạch/Số cell DVT rà soát có thể rút RRU/Số RRU đã rút: 304/145/112.\n- Rà soát lệch tải và CR tham số tối ưu cân bằng tải các cell F2-F1 cho vendor Huawei, NSN. Tỷ lệ cân bằng tại hiện tại đạt 18%."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình đảm bảo chất lượng Trụ sở Công An:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc các Đài VT thực hiện các giải pháp đảm bảo chất lượng trụ sở CA tại địa bàn:"
+          },
+          {
+            "type": "table",
+            "title": "",
+            "cells": [
+              [
+                {
+                  "text": "Abcd",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Ưu tiên 1",
+                  "rowSpan": 1,
+                  "colSpan": 6
+                },
+                null,
+                null,
+                null,
+                null,
+                null,
+                {
+                  "text": "Ưu tiên 2",
+                  "rowSpan": 1,
+                  "colSpan": 2
+                }
+              ],
+              [
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Khối lượng",
+                  "rowSpan": 1,
+                  "colSpan": 3
+                },
+                null,
+                null,
+                {
+                  "text": "Tiến độ phát song",
+                  "rowSpan": 1,
+                  "colSpan": 3
+                },
+                null,
+                null,
+                {
+                  "text": "Khối lượng",
+                  "rowSpan": 1,
+                  "colSpan": 2
+                }
+              ],
+              [
+                {
+                  "text": "STT",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "ĐVT",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CA cấp Bộ",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Công an Tỉnh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Trại giam",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CA cấp Bộ",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Công an Tỉnh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Trại giam",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CA cấp Bộ",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Công an Tỉnh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Ha Noi 1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "2",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Ha Noi 2",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "3",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Thai Nguyen",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "4",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Vinh Phuc",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "5",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Nam Dinh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "6",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Nghe An",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "7",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Hai Phong",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "8",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "MLMB",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "content": "-Lũy kế bổ sung, thay thế anten tại 47 Phạm Văn Đồng: Bổ sung 68 anten IBC tại 47 PVĐ."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình tối ưu Volte:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Hiện đang chờ TCT fix lỗi Multisim để tiếp tục đấu nối mở rộng thuê bao Volte.\n- Trình phương án đo kiểm Volte 8 tỉnh (Hải Dương, Nam Định, Thanh Hóa, Nghệ An, Ha Tinh, Thai Binh, Quang Binh, Hung Yen).\n- Kết quả:"
+          },
+          {
+            "type": "table",
+            "title": "",
+            "cells": [
+              [
+                {
+                  "text": "TTML",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "VoLTE Traffic (Erl)",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Vlr VOLTE",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "Mien Bac",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình đẩy thuê bao lên 4G",
+        "children": [
+          {
+            "type": "table",
+            "title": "",
+            "cells": [
+              [
+                {
+                  "text": "STT",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "Mục tiêu: 30/6/2025\n- VLR4G tăng 550K\n- %VLR4G đạt 86%",
+                  "rowSpan": 2,
+                  "colSpan": 1
+                },
+                {
+                  "text": "VLR (Hiện tại)",
+                  "rowSpan": 1,
+                  "colSpan": 5
+                },
+                null,
+                null,
+                null,
+                null,
+                {
+                  "text": "So sánh với tuần 10",
+                  "rowSpan": 1,
+                  "colSpan": 3
+                }
+              ],
+              [
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                null,
+                {
+                  "text": "Total VLR",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "VLR 4G+5G",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "VLR VoLTE",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "%VLR 4G+5G",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "%VoLR VLTE",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "+/-%VLR 4G+5G",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "+/- VLR4G+5G",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "So sánh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "TT.MLMB",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CTY1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "2",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CTY4",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "3",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CTY5",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "4",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "CTY6",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Ha Noi 1",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "2",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Ha Noi 2",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "3",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Hai Phong",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "4",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Nam Dinh",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "5",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Nghe An",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "6",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Thai Nguyen",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ],
+              [
+                {
+                  "text": "7",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "DVT Vinh Phuc",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                },
+                {
+                  "text": "",
+                  "rowSpan": 1,
+                  "colSpan": 1
+                }
+              ]
+            ]
+          },
+          {
+            "type": "text",
+            "content": "- Phát sóng 4G vào 3G only: còn lại 72 trạm 3G only"
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình hành động 2025:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc các Đài VT thực hiện các giải pháp xử lý điểm đen VIP.\n- Đài HN1 phát sóng 12 site, HN2 phát sóng 7 site, Đài HPG phát sóng được 10 site xử lý điểm đen VIP"
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Kế hoạch phát sóng 4G-5G:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc đối tác HTE, NSN, HW xử lý các cell 5G KPI kém sau phát sóng không đảm bảo chất lượng.\n- Phối hợp với NSN, HW thử nghiệm và apply các tính năng cải thiện chất lượng mạng 5G (tuning UL Closedloop Power Control Nokia, bật tính năng tiết kiệm điện RF Module Deep Dormancy Huawei)."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Kế hoạch tối ưu MCA:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc các Đài VT xử lý các cell có MCA cao. Hiện MCA đạt 0.44.\n- Đôn đốc các Đài VT triển khai phát sóng GL1800 và 3G 1T1R vào các trạm 4G only có MCA cao.\n- Đánh giá và đưa danh sách badcell MCA cho các Đài xử lý."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình Chuyển đổi số:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Phối hợp với tổ CNTT, đối tác triển khai số hóa quy trình nghiệm thu IBC (đanh test phần mềm).\n- Phối hợp với tổ CNTT xây dựng phần mềm quản lý tham số, tài nguyên vô tuyến (đang triển khai)."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Các nội dung khác:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc Đài HN1 triển khai giải pháp xử lý khu vực sóng kém 6 quận Trung tâm. Đã hoàn thành phát sóng 1 trạm outdoor 3G/4G/5G, 1 block 3G/4G/5G vào DAS của Viettel. Hiện tại Viettel đã swap tủ nguồn ngày 25/6/2025 (chờ đấu nối và phát sóng vào cuối tuần này).\n- Phân tích, tối ưu, CR cải thiện KPI quận/huyện suy giảm HTMT KPI. Hiện đạt 90.49.\n- Phối hợp với Đài HN1 chuẩn bị tài nguyên và giám sát sự kiện ca nhạc G-Dragon tại Sân VĐ Mỹ Đình.\n- Đôn đốc các Đài tắt 2G900 đảm bảo tỷ lệ 1 lớp trạm CS: Đạt 96.\n- Đo kiểm xử lý PA KH VIP tại 30 Trần Bình Trọng và VP TW Đảng."
+          }
+        ]
+      }
+    ],
+    "ptm": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "TT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Các chương trình",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "PM MOM",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Khối lượng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đơn vị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tiến độ hiện tại",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "311 Reuse 4G",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "DungDV",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "311",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tổng/ lắp đặt/ phát sóng = 311/245/128 (trạm)",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "2",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "IBC new 2025",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "DungDV",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "33",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tổng/ lắp đặt/ phát sóng = 33/3/3 (trạm)",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "3",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Moran",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "SonVT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "MBF host = 199/ 354\nVNPT host = 374/ 632",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "MBF host = 199/ 354\nVNPT host = 374/ 632",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "cntt": [
+      {
+        "type": "subitem",
+        "title": "Công việc hàng ngày",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Thực hiện rà soát đảm bảo hệ thống ATTT theo quy định của TCTY, Thực hiện xử lý mã độc các máy trạm tại Trung tâm và các đài viễn thông, Hỗ trợ người dùng xử lý các vấn đề CNTT trong trung tâm và các ĐVT\n- Thực hiện Rà soát, báo cáo BU ANM (đang rà soát định kỳ tháng 6), đề xuất BU-ANM hỗ trợ đảm bảo an toàn an ninh mạng dịp lễ lớn 2.9\n- Hoàn thiện phương án đảm bảo an toàn, an ninh mạng trong dịp lễ Quốc khánh 2/9 (theo kết luận họp quản trị của Trung tâm)\n- Rà soát cập nhật bản vá lỗ hổng bảo mật tháng 6/2025 theo văn bản chỉ đạo số 2688/MOBIFONE-BUANM ngày 27/5/2025 (Hoàn thành) \n- Khảo sát trang bị hệ thống Wificontroller và thay thế các Access Poin cho tòa nhà VPTT\n- Phối hợp với BU ANM triển khai phương án đảm bảo an ninh, an toàn mạng theo tờ trình 361/TTr-VTN ngày 16/4/2025 (hoàn thành phương NAC, rà soát client chưa cài đặt phần mềm AV, backup dữ liệu định kỳ, đẩy log hệ thống sang SIEM ) \n- Triển khai chương trình tối ưu quy hoạch Mobifone-Net (văn bản 11278/MOBIFONE-CN): https://mobifone888-my.sharepoint.com/:x:/g/personal/phuong_tien_mobifone_vn/EduI2WqtR5ZEj2OO48aVt8IBRJIQq3xfX6y3C4Bq0Vn-Lg?rtime=FTbsr1593U"
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình chuyển đổi số:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Văn bản nhắc nhở các đơn vị chưa hoàn thành chỉ tiêu Chuyển đổi số tháng (289/TT.MLMB-VTN ngày 23/6/2025)\n- Ban hành ứng dụng Mobile App và báo cáo tự động chất lượng mạng các lễ hội sự kiện (1232/QĐ-TT.MLMB, 1230/QĐ-TT.MLMB ngày 25/6/2025)\n- Trao đổi với Ban CĐS và TT.CNTT về các tồn tại của công cụ Chatbot E-office (theo kết luận họp quản trị của Trung tâm)\n- Tạo FTP Server lấy dữ liệu Database SmartF/SmartW để cung cấp dữ liệu cho các Đài/Phòng cập nhật báo cáo Dashboard (Hoàn thành)\n- Nghiên cứu triển khai Web Report đưa lên báo cáo tự động các chỉ tiêu VHKT (hoàn thành V1), đưa báo cáo tuần của các đơn vị lên Web (hoàn thành báo cáo của Phòng VTN bản V1)\n- Số hóa quy trình: đã thực hiện số hóa được 8/10 QT và đang hoàn thiện 3 QT (P.KT:01, P.TCHC:02, P.VTN:02; P.TD:02, P.KHDT:1), đưa lên Workflow của SmartOffice 10 quy trình.\n- Phối hợp với đối tác triển khai đề án “Kiểm soát tham số tài nguyên vô tuyến”, hoàn thành chạy thử demo version 1, báo cáo tiến độ 2 đề án CĐS lên TCT \n- Các tồn tại về CĐS trong tháng 6/2025: một số quy trình số hóa còn chậm (IBC, PTM của P. VNT; QT kiểm Quản lý tài sản, Chấm điểm CSHT của P.HT, QT Số hóa Quy trình kiểm tra hóa đơn điện tử, kiểm tra MST doanh nghiệp của P.KT), dữ liệu các báo cáo Dashboard chưa thường xuyên cập nhật real-time, việc sử dụng tài khoản Power Bi được cấp còn hạn chế (18/20 tài khoản sử dụng, 2 tài khoản chưa sử dụng), kết quả truy cập ChatBot tháng 6 mới đạt 94%"
+          }
+        ]
+      }
+    ],
+    "vhm": [
+      {
+        "type": "subitem",
+        "title": "",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Onair 203 site MORAN 4G.\n- Phối hợp DA khai báo phát sóng GPS cho 4G anchor mở rộng VPS 5G: 3.\n- Phối hợp TT.NOC nâng cấp MME-A8YHA01N.\n- Khai báo phát sóng trụ sở BCA: lũy kế 34.\n- Khai báo lũy kế 1167 trạm L1800 F2.\n- Khai báo phát sóng lũy kế 837 site 4G (458 reuse).\n- Hoàn thành khai báo 73 CR TUH & PTM.\n- Rehome 2G Nghệ An về BSC QUANG_BINH_4.\n- Healthcheck 70 BSC/RNC đảm bảo an toàn mạng"
+          }
+        ]
+      }
+    ],
+    "khcp": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "TT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KHCP 2025 (giá trị HĐ)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu năm 2025",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KH giao tháng 6",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Thực hiện lũy kế",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tỷ lệ hoàn thành tháng 6",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tỷ lệ hoàn thành năm 2025",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "I",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu trình phương án",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "43.351",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "41.183",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "32.513",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "35.567",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "109%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "86%",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "II",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu phê duyệt",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "43.351",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "41.183",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "28.178",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "32.050",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "114%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "78%",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "III",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu ký hợp đồng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "43.351",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "41.183",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "19.725",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "20.165",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "102%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "49%",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "IV",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu nghiệm thu",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "43.351",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "41.183",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "15.780",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "15.897",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "101%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "39%",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "V",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Chỉ tiêu thanh toán",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "43.351",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "34.681",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "8.670",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "10.453",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "121%",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "30%",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "conclusion": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "STT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Nội dung",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Kết quả thực hiện",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đơn vị phụ trách",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Lãnh đạo chỉ đạo",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Căn cứ",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hạn hoàn thành",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thiện phương án đảm bảo an toàn, an ninh mạng và chất lượng mạng trong dịp lễ Quốc khánh 2/9.",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đang triển khai",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "P.VTN",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "GĐTT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KL họp quản trị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "3/7",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "2",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Phối hợp làm việc với Ban Chuyển đổi số và Trung tâm CNTT về việc chatbot Eoffice đang chưa đáp ứng tốt các câu hỏi từ cán bộ CBCNV.",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đang triển khai",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "P.VTN",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "GĐTT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "KL họp quản trị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "3/7",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "kientnghi_ldtt": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "STT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Nội dung tồn tại, kiến nghị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "LĐTT, hoặc Ban TCT được kiến nghị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Số văn bản đính kèm",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Không có",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "kientnghi_dvkhac": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "STT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Nội dung tồn tại, kiến nghị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đơn vị được kiến nghị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Nội dung vướng mắc trong công tác phối hợp",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Không có",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "kehoach_tuh": [
+      {
+        "type": "subitem",
+        "title": "Chương trình phát sóng F2:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc cho các Đài VT triển khai điều chuyển thiết bị phần cứng, thiết kế CDD, CR phát sóng tần số F2 1800 theo kế hoạch off sector 4 không hiệu quả.\n- Tối ưu cân bằng tải các cell F2-F1 bị lệnh tải.\n- PVT rà soát các đề xuất phát sóng F2 của Đài theo tiêu chí ban hành của TCT và triển khai phát sóng."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình đảm bảo chất lượng Trụ sở Công An: Tiếp tục triển khai theo kế hoạch",
+        "children": []
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình tối ưu Volte: Tiếp tục triển khai theo kế hoạch",
+        "children": []
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình đẩy thuê bao lên 4G:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Thiết kế CDD các trạm 4G phát sóng vào 3G only để tăng cường VPS 4G."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình hành động 2025:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Đôn đốc các Đài VT thực hiện các giải pháp xử lý điểm đen VIP\n- Đôn đốc các Đài VT xử lý các quận/huyện chưa đạt KPI. Xử lý suy giảm các KPI ảnh hưởng điểm HTMT KPI, xử lý badcell."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Kế hoạch TUH 4G-5G:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Báo cáo đánh giá chất lượng mạng 5G sau phát sóng, \n- Đôn đốc đối tác HTE, NSN tối ưu các cell 5G chưa đảm bảo chất lượng sau phát sóng.\n- Phối hợp với NSN, HW thử nghiệm và apply các tính năng cải thiện chất lượng mạng 5G.\n- Đôn đốc đối tác tập trung xử lý cảnh báo liên quan đến X2."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Kế hoạch tối ưu MCA: Tiếp tục triển khai theo kế hoạch",
+        "children": []
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình Chuyển đổi số:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Phối hợp với tổ CNTT, đối tác triển khai số hóa quy trình nghiệm thu IBC.\n- Phối hợp với tổ CNTT xây dựng phần mềm quản lý tham số, tài nguyên vô tuyến."
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Các nội dung khác:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Giao nhiệm vụ cho các Đài VT triển khai công tác bổ sung tài nguyên cho sự kiện Lễ kỷ niệm 19/8 và Quốc khánh 2/9.\n- Thiết kế CDD các trạm VNPT host.\n- Hoàn thành sửa đổi QT xử lý điểm đen VIP."
+          }
+        ]
+      }
+    ],
+    "kehoach_ptm": [
+      {
+        "type": "table",
+        "title": "",
+        "cells": [
+          [
+            {
+              "text": "TT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Các chương trình",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "PM MOM",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Khối lượng",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Đơn vị",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tiến độ hiện tại",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Kế hoạch tuần tiếp theo",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "1",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "311 Reuse 4G",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "DungDV",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "311",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tổng/ lắp đặt/ phát sóng = 311/245/128 (trạm)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Hoàn thành lắp đặt",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "2",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "IBC new 2025",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "DungDV",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "33",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tổng/ lắp đặt/ phát sóng = 33/3/3 (trạm)",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Triển khai lắp đặt trạm trung tâm triển lãm Cổ Loa",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ],
+          [
+            {
+              "text": "3",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Moran",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "SonVT",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "MBF: 354\nVNPT: 632",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "trạm",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "MBF host = 199/ 354\nVNPT host = 374/ 632",
+              "rowSpan": 1,
+              "colSpan": 1
+            },
+            {
+              "text": "Tiếp tục triển khai theo danh sách đã bổ sung",
+              "rowSpan": 1,
+              "colSpan": 1
+            }
+          ]
+        ]
+      }
+    ],
+    "kehoach_cntt": [
+      {
+        "type": "subitem",
+        "title": "Công việc hàng ngày:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Thực hiện rà soát đảm bảo hệ thống ATTT, Thực hiện xử lý mã độc các máy trạm tại Trung tâm và các đài viễn thông, Hỗ  trợ người dùng xử lý các vấn đề CNTT trong trung tâm và các DVT, Thực hiện Rà soát, báo cáo BU ANM (tháng 7)\n- Phối hợp với BU ANM triển khai kế hoạch PA đảm bảo an ninh, an toàn mạng theo tờ trình số 361/TTr-VTN ngày 16/4/2025, Hoàn thiện phương án đảm bảo an toàn, an ninh mạng trong dịp lễ Quốc khánh 2/9\n- Triển khai chương trình tối ưu quy hoạch Mobifone-Net (văn bản 11278/MOBIFONE-CN)\n- Hoàn thiện Web report VHKT, Báo cáo Tuần và FTP serer chia sẻ dữ liệu SmartF/SmarfW\n- Hoàn thiện thủ tục triển khai các dự án nâng cấp máy tính/Wifi/Wifi controller"
+          }
+        ]
+      },
+      {
+        "type": "subitem",
+        "title": "Chương trình chuyển đổi số:",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Họp công tác CĐS tháng 6 \n- Tiếp tục triển khai hoàn thiện 2 Quy trình số hóa, 2 đề án CĐS và các công việc trong CTHĐ CĐS 2025, công tác số hóa hồ sơ, hợp đồng điện tử, chữ ký điện tử, thử nghiệm số hóa quy trình thanh toán CP, CTP"
+          }
+        ]
+      }
+    ],
+    "kehoach_vhm": [
+      {
+        "type": "subitem",
+        "title": "",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Khai báo L1800 F2\n- Khai báo MORAN\n- Xử lý lỗi sau phát sóng 5G HW & NSN\n- Khai báo phát sóng 4G reuse\n- Khai báo các CR TUH & PTM\n- Healthcheck 70 BSC/RNC đảm bảo an toàn mạng"
+          }
+        ]
+      }
+    ],
+    "kehoach_khcp": [
+      {
+        "type": "subitem",
+        "title": "",
+        "children": [
+          {
+            "type": "text",
+            "content": "- Phối hợp Phòng KHĐT, TGVĐT triển khai PD KQ LCNCC các HSCG gói reuse."
+          }
+        ]
+      }
+    ]
+  },
+  "receivers": "        - Như trên;\n        - Ban GĐTT;\n        - Tổng hợp, TCHC;\n        - Lưu VTN.\n      ",
+  "signer": "Đỗ Duy Bình",
+  "position": "TRƯỞNG PHÒNG"
+}

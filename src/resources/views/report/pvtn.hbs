@@ -5,6 +5,8 @@
   <div class="report-pvt__create-wrapper">
  
   <a href ="#" id="createReportBtn" class="report-pvt__button-create">➕ Tạo báo cáo mới</a>
+  <a href ="#" id="createReportBtnEx" class="report-pvt__button-create">➕ Tạo báo cáo mới từ báo cáo mẫu</a>
+
 
   
   </div>
@@ -20,6 +22,7 @@
             <th>Số hiệu</th>
             <th>Ngày tạo</th>
             <th>Phòng</th>
+            <th>Người tạo</th>
             <th></th>
           </tr>
         </thead>
@@ -47,6 +50,20 @@
 
       if (hasPermission) {
         window.location.href = '/report/pvt/create';
+      } else {
+        showAlert('Bạn không có quyền tạo báo cáo !!!', 'warning');
+      }
+    });
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    loadReports();
+
+    document.getElementById('createReportBtnEx').addEventListener('click', function () {
+      const hasPermission = window.user?.permissions?.canCreateReports;
+
+      if (hasPermission) {
+        window.location.href = '/report/pvt/createEx';
       } else {
         showAlert('Bạn không có quyền tạo báo cáo !!!', 'warning');
       }
@@ -87,6 +104,7 @@
           <td>${report.number} /BC-VTN</td>
           <td>${report.date}</td>
           <td>${report.department || 'Phòng Vô Tuyến'}</td>
+          <td>${report.username || 'Không xác định'}</td>
           <td>
             <div class="report-pvt__actions">
               <a href="#" class="report-pvt__action-link" onclick="copyReport('${report._id}')">📋 Sao chép</a>
@@ -180,6 +198,37 @@
     }
   }
 
+
+  async function creatReportEx() {
+    const hasPermission = window.user?.permissions?.canCreateReports;
+
+    if (!hasPermission) {
+      showAlert('Bạn không có tạo báo cáo !!!', 'warning');
+      return;
+    }
+
+    try {
+      const res = await fetch(`/report/pvt/copy/6875bbc36fdf72698308d501`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        showAlert('Đã tạo báo cáo, chuyển đến trang chỉnh sửa...', 'success');
+        // ✅ Chuyển đến trang sửa báo cáo mới
+        window.location.href = `/report/pvt/edit/${result.newReportId}`;
+      } else {
+        showAlert('Tạo thất bại: ' + (result.message || 'Lỗi không xác định'), 'error');
+      }
+    } catch (err) {
+      console.error('❌ Lỗi khi tạo:', err);
+      showAlert('Lỗi khi tạo: ' + err.message, 'error');
+    }
+  }
 
 </script>
 

@@ -9,15 +9,23 @@
     <!-- Thông tin chung -->
     <div class="report-pvt-create__group">
       <label for="reportName">Tên báo cáo</label>
-      <input id="reportName" name="reportName" type="text"
-        placeholder="VD: BÁO CÁO TUẦN 1" required />
+      <select id="reportName" name="reportName" required>
+        <option value="">-- Chọn tuần --</option>
+        <!-- Tạo tuần từ 1 đến 54 -->
+        <!-- Có thể tạo tự động bằng JavaScript (xem dưới) -->
+      </select>
     </div>
 
     <div class="report-pvt-create__group">
       <label for="recipient">Kính gửi</label>
-      <input id="recipient" name="recipient" type="text"
-        placeholder="VD: Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc "
-        required />
+      <input
+        id="recipient"
+        name="recipient"
+        type="text"
+        value="Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc"
+        placeholder="VD: Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc"
+        required
+      />
     </div>
 
     <div class="report-pvt-create__group">
@@ -149,7 +157,7 @@
 
     <!-- IV. Kế hoạch tuần tới -->
     <hr />
-    <h2>IV. KẾ HOẠCH TUẦN TỚI</h2>
+    <h2 id="nextWeekHeading">IV. KẾ HOẠCH TUẦN TỚI</h2>
 
     <div class="report-pvt-create__group" data-section="kehoach_tuh">
       <label>Công tác TUH</label>
@@ -233,6 +241,81 @@
     </div>
   </form>
 </div>
+
+<style>
+  /* Style cho select */
+  #reportName {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #333;
+  }
+
+  /* Style cho option – bị giới hạn ở nhiều trình duyệt */
+  #reportName option {
+    padding: 10px;
+    font-size: 15px;
+    color: #012d5a;
+    background-color: #fff;
+  }
+
+  /* Tuỳ chọn: Style khi focus */
+  #reportName:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+</style>
+
+<script>
+  const select = document.getElementById('reportName');
+  const numberInput = document.getElementById('number');
+
+  // Tạo option từ tuần 1 đến 54
+  for (let i = 1; i <= 54; i++) {
+    const option = document.createElement('option');
+    option.value = `BÁO CÁO TUẦN ${i}`;        // Đây là tên báo cáo
+    option.dataset.week = i;                   // Đây là số tuần (dùng cho số hiệu)
+    option.textContent = `BÁO CÁO TUẦN ${i}`;
+    select.appendChild(option);
+  }
+
+  // Khi chọn tuần, cập nhật số hiệu
+  select.addEventListener('change', function () {
+    const selectedOption = this.options[this.selectedIndex];
+    const weekNumber = selectedOption.dataset.week;
+    numberInput.value = weekNumber || '';
+  });
+</script>
+
+
+<script>
+  const reportName = document.getElementById('reportName');
+const heading = document.getElementById('nextWeekHeading');
+
+function updateNextWeekHeading() {
+  const selectedOption = reportName.options[reportName.selectedIndex];
+  const match = selectedOption?.value?.match(/TUẦN\s+(\d+)/i);
+
+  if (match) {
+    const week = parseInt(match[1], 10);
+    const nextWeek = week + 1;
+    heading.textContent = `IV. KẾ HOẠCH TUẦN ${nextWeek}`;
+  } else {
+    heading.textContent = `IV. KẾ HOẠCH TUẦN TỚI`;
+  }
+}
+
+// Gọi lần đầu (khi có sẵn reportName từ DB)
+updateNextWeekHeading();
+
+// Cập nhật khi người dùng thay đổi chọn
+reportName.addEventListener('change', updateNextWeekHeading);
+
+</script>
 
 <script>
   document.querySelector('.btn-cancel').addEventListener('click', function (e) {
@@ -480,7 +563,14 @@ function addTable(button, section, containerOverride, level = 1) {
           const newRow = document.createElement('tr');
 
           // Nếu có dòng nào rồi thì tạo số cột bằng dòng đầu tiên
-          const numCols = table.rows[0]?.cells.length || 3; // mặc định 3 cột nếu chưa có dòng nào
+          // Lấy hàng cuối cùng của bảng
+    const lastRow = table.rows[table.rows.length - 1];
+
+    // Nếu có hàng cuối, tính tổng colSpan của các ô trong hàng đó
+    // Nếu chưa có hàng nào thì mặc định 3 cột
+    const numCols = lastRow
+      ? Array.from(lastRow.cells).reduce((sum, cell) => sum + (cell.colSpan || 1), 0)
+      : 3;
 
           for (let i = 0; i < numCols; i++) {
             const td = document.createElement('td');
@@ -1601,7 +1691,11 @@ function renderSectionItems(container, items) {
           const newRow = document.createElement('tr');
 
           // Nếu có dòng nào rồi thì tạo số cột bằng dòng đầu tiên
-          const numCols = table.rows[0]?.cells.length || 3; // mặc định 3 cột nếu chưa có dòng nào
+          const lastRow = table.rows[table.rows.length - 1];
+          const numCols = Array.from(lastRow?.cells || []).reduce((sum, cell) => {
+            return sum + (parseInt(cell.colSpan) || 1);
+          }, 0) || 3;
+
 
           for (let i = 0; i < numCols; i++) {
             const td = document.createElement('td');
@@ -1683,6 +1777,8 @@ function renderSectionItems(container, items) {
       wrapper.appendChild(title);
       wrapper.appendChild(table);
       wrapper.appendChild(tableFooter);
+      makeColumnsResizable(table);
+
       container.appendChild(wrapper);
     }
   });
