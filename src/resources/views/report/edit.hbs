@@ -23,14 +23,13 @@
         name="recipient"
         type="text"
         value="Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc"
-        placeholder="VD: Giám đốc Trung tâm Mạng lưới MobiFone miền Bắc"
         required
       />
     </div>
 
     <div class="report-pvt-create__group">
       <label for="number">Số hiệu</label>
-      <input id="number" name="number" type="text" placeholder="VD: 25">
+      <input id="number" name="number" type="text" >
     </div>
 
     {{!-- <div class="report-pvt-create__group">
@@ -53,7 +52,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'bscKpi')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'bscKpi')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'bscKpi')">📊 Thêm bảng</button>
       </div>
@@ -66,7 +65,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'tuh')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'tuh')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'tuh')">📊 Thêm bảng</button>
       </div>
@@ -77,7 +76,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'ptm')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'ptm')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'ptm')">📊 Thêm bảng</button>
       </div>
@@ -88,7 +87,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'cntt')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'cntt')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'cntt')">📊 Thêm bảng</button>
       </div>
@@ -99,7 +98,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'vhm')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'vhm')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'vhm')">📊 Thêm bảng</button>
       </div>
@@ -110,7 +109,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'khcp')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'khcp')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'khcp')">📊 Thêm bảng</button>
       </div>
@@ -124,7 +123,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'conclusion')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'conclusion')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'conclusion')">📊 Thêm bảng</button>
       </div>
@@ -138,7 +137,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kientnghi_ldtt')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kientnghi_ldtt')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kientnghi_ldtt')">📊 Thêm bảng</button>
       </div>
@@ -149,7 +148,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kientnghi_dvkhac')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kientnghi_dvkhac')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kientnghi_dvkhac')">📊 Thêm bảng</button>
       </div>
@@ -164,7 +163,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kehoach_tuh')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kehoach_tuh')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kehoach_tuh')">📊 Thêm bảng</button>
       </div>
@@ -175,7 +174,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kehoach_ptm')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kehoach_ptm')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kehoach_ptm')">📊 Thêm bảng</button>
       </div>
@@ -186,7 +185,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kehoach_cntt')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kehoach_cntt')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kehoach_cntt')">📊 Thêm bảng</button>
       </div>
@@ -197,7 +196,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kehoach_vhm')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kehoach_vhm')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kehoach_vhm')">📊 Thêm bảng</button>
       </div>
@@ -208,7 +207,7 @@
       <div class="report-section__children"></div>
       <div class="report-section__tools">
         <button type="button" class="btn-add-subitem"
-          onclick="addChild(this, 'kehoach_khcp')">➕ Thêm mục con</button>
+          onclick="addChild(this, 'kehoach_khcp')">➕ Thêm mục</button>
         <button type="button" class="btn-add-table"
           onclick="addTable(this, 'kehoach_khcp')">📊 Thêm bảng</button>
       </div>
@@ -274,11 +273,11 @@
   const select = document.getElementById('reportName');
   const numberInput = document.getElementById('number');
 
-  // Tạo option từ tuần 1 đến 54
-  for (let i = 1; i <= 54; i++) {
+  // Tạo option từ tuần 1 đến 53
+  for (let i = 1; i <= 53; i++) {
     const option = document.createElement('option');
-    option.value = `BÁO CÁO TUẦN ${i}`;        // Đây là tên báo cáo
-    option.dataset.week = i;                   // Đây là số tuần (dùng cho số hiệu)
+    option.value = `BÁO CÁO TUẦN ${i}`;        
+    option.dataset.week = i;                   
     option.textContent = `BÁO CÁO TUẦN ${i}`;
     select.appendChild(option);
   }
@@ -340,7 +339,7 @@ reportName.addEventListener('change', updateNextWeekHeading);
   textarea.style.transition = 'height 0.2s ease';
 }
 
-// Thêm mục con (chỉ có 1 cấp con thôi, không lồng tiếp)
+// Thêm mục (chỉ có 1 cấp con thôi, không lồng tiếp)
 function addChild(button, section, containerOverride) {
   const container = containerOverride || button.closest('.report-pvt-create__group').querySelector('.report-section__children');
 

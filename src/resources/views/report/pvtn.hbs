@@ -155,7 +155,7 @@
       btn.addEventListener('click', function (e) {
         e.preventDefault();
         const reportId = this.dataset.id;
-        const hasPermission = window.user?.permissions?.canCreateReports;
+        const hasPermission = window.user?.permissions?.canEditReports;
 
         if (hasPermission) {
           window.location.href = `/report/pvt/edit/${reportId}`;

@@ -23,9 +23,9 @@ const Permissions = {
         manager: {
             canManageUsers: false,
             canViewReports: true,
-            canCreateReports: true,
+            canCreateReports: false,
             canEditReports: true,
-            canDeleteReports: true,
+            canDeleteReports: false,
         },
         view: {
             canManageUsers: false,
