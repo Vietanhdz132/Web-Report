@@ -142,6 +142,8 @@ class AuthController {
                 email: user.email,
                 role: user.role,
                 department: user.department,
+                department: user.department,
+                clan: user.clan,
                 position: user.position,
                 permissions: user.permissions,
             };
@@ -436,7 +438,6 @@ class AuthController {
         }
 
     
-
 
 }
 

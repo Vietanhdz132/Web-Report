@@ -16,7 +16,7 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
       out += `<div class="report-subitem-view">`;
 
       if (item.title) {
-        out += `<h4 class="subitem-title">${Handlebars.escapeExpression(item.title)}</h4>`;
+        out += `<h4 class="subitem-title"> ${Handlebars.escapeExpression(item.title)}</h4>`;
       }
 
       if (Array.isArray(item.children)) {
@@ -35,12 +35,13 @@ Handlebars.registerHelper('renderSectionItems', function (items, options) {
           /(https?:\/\/[^\s]+)/g,
           url => `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`
         );
-        return linkified;
-      }).join('<br>');
+        return `<div class="subitem-line">${linkified}</div>`;
+      }).join('');
 
-      out += `<p class="subitem-text">${lines}</p>`;
+      out += `<div class="subitem-text">${lines}</div>`;
       out += `</div>`;
     }
+
 
 
     // Nội dung con: bảng

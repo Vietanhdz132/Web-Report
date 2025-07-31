@@ -17,6 +17,7 @@ router.get('/pvt/detail/:id',(req, res, next) => {
 );
 
 router.get('/pvt/exportpdf/:id/:reportName',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canViewReports'),phongVTNController.exportPdf);
+router.get('/pvt/export-word/:id/:reportName',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canViewReports'), phongVTNController.exportWord);
 
 // API routes (JSON)
 router.get('/pvt/department/:department',authMiddleWare.verifyToken,authMiddleWare.requirePermission('canViewReports'),phongVTNController.getReportsByDepartment);

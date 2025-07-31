@@ -392,7 +392,7 @@ function addChild(button, section, containerOverride) {
   // Nút Xoá mục con
   const removeBtn = document.createElement('button');
   removeBtn.type = 'button';
-  removeBtn.textContent = '❌ Xoá mục con';
+  removeBtn.textContent = '❌ Xoá mục';
   removeBtn.onclick = () => {
     if (confirm('Bạn có chắc chắn muốn xoá mục này không?')) {
       wrapper.remove();
@@ -658,22 +658,36 @@ function addTable(button, section, containerOverride, level = 1) {
       const tableFooter = document.createElement('div');
       Object.assign(tableFooter.style, {
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between', // căn 2 đầu trái phải
         marginTop: '10px',
       });
-      tableFooter.appendChild(addRowBtn);
-      tableFooter.appendChild(deleteRowBtn);
-      tableFooter.appendChild(deleteTableBtn);
+
+      // Container bên trái (chứa nút Xoá bảng)
+      const rightContainer = document.createElement('div');
+      rightContainer.appendChild(deleteTableBtn);
+      
+
+      // Container bên phải (chứa 3 nút còn lại)
+      const leftContainer = document.createElement('div');
+      leftContainer.style.display = 'flex';
+      leftContainer.style.gap = '10px'; // khoảng cách giữa các nút
+      leftContainer.appendChild(pasteBtn);
+      leftContainer.appendChild(addRowBtn);
+      leftContainer.appendChild(deleteRowBtn);
+
+      // Gắn 2 container vào footer
+      tableFooter.appendChild(leftContainer);
+      tableFooter.appendChild(rightContainer);
 
 
-  config.appendChild(rowsLabel);
-  config.appendChild(colsLabel);
-  config.appendChild(createBtn);
-  config.appendChild(pasteBtn);
-  config.appendChild(selectBtn);
-  config.appendChild(confirmMergeBtn);
-  config.appendChild(cancelMergeBtn);
- 
+
+      config.appendChild(rowsLabel);
+      config.appendChild(colsLabel);
+      config.appendChild(createBtn);
+      config.appendChild(selectBtn);
+      config.appendChild(confirmMergeBtn);
+      config.appendChild(cancelMergeBtn);
+    
     // **Nút dán dữ liệu clipboard**
   
 
@@ -694,7 +708,7 @@ function addTable(button, section, containerOverride, level = 1) {
     backgroundColor: 'white',
     padding: '20px',
     borderRadius: '8px',
-    width: '500px',
+    width: '60%',
     maxWidth: '90%',
     display: 'flex',
     flexDirection: 'column',

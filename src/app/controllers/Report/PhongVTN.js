@@ -4,6 +4,8 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const fetch = require('node-fetch');
+const htmlDocx = require('html-docx-js');
+const { Document, Packer, Paragraph, PageOrientation, TextRun, HeadingLevel, AlignmentType, Table, TableRow, TableCell, WidthType } = require('docx');
 
 class PhongVTNController {
   /**
@@ -353,6 +355,108 @@ class PhongVTNController {
         res.status(500).send('Lỗi khi xuất PDF');
       }
     }
+
+
+    
+
+    async exportWord(req, res) {
+      try {
+        const id = req.params.id;
+        const rawReportName = decodeURIComponent(req.params.reportName || '');
+        const safeReportName = rawReportName
+          .normalize("NFD").replace(/[\u0300-\u036f]/g, '')
+          .replace(/[^a-zA-Z0-9-_ ]/g, '')
+          .replace(/\s+/g, '_')
+          .toUpperCase();
+
+        if (!ObjectId.isValid(id)) {
+          return res.status(400).send('ID không hợp lệ');
+        }
+
+        // Lấy dữ liệu báo cáo từ DB
+        const reportData = await reportPVTN.getReportById(id);
+        if (!reportData) {
+          return res.status(404).send('Không tìm thấy báo cáo');
+        }
+
+        // Khởi tạo docx document, cấu hình landscape A4
+        const doc = new Document({
+          sections: [{
+            properties: {
+              page: {
+                margin: { top: 720, right: 720, bottom: 720, left: 720 },
+                size: { orientation: PageOrientation.LANDSCAPE, width: 16838, height: 11906 },
+              },
+            },
+            children: [
+              new Paragraph({
+                text: "TRUNG TÂM MẠNG LƯỚI MOBIFONE MIỀN BẮC",
+                heading: HeadingLevel.HEADING_1,
+                alignment: AlignmentType.CENTER,
+                thematicBreak: true,
+                spacing: { after: 200 },
+                style: "Title",
+              }),
+              new Paragraph({
+                text: "PHÒNG VÔ TUYẾN",
+                alignment: AlignmentType.CENTER,
+                spacing: { after: 400 },
+                bold: true,
+                underline: {},
+                font: "Times New Roman",
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun({
+                    text: `Số: ${reportData.number || ""} /BC-VTN`,
+                    font: "Times New Roman",
+                    size: 24,
+                  }),
+                ],
+              }),
+              new Paragraph({ text: "", spacing: { after: 200 }}), // dòng trống
+
+              // Ví dụ render sections nếu bạn muốn
+              ...(reportData.sections && reportData.sections.bscKpi ? reportData.sections.bscKpi.map(text => new Paragraph({
+                text,
+                font: "Times New Roman",
+                spacing: { after: 200 }
+              })) : []),
+
+              // Ví dụ thêm thông tin người ký
+              new Paragraph({
+                text: reportData.position || "",
+                alignment: AlignmentType.CENTER,
+                spacing: { before: 400, after: 400 },
+                bold: true,
+                font: "Times New Roman",
+              }),
+              new Paragraph({
+                text: reportData.signer || "",
+                alignment: AlignmentType.CENTER,
+                font: "Times New Roman",
+              }),
+            ],
+          }],
+        });
+
+        // Tạo buffer docx
+        const buffer = await Packer.toBuffer(doc);
+
+        // Gửi file về client
+        res.writeHead(200, {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          'Content-Disposition': `attachment; filename="${safeReportName}_PVTN.docx"`,
+          'Content-Length': buffer.length,
+        });
+        res.end(buffer);
+
+      } catch (err) {
+        console.error('❌ Lỗi khi xuất Word:', err);
+        res.status(500).send('Lỗi khi xuất Word');
+      }
+    }
+
 
   /**
    * [GET] /report/create - Giao diện tạo báo cáo
