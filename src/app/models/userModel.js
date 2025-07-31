@@ -63,6 +63,7 @@ class UserModel {
       birthDay: userData.birthDay,
       role: userData.role || 'view',
       department: userData.department || '',
+      clan: userData.clan || '',
       position: userData.position || '',
       permissions: UserModel.getPermissions(userData.role, userData.permissions),
       createdAt: now,

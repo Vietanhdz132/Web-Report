@@ -19,6 +19,7 @@
             <th>email</th>
             <th>Role</th>
             <th>Phòng</th>
+            <th>Đơn vị</th>
             <th>Ngày tạo</th>
             <th>Ngày cập nhật</th>
             <th></th>
@@ -75,11 +76,13 @@
       return;
     }
 
+
     noDataMsg.style.display = 'none';
     userTable.style.display = 'table';
     tbody.innerHTML = '';
 
     users.forEach(user => {
+
       const tr = document.createElement('tr');
       tr.setAttribute('data-id', user._id);
       tr.innerHTML = `
@@ -88,6 +91,7 @@
         <td>${user.email}</td>
         <td>${user.role}</td>
         <td>${user.department || ''}</td>
+        <td>${user.clan || ''}</td>
         <td>${user.createdAt}</td>
         <td>${user.updatedAt}</td>
         <td>

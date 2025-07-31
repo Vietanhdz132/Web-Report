@@ -484,6 +484,18 @@ function addTable(button, section, containerOverride, level = 1) {
     color: 'white',
     fontWeight: '600'
   });
+  const pasteBtn = document.createElement('button');
+  pasteBtn.type = 'button';
+  pasteBtn.textContent = '📋 Dán dữ liệu';
+  Object.assign(pasteBtn.style, {
+    backgroundColor: '#6f42c1',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+  });
 
   const selectBtn = document.createElement('button');
   selectBtn.type = 'button';
@@ -562,14 +574,7 @@ function addTable(button, section, containerOverride, level = 1) {
           const newRow = document.createElement('tr');
 
           // Nếu có dòng nào rồi thì tạo số cột bằng dòng đầu tiên
-          // Lấy hàng cuối cùng của bảng
-    const lastRow = table.rows[table.rows.length - 1];
-
-    // Nếu có hàng cuối, tính tổng colSpan của các ô trong hàng đó
-    // Nếu chưa có hàng nào thì mặc định 3 cột
-    const numCols = lastRow
-      ? Array.from(lastRow.cells).reduce((sum, cell) => sum + (cell.colSpan || 1), 0)
-      : 3;
+          const numCols = table.rows[0]?.cells.length || 3; // mặc định 3 cột nếu chưa có dòng nào
 
           for (let i = 0; i < numCols; i++) {
             const td = document.createElement('td');
@@ -652,10 +657,142 @@ function addTable(button, section, containerOverride, level = 1) {
   config.appendChild(rowsLabel);
   config.appendChild(colsLabel);
   config.appendChild(createBtn);
+  config.appendChild(pasteBtn);
   config.appendChild(selectBtn);
   config.appendChild(confirmMergeBtn);
   config.appendChild(cancelMergeBtn);
  
+    // **Nút dán dữ liệu clipboard**
+  
+
+  // Popup modal dán dữ liệu (ẩn mặc định)
+  const pasteModal = document.createElement('div');
+  Object.assign(pasteModal.style, {
+    position: 'fixed',
+    top: '0', left: '0', right: '0', bottom: '0',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'none',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: '1000',
+  });
+
+  const pasteModalContent = document.createElement('div');
+  Object.assign(pasteModalContent.style, {
+    backgroundColor: 'white',
+    padding: '20px',
+    borderRadius: '8px',
+    width: '500px',
+    maxWidth: '90%',
+    display: 'flex',
+    flexDirection: 'column',
+  });
+
+  const pasteTextarea = document.createElement('textarea');
+  pasteTextarea.placeholder = 'Dán dữ liệu bảng tại đây (từ Excel, Sheets, ...)';
+  pasteTextarea.style.width = '100%';
+  pasteTextarea.style.height = '150px';
+  pasteTextarea.style.resize = 'vertical';
+  pasteTextarea.style.marginBottom = '12px';
+  pasteTextarea.style.fontFamily = 'monospace';
+
+  const pasteButtons = document.createElement('div');
+  pasteButtons.style.display = 'flex';
+  pasteButtons.style.justifyContent = 'flex-end';
+  pasteButtons.style.gap = '10px';
+
+  const pasteConfirmBtn = document.createElement('button');
+  pasteConfirmBtn.type = 'button';
+  pasteConfirmBtn.textContent = 'Nhập dữ liệu vào bảng';
+  Object.assign(pasteConfirmBtn.style, {
+    backgroundColor: '#28a745',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+  });
+
+  const pasteCancelBtn = document.createElement('button');
+  pasteCancelBtn.type = 'button';
+  pasteCancelBtn.textContent = 'Huỷ';
+  Object.assign(pasteCancelBtn.style, {
+    backgroundColor: '#dc3545',
+    color: 'white',
+    border: 'none',
+    padding: '6px 12px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontWeight: '600',
+  });
+
+  pasteButtons.appendChild(pasteCancelBtn);
+  pasteButtons.appendChild(pasteConfirmBtn);
+
+  pasteModalContent.appendChild(pasteTextarea);
+  pasteModalContent.appendChild(pasteButtons);
+  pasteModal.appendChild(pasteModalContent);
+
+  // Thêm modal vào body
+  document.body.appendChild(pasteModal);
+
+ function createStyledTextarea(value = '') {
+  const textarea = document.createElement('textarea');
+  textarea.value = value;
+  textarea.rows = 1;
+  textarea.style.width = '100%';
+  textarea.style.resize = 'none';
+  textarea.style.fontFamily = 'inherit';
+  textarea.style.border = 'none';
+  textarea.style.backgroundColor = '#ffffff';
+  textarea.style.outline = 'none';
+  textarea.style.padding = '4px';
+  return textarea;
+}
+
+function insertPastedDataToTable(text) {
+  if (!text) return;
+
+  const rows = text.trim().split(/\r?\n/).map(row => row.split('\t'));
+
+  const colCount = Math.max(...rows.map(r => r.length));
+  const currentCols = table.rows[0]?.cells.length || 0;
+  const totalCols = Math.max(currentCols, colCount);
+
+  for (let r = 0; r < rows.length; r++) {
+    const tr = document.createElement('tr');
+    for (let c = 0; c < totalCols; c++) {
+      const td = document.createElement('td');
+      const ta = createStyledTextarea(rows[r][c] || '');
+      autoResizeTextarea(ta);
+      td.appendChild(ta);
+      tr.appendChild(td);
+    }
+    table.appendChild(tr);
+  }
+}
+
+
+
+  // Xử lý mở popup dán dữ liệu
+  pasteBtn.onclick = () => {
+    pasteTextarea.value = '';
+    pasteModal.style.display = 'flex';
+    pasteTextarea.focus();
+  };
+
+  // Huỷ popup
+  pasteCancelBtn.onclick = () => {
+    pasteModal.style.display = 'none';
+  };
+
+  // Xác nhận dán dữ liệu
+  pasteConfirmBtn.onclick = () => {
+    const text = pasteTextarea.value;
+    insertPastedDataToTable(text);
+    pasteModal.style.display = 'none';
+  };
 
 
   const table = document.createElement('table');
@@ -666,6 +803,7 @@ function addTable(button, section, containerOverride, level = 1) {
     borderCollapse: 'collapse',
     marginTop: '10px'
   });
+  
 
   function syncRowHeight(tr) {
     let maxHeight = 0;
@@ -1079,25 +1217,26 @@ confirmMergeBtn.onclick = () => {
   // Tính chiều cao 1 ô chuẩn (rowSpan=1) ở cột gộp
   let singleCellHeight = 0;
   const colIndex = positions[0].colIndex;
-    for (let r = 0; r < table.rows.length; r++) {
-      let colCount = 0;
-      const row = table.rows[r];
-      for (const cell of row.cells) {
-        if (colCount === colIndex && (cell.rowSpan || 1) === 1) {
-          singleCellHeight = cell.getBoundingClientRect().height;
-          break;
-        }
-        colCount += cell.colSpan || 1;
+  for (let r = 0; r < table.rows.length; r++) {
+    let colCount = 0;
+    const row = table.rows[r];
+    for (const cell of row.cells) {
+      if (colCount === colIndex && (cell.rowSpan || 1) === 1) {
+        singleCellHeight = cell.getBoundingClientRect().height;
+        break;
       }
-      if (singleCellHeight) break;
+      colCount += cell.colSpan || 1;
     }
-
-    if (singleCellHeight) {
-      main.style.height = (singleCellHeight * positions.length) + 'px';
-    } else {
-      main.style.height = '';
-    }
+    if (singleCellHeight) break;
   }
+
+  if (singleCellHeight) {
+    main.style.height = (singleCellHeight * positions.length) + 'px';
+  } else {
+    main.style.height = '';
+  }
+}
+
 
   // Reset lại trạng thái chọn và ẩn checkbox
   isSelecting = false;
@@ -1111,6 +1250,9 @@ confirmMergeBtn.onclick = () => {
     cb.style.display = 'none';
   });
 };
+
+
+
   wrapper.appendChild(title);
   wrapper.appendChild(config);
   wrapper.appendChild(table);
@@ -1654,6 +1796,182 @@ function renderSectionItems(container, items) {
       }
 
 
+      const pasteBtn = document.createElement('button');
+      pasteBtn.type = 'button';
+      pasteBtn.textContent = '📋 Dán dữ liệu';
+      Object.assign(pasteBtn.style, {
+        backgroundColor: '#6f42c1',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+
+            // Tạo modal dán dữ liệu (chỉ tạo một lần)
+      const pasteModal = document.createElement('div');
+      Object.assign(pasteModal.style, {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'none',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '1000'
+      });
+
+      const pasteBox = document.createElement('div');
+      Object.assign(pasteBox.style, {
+        backgroundColor: 'white',
+        padding: '20px',
+        borderRadius: '8px',
+        width: '500px',
+        maxWidth: '90%',
+        display: 'flex',
+        flexDirection: 'column',
+      });
+
+
+      const pasteTextarea = document.createElement('textarea');
+      pasteTextarea.placeholder = 'Dán dữ liệu từ Excel hoặc bảng...';
+      Object.assign(pasteTextarea.style, {
+        width: '100%',
+        height: '150px',
+        marginBottom: '10px',
+        resize: 'vertical'
+      });
+
+      const pasteButtons = document.createElement('div');
+      Object.assign(pasteButtons.style, {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        gap: '10px'
+      });
+
+      const pasteConfirmBtn = document.createElement('button');
+      pasteConfirmBtn.textContent = 'Nhập dữ liệu vào bảng';
+      Object.assign(pasteConfirmBtn.style, {
+        backgroundColor: '#28a745',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+
+      const pasteCancelBtn = document.createElement('button');
+      pasteCancelBtn.type = 'button';
+      pasteCancelBtn.textContent = 'Huỷ';
+      Object.assign(pasteCancelBtn.style, {
+        backgroundColor: '#dc3545',
+        color: 'white',
+        border: 'none',
+        padding: '6px 12px',
+        borderRadius: '5px',
+        cursor: 'pointer',
+        fontWeight: '600',
+      });
+
+      // Đảm bảo thứ tự hợp lý: Huỷ bên trái, Nhập bên phải
+      pasteButtons.appendChild(pasteCancelBtn);
+      pasteButtons.appendChild(pasteConfirmBtn);
+
+
+      pasteBox.appendChild(pasteTextarea);
+      pasteBox.appendChild(pasteButtons);
+      pasteModal.appendChild(pasteBox);
+      document.body.appendChild(pasteModal);
+
+      // Xử lý mở popup
+      pasteBtn.onclick = () => {
+        pasteTextarea.value = '';
+        pasteModal.style.display = 'flex';
+        pasteTextarea.focus();
+      };
+
+      // Huỷ popup
+      pasteCancelBtn.onclick = () => {
+        pasteModal.style.display = 'none';
+      };
+
+      // Hàm dán dữ liệu vào bảng
+      function insertPastedDataToTable(text, table) {
+        if (!text) return;
+
+        const rows = text.trim().split(/\r?\n/).map(row => row.split('\t'));
+
+        // Lấy số cột từ hàng cuối cùng hiện có của bảng
+        const lastRow = table.rows[table.rows.length - 1];
+        const currentCols = lastRow 
+          ? Array.from(lastRow.cells).reduce((sum, cell) => sum + (parseInt(cell.colSpan) || 1), 0)
+          : 0;
+
+        const colCount = Math.max(...rows.map(r => r.length));
+        const totalCols = Math.max(currentCols, colCount);
+
+        rows.forEach(dataRow => {
+          const tr = document.createElement('tr');
+
+          for (let c = 0; c < totalCols; c++) {
+            const td = document.createElement('td');
+
+            const wrapperDiv = document.createElement('div');
+            wrapperDiv.className = 'table-cell-wrapper';
+            wrapperDiv.style.position = 'relative';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'table-cell-checkbox';
+            Object.assign(checkbox.style, {
+              position: 'absolute',
+              top: '0px',
+              right: '0px',
+              width: '30px',
+              height: '14px',
+              zIndex: '1',
+              display: 'none',
+            });
+
+            const textarea = document.createElement('textarea');
+            textarea.rows = 1;
+            textarea.value = dataRow[c] || '';
+            Object.assign(textarea.style, {
+              width: '100%',
+              height: '100%',
+              border: 'none',
+              resize: 'none',
+              padding: '6px',
+              boxSizing: 'border-box',
+              fontFamily: 'inherit',
+              backgroundColor: '#ffffff',
+            });
+
+            textarea.addEventListener('input', () => autoResizeTextarea(textarea));
+            requestAnimationFrame(() => autoResizeTextarea(textarea));
+
+            wrapperDiv.appendChild(checkbox);
+            wrapperDiv.appendChild(textarea);
+            td.appendChild(wrapperDiv);
+            tr.appendChild(td);
+          }
+
+          table.appendChild(tr);
+        });
+      }
+
+
+      // Xác nhận dán dữ liệu
+      pasteConfirmBtn.onclick = () => {
+        insertPastedDataToTable(pasteTextarea.value, table);
+        pasteModal.style.display = 'none';
+      };
+
+
       const deleteTableBtn = document.createElement('button');
       deleteTableBtn.type = 'button';
       deleteTableBtn.textContent = '❌ Xoá bảng';
@@ -1762,16 +2080,34 @@ function renderSectionItems(container, items) {
         }
       };
 
-
-      const tableFooter = document.createElement('div');
+    
+  
+     const tableFooter = document.createElement('div');
       Object.assign(tableFooter.style, {
         display: 'flex',
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between', // căn 2 đầu trái phải
         marginTop: '10px',
       });
-      tableFooter.appendChild(addRowBtn);
-      tableFooter.appendChild(deleteRowBtn);
-      tableFooter.appendChild(deleteTableBtn);
+
+      // Container bên trái (chứa nút Xoá bảng)
+      const rightContainer = document.createElement('div');
+      rightContainer.appendChild(deleteTableBtn);
+      
+
+      // Container bên phải (chứa 3 nút còn lại)
+      const leftContainer = document.createElement('div');
+      leftContainer.style.display = 'flex';
+      leftContainer.style.gap = '10px'; // khoảng cách giữa các nút
+      leftContainer.appendChild(pasteBtn);
+      leftContainer.appendChild(addRowBtn);
+      leftContainer.appendChild(deleteRowBtn);
+
+      // Gắn 2 container vào footer
+      tableFooter.appendChild(leftContainer);
+      tableFooter.appendChild(rightContainer);
+
+
+      
 
       wrapper.appendChild(title);
       wrapper.appendChild(table);

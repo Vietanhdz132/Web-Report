@@ -75,6 +75,7 @@ class AuthController {
         email: r.email || '',
         role: r.role || '',
         department: r.department || '',
+        clan: r.clan || '',
         createdAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString('vi-VN') : '',
         updatedAt: r.updatedAt ? new Date(r.updatedAt).toLocaleDateString('vi-VN') : '',
         stt: i + 1,
