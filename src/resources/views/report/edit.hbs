@@ -1490,16 +1490,14 @@ function makeColumnsResizable(table) {
 }
 
 async function loadReportData(reportId) {
-    console.log(reportId)
   try {
     const res = await fetch(`/report/pvt/${reportId}`);
     if (!res.ok) throw new Error('Lấy dữ liệu thất bại');
 
     const data1 = await res.json();
     const data = data1.data;
-    console.log(data)
 
-     // Điền thông tin chung
+    // Điền thông tin chung
     document.querySelector('[name="reportName"]').value = data.reportName || '';
     document.querySelector('[name="number"]').value = data.number || '';
     document.querySelector('[name="recipient"]').value = data.recipient || '';
@@ -1508,20 +1506,46 @@ async function loadReportData(reportId) {
     document.querySelector('[name="signer"]').value = data.signer || '';
     document.querySelector('[name="position"]').value = data.position || '';
 
-    // Giả sử data.sections là object chứa các section với tên section
-    for (const sectionName in data.sections) {
-      const items = data.sections[sectionName];
+    const clan = window.user?.clan || 'all';
 
-      // Tìm container của section trên trang, chứa các mục con (theo chuẩn bạn có)
+    const hiddenSectionsByClan = {
+      'Tổ Tối ưu hóa': ['ptm', 'cntt', 'vhm','kehoach_ptm','kehoach_cntt','kehoach_vhm'],
+      'Tổ Công nghệ - Phát triển mạng': ['tuh', 'cntt', 'vhm','kehoach_tuh','kehoach_cntt','kehoach_vhm'],
+      'Tổ Công nghệ thông tin': ['tuh', 'ptm', 'vhm','kehoach_tuh','kehoach_ptm','kehoach_vhm'],
+      'Tổ Vận hành mạng vô tuyến': ['tuh', 'ptm', 'cntt','kehoach_tuh','kehoach_ptm','kehoach_cntt'],
+    };
+
+    const hiddenKeys = hiddenSectionsByClan[clan] || [];
+    console.log(data.sections)
+    // Duyệt từng section có trong dữ liệu
+    // Duyệt từng section có trong dữ liệu
+    for (const sectionName in data.sections) {
+      if (hiddenKeys.includes(sectionName)) continue;
+
+      const items = data.sections[sectionName];
       const container = document.querySelector(`[data-section="${sectionName}"] .report-section__children`);
       if (container) {
         renderSectionItems(container, items);
       }
     }
+
+    // ✅ Lưu dữ liệu gốc để so sánh sau khi render xong hết
+    window.originalData = {
+      reportName: data.reportName,
+      recipient: data.recipient,
+      number: data.number,
+      createdAt: data.createdAt,
+      receivers: data.receivers,
+      signer: data.signer,
+      position: data.position,
+      sections: JSON.parse(JSON.stringify(data.sections)) // clone sâu để tránh bị thay đổi sau này
+    };
+
   } catch (error) {
     console.error('Lỗi khi load báo cáo:', error);
   }
 }
+
 
 
 function renderSectionItems(container, items) {
@@ -2165,10 +2189,27 @@ document.getElementById('editReportForm').addEventListener('submit', async funct
     sections: {}
   };
 
-  const sectionKeys = ['bscKpi', 'tuh', 'ptm', 'cntt', 'vhm', 'khcp', 'conclusion', 'kientnghi_ldtt', 'kientnghi_dvkhac', 'kehoach_tuh', 'kehoach_ptm', 'kehoach_cntt', 'kehoach_vhm', 'kehoach_khcp'];
+  const sectionKeys = ['bscKpi', 'tuh', 'ptm', 'cntt', 'vhm', 'khcp', 'conclusion',
+    'kientnghi_ldtt', 'kientnghi_dvkhac', 'kehoach_tuh', 'kehoach_ptm',
+    'kehoach_cntt', 'kehoach_vhm', 'kehoach_khcp'];
+
+  const clan = window.user?.clan || 'all';
+  const hiddenSectionsByClan = {
+    'Tổ Tối ưu hóa': ['ptm', 'cntt', 'vhm','kehoach_ptm','kehoach_cntt','kehoach_vhm'],
+    'Tổ Công nghệ - Phát triển mạng': ['tuh', 'cntt', 'vhm','kehoach_tuh','kehoach_cntt','kehoach_vhm'],
+    'Tổ Công nghệ thông tin': ['tuh', 'ptm', 'vhm','kehoach_tuh','kehoach_ptm','kehoach_vhm'],
+    'Tổ Vận hành mạng vô tuyến': ['tuh', 'ptm', 'cntt','kehoach_tuh','kehoach_ptm','kehoach_cntt'],
+  };
+  const hiddenKeys = hiddenSectionsByClan[clan] || [];
 
   sectionKeys.forEach(section => {
-    data.sections[section] = collectSectionData(section);
+    if (hiddenKeys.includes(section)) {
+      // Phần bị ẩn, giữ nguyên dữ liệu gốc (không lấy từ DOM)
+      data.sections[section] = window.originalData.sections[section];
+    } else {
+      // Phần hiện, lấy dữ liệu mới từ form
+      data.sections[section] = collectSectionData(section);
+    }
   });
 
   try {

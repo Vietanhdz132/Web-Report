@@ -15,7 +15,6 @@
         <thead>
           <tr>
             <th>Họ và tên</th>
-            <th>Tên tài khoản</th>
             <th>email</th>
             <th>Role</th>
             <th>Phòng</th>
@@ -50,44 +49,42 @@
   });
 
   async function loadUsers() {
-  const tbody = document.getElementById('accountTableBody');
-  const noDataMsg = document.getElementById('noAccount');
-  const userTable = document.getElementById('accountTable');
+    const tbody = document.getElementById('accountTableBody');
+    const noDataMsg = document.getElementById('noAccount');
+    const userTable = document.getElementById('accountTable');
 
-  if (!tbody || !noDataMsg || !userTable) {
-    console.error('❌ Thiếu phần tử trong DOM, kiểm tra lại HTML!');
-    return;
-  }
-
-  const department = window.user?.department;
-  if (!department) {
-    console.error('❌ Không xác định được phòng ban của người dùng!');
-    return;
-  }
-
-  try {
-    const res = await fetch(`/auth/account/${encodeURIComponent(department)}`);
-    const { success, users } = await res.json();
-
-    if (!success || !users.length) {
-      noDataMsg.style.display = 'block';
-      userTable.style.display = 'none';
-      tbody.innerHTML = '';
+    if (!tbody || !noDataMsg || !userTable) {
+      console.error('❌ Thiếu phần tử trong DOM, kiểm tra lại HTML!');
       return;
     }
 
+    const department = window.user?.department;
+    if (!department) {
+      console.error('❌ Không xác định được phòng ban của người dùng!');
+      return;
+    }
 
-    noDataMsg.style.display = 'none';
-    userTable.style.display = 'table';
-    tbody.innerHTML = '';
+    try {
+      const res = await fetch(`/auth/account/${encodeURIComponent(department)}`);
+      const { success, users } = await res.json();
 
-    users.forEach(user => {
+      if (!success || !users.length) {
+        noDataMsg.style.display = 'block';
+        userTable.style.display = 'none';
+        tbody.innerHTML = '';
+        return;
+      }
 
+
+      noDataMsg.style.display = 'none';
+      userTable.style.display = 'table';
+      tbody.innerHTML = '';
+
+      users.forEach(user => {
       const tr = document.createElement('tr');
       tr.setAttribute('data-id', user._id);
       tr.innerHTML = `
         <td>${user.name}</td>
-        <td>${user.username}</td>
         <td>${user.email}</td>
         <td>${user.role}</td>
         <td>${user.department || ''}</td>
@@ -96,36 +93,32 @@
         <td>${user.updatedAt}</td>
         <td>
           <div class="account__actions">
-            <a href="#" class="editAccountBtn account__action-link" data-userid="${user._id}">✏️ Sửa</a>
             <button class="account__action-delete" onclick="deleteUser('${user._id}')">🗑️ Xóa</button>
           </div>
         </td>
       `;
-      tbody.appendChild(tr);
-    });
 
-    // Gán sự kiện click cho nút "Sửa"
-    document.querySelectorAll('.editAccountBtn').forEach(btn => {
-      btn.addEventListener('click', function (e) {
-        e.preventDefault();
+      tr.addEventListener('click', (e) => {
+        if (e.target.closest('.account__actions')) return;
+
         const hasPermission = window.user?.permissions?.canManageUsers;
         if (!hasPermission) {
           showAlert('Bạn không có quyền sửa người dùng !!!', 'warning');
           return;
         }
 
-        const userId = btn.getAttribute('data-userid');
-        if (userId) {
-          window.location.href = `/auth/user/${userId}`;
-        }
+        window.location.href = `/auth/user/${user._id}`;
       });
+
+      tbody.appendChild(tr);
     });
 
-  } catch (err) {
-    console.error('❌ Error loading users:', err);
-    alert('Không thể tải danh sách tài khoản.');
-  }
-}
+
+        } catch (err) {
+          console.error('❌ Error loading users:', err);
+          alert('Không thể tải danh sách tài khoản.');
+        }
+      }
 
 
   async function deleteUser(id) {

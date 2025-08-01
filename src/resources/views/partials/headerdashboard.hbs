@@ -12,6 +12,10 @@
     font-size: 20px;
   }
 
+  .nav-tabs{
+    --bs-nav-tabs-border-color:#004275
+
+  }
 
   .custom-tab .nav-link:focus {
     border-bottom: 2px solid #004275; /* Gạch chân màu xanh đậm */
@@ -19,12 +23,18 @@
 
 
   .custom-tab .nav-link.active {
-    color:  #004275 !important;
-    background-color: #21252900;
+    color:  #ffffff !important;
+    background-color: #004275;
     border: 1px solid #004275; /* viền trắng khi active */
     font-weight: 600;
     position: relative;
   }
+
+  .custom-tab .nav-link:hover {
+    border-color: #004275;     /* Viền khi hover */
+    color: #004275 !important; /* Màu chữ khi hover */
+}
+
 
 
 </style>
